@@ -1,0 +1,159 @@
+%\documentclass[a4paper,12pt,fleqn,oneside]{article} 	% Openright aabner kapitler paa hoejresider (openany begge)
+
+%===== Projekt konstanter =====
+\newcommand{\kursusTitel}{Semesterprojekt 3}
+\newcommand{\linje}{E/IKT}
+\newcommand{\semester}{3}
+\newcommand{\system}{Beer Pong Master\copyright}
+\newcommand{\rapportType}{Proces}
+\newcommand{\gruppeNr}{7}
+\newcommand{\vejleder}{Martin Ansbjerg Kjær}
+\newcommand{\afleveringsdato}{6/6-2018}
+
+%%%% PAKKER %%%%
+% ¤¤ Oversaettelse og tegnsaetning ¤¤ %
+\usepackage[utf8]{inputenc}					% Input-indkodning af tegnsaet (UTF8)
+\usepackage[english, danish]{babel}			% Dokumentets sprog
+\usepackage[T1]{fontenc}					% Output-indkodning af tegnsaet (T1)
+\usepackage{ragged2e,anyfontsize}			% Justering af elementer
+
+% ¤¤ Figurer og tabeller (floats) ¤¤ %
+\usepackage{wrapfig}                        % text wrapping
+\usepackage{graphicx} 						% Haandtering af eksterne billeder (JPG, PNG, PDF)
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}                		% Fletning af raekker og kolonner (\multicolumn og \multirow)
+\usepackage{makecell}                       % Line breaks i tabelceller med \makecell{bla bla \\ bla bla}
+\usepackage{colortbl} 						% Farver i tabeller (fx \columncolor, \rowcolor og \cellcolor)
+\usepackage[dvipsnames,table,longtable,x11names]{xcolor}
+
+%Tabel automatisk ny linje
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% Definer farver med \definecolor. Se mere: http://en.wikibooks.org/wiki/LaTeX/Colors
+\usepackage{flafter}						% Soerger for at floats ikke optraeder i teksten foer deres reference
+\let\newfloat\relax 						% Justering mellem float-pakken og memoir
+\usepackage{float}							% Muliggoer eksakt placering af floats, f.eks.
+\usepackage{afterpage}
+%\usepackage{scrextend}                      % labeling lister
+\usepackage{chngcntr} % kontroller nummerering af floats
+\counterwithin{figure}{section} % sæt nummerering efter sektion
+\counterwithin{table}{section} % sæt nummerering efter sektion
+
+% ¤¤ Matematik mm. ¤¤
+\usepackage{amsmath,amssymb,stmaryrd} 		% Avancerede matematik-udvidelser
+\usepackage{mathtools}						% Andre matematik- og tegnudvidelser
+\usepackage{textcomp}                 		% Symbol-udvidelser (f.eks. promille-tegn med \textperthousand )
+\usepackage{siunitx}						% Flot og konsistent praesentation af tal og enheder med \si{enhed} og \SI{tal}{enhed}
+\sisetup{output-decimal-marker = {,}}		% Opsaetning af \SI (DE for komma som decimalseparator)
+
+% ¤¤ Misc. ¤¤ %
+\usepackage{listings}						% Placer kildekode i dokumentet med \begin{lstlisting}...\end{lstlisting}
+\usepackage{blindtext}
+\usepackage{lipsum}							% Dummy text \lipsum[..]
+\usepackage[shortlabels]{enumitem}			% Muliggoer enkelt konfiguration af lister
+\usepackage{pdfpages}						% Goer det muligt at inkludere pdf-dokumenter med kommandoen \includepdf[pages={x-y}]{fil.pdf}
+\pdfoptionpdfminorversion=6					% Muliggoer inkludering af pdf dokumenter, af version 1.6 og hoejere
+\pretolerance=2500 							% Justering af afstand mellem ord (hoejt tal, mindre orddeling og mere luft mellem ord)
+
+
+%%%% BRUGERDEFINEREDE INDSTILLINGER %%%%
+
+\linespread{1,1}							% Linie afstand
+
+% ¤¤ Visuelle referencer ¤¤ %
+\usepackage[colorlinks,pdfencoding=auto]{hyperref}			% Danner klikbare referencer (hyperlinks) i dokumentet.
+\hypersetup{colorlinks = true,				% Opsaetning af farvede hyperlinks (interne links, citeringer og URL)
+    linkcolor = black,
+    citecolor = black,
+    urlcolor = black
+}
+
+%%%% TODO-NOTER %%%%
+\usepackage[danish, colorinlistoftodos]{todonotes}
+%\usepackage[colorinlistoftodos]{todonotes}
+
+%%%% TABEL BAGGRUNDSFARVER %%%%
+\definecolor{aublueclassic}{RGB}{0,61,115}
+\definecolor{aubluedark}{RGB}{0,37,70}
+\definecolor{aucyan}{RGB}{225,248,253}
+%\definecolor{aucyan}{RGB}{55,160,203}
+\definecolor{aucyandark}{RGB}{0,62,92}
+\definecolor{lightGray}{RGB}{153,153,153}
+\definecolor{darkGray}{RGB}{119,119,119}
+\definecolor{khaki}{RGB}{240,230,140}
+\definecolor{lavender}{RGB}{230,230,250}
+
+%Code highlighting
+\usepackage{minted}
+
+%%%% Tabs %%%%
+\usepackage{tabto}
+\NumTabs{10}
+
+%%%% REFERENCE TIL SECTION-NAME %%%%
+\usepackage{nameref}
+
+% ========== PAKKER DER SKAL LOADES TIL SIDST ==================
+%\usepackage{xcolor}
+%\usepackage{listings}
+\usepackage{csquotes}                       %så holder bilatex kæft
+\usepackage{subfiles}
+
+
+%%EDS SHIT
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
+\hypersetup{
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{longtable,booktabs}
+% Fix footnotes in tables (requires footnote package)
+\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother

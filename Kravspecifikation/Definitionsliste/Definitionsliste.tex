@@ -1,0 +1,41 @@
+\documentclass[Kravspecifikation/Kravspec_Main.tex]{subfiles}
+\begin{document}
+
+\section{Definitionsliste}
+Definitionslisten er lavet som et 'look up' værktøj, der kan bruges gennem hele rapporten, hvis man er i tvivl om hvad der menes med forskellige implicitte begreber.
+\begin{longtable}{|>{\centering\arraybackslash}m{3cm}|>{\RaggedRight\arraybackslash}m{10cm}| p{.20\textwidth} | p{.80\textwidth}|} 
+\hline
+        \large{Begreb} & \large{Definition}\\
+        \hline
+        \textit{\textbf{Start op}} & \underline{System rutine}:
+        Systemet går fra et slukket tilstand hvor displayskærm, lys og bolddispenser er slukket, til et tændt tilstand hvor nævnte moduler tænder. Det defineres, at systemet er færdig med sit start op rutine, når displayskærmen viser en "klar til spil" besked, og bolddispenserens grøn eller rød LED er tændt.\\
+        \hline
+        \textit{\textbf{Slukke}} & \underline{System rutine}:
+        Systemet går fra et tændt tilstand hvor displayskærm, lys og bolddispenser er tændt, til et slukket tilstand hvor nævnte moduler slukker. Det defineres, at systemet er færdig med at slukke, når displayskærmen er slukket og begge LED'er fra borddispenser er slukket\\
+        \hline
+        \textit{\textbf{Spillet er i gang}} & \underline{System-Bruger interaktion}:
+        Et spil er i gang, når både systemet og brugerne er klar til at interagere med hinanden. Det vil sige, at \textit{\textbf{Spiller oplysninger}} er tastet ind via hjemmeside, betalt for bolde, stillet kopper på bordet og trykket på start knappen i hjemmesiden.\\
+        \hline
+        \textit{\textbf{Spillet er slut}} & \underline{System-Bruger interaktion}:
+        Et spil er slut når et af holdene er tvunget til at fjerne deres sidste kop fra bordet.\\
+        \hline
+        \textit{\textbf{Spil status}} & \underline{System definition}:
+        Oplysninger om bordets tilstand. Dvs. hvor mange kopper der er tilbage og holdenes navn. \\
+        \hline
+        \textit{\textbf{Spiller oplysninger}} & \underline{System definition}:
+        Oplysninger om spillerne og holdenes navne. \\
+        \hline
+        \textit{\textbf{Score}} & \underline{System-Bruger interaktion}:
+        At kaste en bold og ramme i en af kopperne på bordet. At score medfører fjernelsen af den ramte kop. Det hold hvis kop blev ramt fjerner koppen. \\
+        \hline
+        \textit{\textbf{Turen}} & \underline{Bruger definition}:
+        Et hold har retten til at kaste bolde når de er i besiddelse af to bolde, retten overdrages frem og tilbage mellem holdene ved at kaste de to bolde. \\
+        \hline
+        
+        \textit{\textbf{UI}} & \underline{System definition}:
+        Alle de elementer fra systemet som benyttes til at kommunikere med brugeren; lys under og rundt om kopholderne, skærmdisplay på bordet, webpage og bolddispenserens LED'er.\\
+        \hline
+    \caption{Definitionsliste for begreber og udtryk der benyttes flere steder i dette og andre dokumenter}
+    \label{tab:def_liste}
+    \end{longtable}
+\end{document}

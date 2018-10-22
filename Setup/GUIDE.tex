@@ -1,0 +1,36 @@
+\documentclass[a4paper,12pt,fleqn,oneside]{article}
+\input{Setup/Preamble.tex}
+
+\begin{document}
+\def\titlename{Latex Guide}
+\input{Setup/Forside.tex}
+Guide til brug af LaTex - kun overordnet struktur. Figurnumre, tabelnumre struktur kommer senere.
+(Indtil videre brug den som bliver brugt i forvejen)
+\begin{enumerate}
+    \item “Main”-dokument per hovedfolder
+    \item Et “Main“-dokument har følgende struktur: \\
+        \verb!\documentclass[a4paper,12pt,fleqn,oneside]{article}! \\
+        \verb!\input{Setup/Preamble.tex}! \\
+        \verb!\def\titlename{<Skriv titel på main fil her>}! \\
+        \verb!\begin{document}! \\
+        \verb!%===============FOSIDE======================! \\
+        \verb!\input{Setup/Forside.tex}! \\
+        \tab \tab  \verb!<Skriv tekst her>! \\
+        \verb!\end{document}! \\
+    \item Inkluder underfil med \verb!\subfile{<fuld sti på underdokument>}! Der skal skrives den fulde sti da det ellers giver problemmer
+    \item Et “Under“-dokument har følgende struktur: \\
+        \verb!\documentclass[<fuld sti på "Main"-dokument>]{subfiles}! \\
+        \verb!\begin{document}! \\
+        \verb!\end{document}! \\
+    \item Benyt gerne “under“-dokument i et "under"-dokument, hvis det giver mening. Fx hvis et “under“-dokument vil bliver/er for stort.
+    \item INGEN PACKEGES i “under“-dokumenterne/tex-fileren
+    \item ALLE EKSTRA PACKAGES SKAL inkluderes i preamble (hvis behov, ikke dobbelt use). Vær sikker på at der ikke påvirker de andre dokumenter  
+    \item Hver tex fil skal have dets egen folder (Within reason...) 
+    \item Fx Kravspecifikation er et main dokument og use cases er et “under” dokument.
+    \item Brug Krav\_main som et eksempel på et main dokument
+    \item Hvis problemer eller spørgsmål: LaTex hjemmeside, Google eller spørg os (I den rækkefølge, ej det gas
+    \item Hvis I har problemer med at compile det specifikke main dokument: Tryk på menu oppe i venstre hjørne, tryk på "main document" og vælg det main-tex fil du ønsker at compile
+\end{enumerate}
+
+\end{document}
+

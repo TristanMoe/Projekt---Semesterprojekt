@@ -1,0 +1,21 @@
+\documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
+\begin{document}
+\section{I2C-interruptDriver}
+Userspace programmet RPiApp skal læse og skrive til og fra de tre filer /dev/Playerside1, /dev/Playerside2 og /dev/BallDispenser. Disse filer repræsentere de tre hardware enheder. For til dette laves der én driver. Denne driver skal kunne skrive til hver hardware enhed vha. I2C protokollen. Når der sker et interrupt fra en af enhederne skal driveren finde ud af hvilken enhed der har lavet interruptet, og derefter sende dataen videre til RPiApp. Dette sker ved at RPiApp læser fra den givne fil og processen lægges til at sove indtil der kommer data fra den relevante hardware enhed.
+
+Driveren skrives som et kernemodul og til inspiration benyttes øvelse 3 fra HAL. Den vigtigste del fra denne øvelse, er at lave en init og exit funktion. Dette kernemodul laves som en character device. For at lave en character device skal der til denne drivers opgave være en open, release, read og write funktion.
+
+Da driveren skal kommunikere vha. I2C protokollen benyttes den dedikerede I2C hardware på RPi. Til at kommunikere med dette hardware benyttes der biblioteket \textbf{i2c.h}. Biblioteket bygger på forskellige strukturer. \textbf{i2c\_adapter} og\textbf{ i2c\_client} er de to vigtigste der benyttes. 
+\textbf{i2c\_adapter} repræsenterer den I2C hardware på RPi som benyttes. Der kan være flere busser på et system og på RPi er der 2. Og der skal derfor benyttes et \textbf{i2c\_adapter} som bruger denne rigtige bus. 
+\textbf{i2c\_client} repræsenterer hver enhed som er forbundet til I2C bussen. Den vigtigste attribut i denne struct er addr attributten. Denne attribut beskriver hvilken I2C adresse der enheden har. En anden vigtig attribut, er hvilken \textbf{i2c\_adapter} som enheden er forbundet til.
+I denne driver skal der være én \textbf{i2c\_adapter} og tre \textbf{i2c\_client}'s. En for side1, side2 og BallDispenser. \\
+Der kan oprettes \textbf{i2c\_client}'er på en del forskellige måder. Nogle er mere "automatiske" end andre. Til denne denne driver benyttes den mest direkte og simple måde, der kan oprettes en \textbf{i2c\_client} vha. funktionen \textbf{i2c\_new\_device}. Denne funktion tager to argumenter, den ene er den \textbf{i2c\_adapter} der bruges og så et struct \textbf{i2c\_board\_info}. Dette struct indeholder mange informationer om enheden. I denne driver udelades mange af disse informationer og der benyttes kun information om adressen og et navn på denne enhed.\\
+For at skrive til en I2C enhed bruges funktionen \textbf{i2c\_master\_send}. For at læse fra en I2C enhed bruges funktionen \textbf{i2c\_master\_recv}. Begge funktioner har som parameter den\textbf{ i2c\_client} der skal skrives til, den buffer der skal skrives til eller læses til og antalet af bytes der skal skrives eller læses. Begge funktioner returnerer hvor mange bytes der er blevet læst/skrevet.
+
+Det beskrives nu hvordan driveren skal håndtere flere enheder. Der oprettes en node/fil til hver enhed med hver deres minor nummer.
+Der er i driveren lavet et struct \textbf{i2c\_interrupt\_device}. Dette bruges til at beskrive de forskellige I2C enheder. Det indholder en \textbf{i2c\_client}, \textbf{i2c\_board\_info} og et minor nummer. Der oprettes tre "objekter" af denne struct, en til hver endhed. Når der åbnes for en fil/node (vha open funktionen) sættes den private data for den fil til at være den givne devices \textbf{i2c\_interrupt\_device}. Dette gør at når der læses og skrives til den samme fil, så er det allerede tilgængelig hvilken \textbf{i2c\_client} der skal bruges.
+
+Driverens write funktion skal stort set bare skrive til den korrekte \textbf{i2c\_client} vha. \textbf{i2c\_master\_send}.
+
+Driverens read funktion er lidt mere kompliceret. Den skal sættes til at sove indtil der er data fra den enhed der læses fra. I driveren open funktion opsættes interrupt. Dette skal være low level triggered, da der skal ske interrupts indtil alle enheder har fået læst deres data. Til denne 
+\end{document}

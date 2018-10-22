@@ -1,0 +1,49 @@
+\documentclass[Arkitektur/System_main.tex]{subfiles}
+\begin{document}
+\subsubsection{Applikationsmodel for Bolddispenser}
+I dette afsnit præsenteres applikationsmodellen for bolddispenseren, hvor der er lavet et overordnet klassediagram og statemachine for dispenseren, som spiller sammen med et sekvensdiagram for UC1 og UC4, der var de mest relevante i forbindelse med Bolddispenser.
+
+\textbf{Klassediagram: Bolddispenser}\\
+Startes der med klassediagrammet for det overordnede overblik over relationer og metoder, så ses dette i figur \ref{fig:cd_balldispenser}. I figuren ses relationer og metoder for alle de relevante use cases i forhold til bolddispenseren.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/BallDispenser/graphicsBallDispenser/ApplikationsmodelBolddispensercd.png}
+    \caption{Class Diagram for bolddispenser}
+    \label{fig:cd_balldispenser}
+\end{figure}
+\newpage
+
+\textbf{Tilstandsmaskine: Bolddispenser}\\
+I bolddispenseren kan der deles op i to forskellige typer tilstande. En tilstand om bolddispenserens kapacitet af bolde og en tilstand om bolddispenseren må dispensere bolde. Hvordan bolddispenseren bevæger sig imellem disse tilstande, og hvad der sker kan ses i figur \ref{fig:stm_balldispenser}. 
+Af figuren ses det at den øverste del af statemachine diagrammet er det, der omhandler kapacitet af boldene. Der er ikke nogen state, som bolddispenseren skal starte i, idet bolddispenseren kan være i alle states ved opstart. Ved eksekvering af UC4, starter den dog ud i empty, da dette er en prækondition til udførelsen af use casen. 
+Når der så fyldes bolde på bolddispenseren kan den altså gå fra empty til Nonempty i det en sensor detektere at minimumsgrænsen for bolde er nået. Dette trigger en opdatering af status led'erne (Der indikere om der mangler bolde), samt en opdatering på RPi, idet den skal vide om et nyt spil kan påbegyndes. 
+Hvis påfyldning så fortsættes, så vil boldene til sidst opbruge alt pladsen, hvilket igen trigger en opdatering, men denne gang kun af status led'en (Det har ingen betydning for RPi, om bolddispenseren er fuld).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/BallDispenser/graphicsBallDispenser/ApplikationsmodelBolddispenserstm.PNG}
+    \caption{Tilstandsmaskine for bolddispenser}
+    \label{fig:stm_balldispenser}
+\end{figure}
+\newpage
+
+\textbf{Sekvensdiagram UC1: Bolddispenser}\\
+Når et spil skal startes, er det i pricippet bolddispenserens ansvar at starte spillet i det, den skal registrere indsættelsen af en mønt og sende et signal om dette til RPI'en. Forløbet i dette er beskrevet i figur \ref{fig:seq_uc1_balldispenser}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/BallDispenser/graphicsBallDispenser/ApplikationsmodelBolddispensersequc1.png}
+    \caption{Sekvensdiagram for UC1 for bolddispenser}
+    \label{fig:seq_uc1_balldispenser}
+\end{figure}
+\newpage
+
+\textbf{Sekvensdiagram UC4: Bolddispenser}\\
+Når der skal udøves service på bolddispenseren, kan dette også beskrives i applikationen som forløbet, der ses i figur \ref{fig:seq_uc4_balldispenser}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/BallDispenser/graphicsBallDispenser/ApplikationsmodelBolddispensersequc4.png}
+    \caption{Sekvensdiagram for UC4 for bolddispenser}
+    \label{fig:seq_uc4_balldispenser}
+\end{figure}
+\newpage
+
+\end{document}

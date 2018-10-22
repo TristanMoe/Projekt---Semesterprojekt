@@ -1,0 +1,111 @@
+\documentclass[Kravspecifikation/Kravspec_Main.tex]{subfiles}
+\begin{document}
+
+\subsection{UC2: Spil tur}
+
+\protect\hypertarget{t.982baa266913794041029567659e3677b1ccea8f}{}{}\protect\hypertarget{t.0}{}{}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\toprule
+\endhead
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Navn}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{UC2: Spil tur}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Mål}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{\textbf{\textit{Spillets status}} opdateres i UI}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Initiering}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Aktiv hold}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Aktører}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Primær: Aktiv hold \\
+Sekundær: Modstander hold, Kop, Bold}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Referencer}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Antal samtidige forekomster}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{1}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Prækondition}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Spillet er \textbf{\textit{i gang}}. På det \textbf{Aktive hold} har hver spiller én bordtennisbold. Hvert hold har mindst én kop placeret i en kopholder}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Postkondition}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Der er mindst én kop tilbage på hver Player side og UI er opdateret *Reference til Ordlist*}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Hovedscenarie}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+\begin{enumerate}
+\tightlist
+\item
+  {\textbf{Aktiv hold:} kaster den første bold}
+\item
+  {\textbf{Aktiv hold:} kaster den anden bold}
+\item
+  {\textbf{Aktiv hold:} en eller flere kop(per) er ramt}\newline
+  [Exc 1 : \textbf{Aktiv hold} rammer ikke en kop]\newline
+  [Exc 2 : \textbf{Aktiv hold} rammer den sidste kop]\newline
+\item
+    {\textbf{Modstander hold:} fjerner koppen/kopperne fra kopholder(ne), tager bordtennisbolden(e) og drikker øllen}
+\item 
+    {\textbf{Systemet:} registrerer fjernelse af kop fra kopholder(ne) og opdaterer UI}
+\item  
+    {\textbf{Modstander hold:} får \textbf{\textit{turen}} og bliver dermed det \textbf{\textit{aktive hold}}. Det aktive hold er nu \textbf{\textit{modstander holdet}}. Spillet fortsættes}
+\end{enumerate}\strut
+
+
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Udvidelser eller undtagelser}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+[Exc 1 : \textbf{\textit{Aktiv hold}} rammer ikke] 
+\begin{enumerate}
+\item {\textbf{Modstander hold:} får \textbf{\textit{turen}} og bliver dermed det \textbf{\textit{aktive hold}}. Det gamle \textbf{\textit{aktive hold}} er nu \textbf{\textit{modstander holdet}}. Spillet fortsættes}
+\item Usecase afsluttes
+\end{enumerate}
+[Exc 2 : \textbf{Aktiv hold} rammer den sidste kop]]
+\begin{enumerate}
+\item Use case afsluttes med postkondition: \textbf{\textit{Spillet er slut}}
+\end{enumerate}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Data variationsliste}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{}\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\bottomrule
+\caption{Fully dressed Use Case beskrivelse for UC2}
+\end{longtable}
+\label{tab:UC2}
+
+
+\end{document}

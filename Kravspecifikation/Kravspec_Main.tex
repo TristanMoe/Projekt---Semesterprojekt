@@ -1,0 +1,36 @@
+\documentclass[a4paper,12pt,fleqn,oneside]{article} 
+\input{Setup/Preamble.tex}
+
+\def\titlename{Kravspecifikation}
+
+\begin{document}
+
+%===============FORSIDE======================
+\input{Setup/Forside.tex}
+\tableofcontents
+\newpage
+%===============Systembeskrivelse============
+\subfile{Kravspecifikation/Rules/Rules.tex}
+\newpage
+%===============Systembeskrivelse============
+\subfile{Kravspecifikation/Systembeskrivelse/Systembeskrivelse.tex}
+\newpage
+%==========DEFINITIONSLIST================
+\subfile{Kravspecifikation/Definitionsliste/Definitionsliste.tex}
+\newpage
+
+%============Flowchart===================
+\subfile{Kravspecifikation/Flowchart/Flowchart.tex}
+\newpage
+
+%==========FUNKTIONELLE KRAV================
+\subfile{Kravspecifikation/Funktionelle_krav/Funktionelle_krav.tex}
+\newpage
+
+
+%=========IKKE-FUNKTIONELLE KRAV============
+\subfile{Kravspecifikation/Ikke-funktionelle/Ikke-funktionelle.tex}
+\newpage
+
+
+\end{document}

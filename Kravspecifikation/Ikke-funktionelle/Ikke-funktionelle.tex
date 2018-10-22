@@ -1,0 +1,63 @@
+\documentclass[Kravspecifikation/Kravspec_Main.tex]{subfiles}
+\begin{document}
+\section{Ikke-funktionelle krav}
+De ikke funktionelle krav beskriver systemets fysiske dimensioner og GUI. Samt en række specifikationer om systemet ydeevne. For specifik forklaring, se Definitionsliste (side xx).
+
+\subsection{Fysiske Dimensioner}
+Dimensioner bliver angivet i følgende format [længde/bredde/højde][cm]
+\begin{table}[H]
+\begin{tabular}{|L{0.1\textwidth}|L{0.75\textwidth}|L{0.15\textwidth}|}
+\hline
+\textbf{ID} & \textbf{Krav} & \textbf{Prioritet} \\ \hline
+K1.1 & Beer Pong bordet skal være 240cm/60cm/70cm +/- 1cm  &  \\ \hline
+K1.2 & Bordtenisbolde skal have en diameter på 40mm +/- 1mm&  \\ \hline
+K1.3 & Display'ets billede skal være 24 tommer +/- 0.5 tommer diagonalt med et format på 16:9&  \\ \hline
+K1.4 & Afstanden mellem hver kopholder skal være X & \\ \hline
+K1.5 & En kopholder skal være rund med en diameter på X & \\ \hline 
+K1.6 & Systemet skal kunne håndtere kopper med en øvre diameter i intervallet [X;X] og en nedre diameter i intervallet [X;X] & \\ \hline
+K1.7 & Systemet skal tage imod en dansk femkrone som betaling. Diameter på 28.5 mm +/- 0.5mm og tykkelse på 2.00 +/- 0.1 mm & \\ \hline
+K1.8 & Systemet skal returnere mønter med en diameter på 27.0 mm og under og tykkelse på under 2.35 mm og under & \\ \hline
+K1.9 & Systemet skal ikke tage imod returnere mønter med en diameter på 29.0 mm og over og tykkelse på over 2.35 mm& \\ \hline
+\end{tabular}
+\caption{Ikke funktionelle krav for de fysiske dimensioner}
+\label{tab:fysiske_dimensioner}
+\end{table}
+
+\subsection{User Interface}
+\begin{table}[H]
+\begin{tabular}{|L{0.1\textwidth}|L{0.75\textwidth}|L{0.15\textwidth}|}
+\hline
+\textbf{ID} & \textbf{Krav} & \textbf{Prioritet} \\ \hline
+K2.2 & Når alt er sat op (der er glas på bordet og betalt for bolde) må der som maksimum kun gå 10 sekunder før spillets &  \\ \hline
+K2.3 & Displayskærmen på bordet skal kunne vise et spillers navn og score hurtigere end 5 sekunder efter, at man har tastet sit navn på mobilappen og trykket ok. &  \\ \hline
+K2.4 & Displayskærmen skal kunne vise \textit{\textbf{spil status}} og \textit{\textbf{spiller oplysninger}} samtidigt. & \\ \hline
+\end{tabular}
+\caption{Ikke funktionelle krav for User Interface}
+\label{tab:user_interface}
+\end{table}
+
+\subsection{Ydeevne}
+\begin{table}[H]
+\begin{tabular}{|L{0.1\textwidth}|L{0.75\textwidth}|L{0.15\textwidth}|}
+\hline
+\textbf{ID} & \textbf{Krav} & \textbf{Prioritet} \\ \hline
+K3.1 & Bolddispenser skal levere den første af to bolde indenfor 5s efter der indsættes en mønt. &  \\ \hline
+K3.2 & Når en spiller/hold har vundet (\textit{\textbf{Spillet er slut}}), skal systemet vise hvem der har vundet indenfor 100 ms. &  \\ \hline
+K3.3 & Systemet skal være vandtæt. Dvs. øl, sodavand og andet væske ikke kan kom til systemet indre sensorer eller computer, uden at bordets top fjernes. &  \\ \hline
+K3.4 & Systemets \textbf{\textit{start op}} og \textbf{\textit{slukke}} tid skal være mindre end 10 sekunder. &  \\ \hline
+K3.5 & Display'et skal vise at en person har fjernet et kop fra en kopholder indenfor 500ms. &  \\ \hline
+K3.6 & Bolddispenseren skal kunne indeholde 14 bolde. & \\ \hline
+\end{tabular}
+\caption{Ikke funktionelle krav for ydeevne}
+\label{tab:ydeevne}
+\end{table}
+
+
+
+
+
+
+
+
+
+\end{document}

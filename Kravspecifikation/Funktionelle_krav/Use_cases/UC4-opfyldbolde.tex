@@ -1,0 +1,105 @@
+\documentclass[Kravspecifikation/Kravspec_Main.tex]{subfiles}
+\begin{document}
+
+\subsection{UC4: Påfyldning af bolde}
+
+\protect\hypertarget{t.982baa266913794041029567659e3677b1ccea8f}{}{}\protect\hypertarget{t.0}{}{}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\toprule
+\endhead
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Navn}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{UC4: Påfyldning af bolde}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Mål}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Bolddispenseren har nok bolde til at starte et spil}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Initiering}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Systemet}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Aktører}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Primær: \textbf{Servicemedarbejder} \\
+Sekundær: \textbf{Bold}
+}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Referencer}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Antal samtidige forekomster}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{1}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Prækondition}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{\textbf{\textit{Spillet er ikke i gang}}.
+Der er under to bolde i bolddispenseren}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Postkondition}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Der er to eller flere bolde i bolddispenseren }\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Hovedscenarie}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+\begin{enumerate}
+\tightlist
+\item
+  {\textbf{Systemet:} tænder den røde led på bolddispenser status led og slukker den grønne (hvis var tændt)}
+\item
+  {\textbf{Servicemedarbejder:} låser op til bolddispenser}
+\item
+  {\textbf{Servicemedarbejder:} tilføjer én bold af gangen}
+\item \textbf{Systemet:} slukker den røde led på bolddispenser status led. \newline
+  [Ext 1 : Bolddispenser er fyldt helt op]
+\item 
+  {\textbf{Servicemedarbejder:} lukker og låser for bolddispenser }
+\end{enumerate}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Udvidelser eller undtagelser}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{[Ext 1 : Bolddispenser er fyldt helt op]
+\begin{enumerate}
+\tightlist
+\item
+  \textbf{Systemet:} tænder den grønne led på bolddispenser status led.
+\item  Use case fortsætter
+\end{enumerate}
+}\strut
+\end{minipage}\tabularnewline
+\toprule
+\begin{minipage}[t]{0.47\columnwidth}\raggedright
+{Data variationsliste}\strut
+\end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+{}\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\bottomrule
+\caption{Fully dressed Use Case beskrivelse for UC4}
+\label{tab:UC4}
+\end{longtable}
+
+\end{document}

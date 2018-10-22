@@ -1,0 +1,22 @@
+\documentclass[Accepttestspecifikation/Accepttest_Main.tex]{subfiles}
+
+\begin{document}
+\subsection{Accepttest - UC3}
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{UC under test} & \multicolumn{4}{l|}{UC3 - Stop game}                                                                                                                                                                                                                                                      \\ \hline
+\textbf{Scenarie}      & \multicolumn{4}{l|}{Hovedscenarie}                                                                                                                                                                                                                                                        \\ \hline
+\textbf{Prækondition}  & \multicolumn{4}{l|}{Sidste kop af ramt på en af spillersiden}                                                                                                                                                                                                                             \\ \hline
+                       & \textbf{Handling}                                                                                  & \textbf{\begin{tabular}[c]{@{}l@{}}Forventet \\ resultat\end{tabular}}                   & \textbf{\begin{tabular}[c]{@{}l@{}}Faktisk \\ resultat\end{tabular}} & \textbf{Kommentar} \\ \hline
+\textbf{Punkt 1}       & \begin{tabular}[c]{@{}l@{}}The user removes \\ the last cup from \\the table.\end{tabular}              & \begin{tabular}[c]{@{}l@{}}The table switches \\ off the leds around \\ the cup.\end{tabular} &                                                                      &                    \\ \hline
+\textbf{Punkt 2}       & \begin{tabular}[c]{@{}l@{}}The lights are updated\\ to display a winning\\ side and a loosing \\side.\end{tabular} & \begin{tabular}[c]{@{}l@{}}Winning player\\/team's side changes to \\the victory colour and\\ the opposing sides lights\\ change to the loser\\ colour.\end{tabular}      &                                                                      &                    \\ \hline
+\textbf{Punkt 3}       & \begin{tabular}[c]{@{}l@{}}The UI and website is \\updated to show the \\winning teams name.\end{tabular} & \begin{tabular}[c]{@{}l@{}}The UI and website\\ displays the winning\\ teams name.\end{tabular}      &                                                                      &                    \\ \hline
+\end{tabular}
+}
+\end{table}
+
+
+\end{document}
