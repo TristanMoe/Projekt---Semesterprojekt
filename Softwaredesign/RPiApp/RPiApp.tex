@@ -35,6 +35,8 @@ void * threadFunction(void *)
 
 \texbf{Dispatchers og handlers}
 \\En dispatcher er en overall event handler. Den bruges til at håndtere den besked som tråden modtagere gennem dens besked kø. Der 'modtages' to parametre fra recieve()-funktionen: et id repræsentere den service handleren skal tilbyde og beskeden, som er en nedarvet brugerdefineret objekt af klassen Message (Den kan indeholde forskellige parametre i sig selv, hovedsageligt information som skal veksle mellem trådene). Ud fra parameteren 'id' vurderes hvilke service, som skal udføres. Dispatcheren 'aktiverer' derefter de korrekte event handlers og videregiver message, hvis dette er relevant. 
+
+Event handlerne vil derefter kalde det specifikke funktioner for de enkelte boundaryklasser til at opnå målet for den givne service. GameController klassen (og tråden) styrer logikken i systemet og vil sende beskeder ud til de andres beskedkøer - dette realiseres gennem eventhandlerne, som kalder de korrekte metoder. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Softwaredesign/RPiApp/graphic_RPi/dispatch.png}
@@ -63,11 +65,13 @@ void dispatcher(unsigned long msgID, Message * msg)
     }
 }
 \end{lstlisting}
+\textbf{Oversigt}
+Dette afsnit beskrev kort det overordnede design af kommunikationen mellem klasserne. Det 
 
 
 %Kode:
-\begin{lstlisting}
-obj_->getMsgQueue()->send(GameController::ID_GAME_START, msg); 
-\end{lstlisting}
+%\begin{lstlisting}
+%obj_->getMsgQueue()->send(GameController::ID_GAME_START, msg); 
+%\end{lstlisting}
 
 \end{document}
