@@ -1,7 +1,7 @@
 \documentclass[Kravspecifikation/Kravspec_Main.tex]{subfiles}
 \begin{document}
 
-\subsection{UC2: Spil tur}
+\subsection{UC2: Play turn}
 
 \protect\hypertarget{t.982baa266913794041029567659e3677b1ccea8f}{}{}\protect\hypertarget{t.0}{}{}
 
@@ -12,7 +12,7 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Navn}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{UC2: Spil tur}\strut
+{UC2: Play turn}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -24,14 +24,14 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Initiering}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Aktiv hold}\strut
+{\textbf{Active Team}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Aktører}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Primær: Aktiv hold \\
-Sekundær: Modstander hold, Kop, Bold}\strut
+{Primær: \textbf{Active Team} \\
+Sekundær: \textbf{Opponent Team}, \textbf{Cup}, \textbf{Ball}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -43,19 +43,19 @@ Sekundær: Modstander hold, Kop, Bold}\strut
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Antal samtidige forekomster}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{1}\strut
+{Ingen}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Prækondition}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Spillet er \textbf{\textit{i gang}}. På det \textbf{Aktive hold} har hver spiller én bordtennisbold. Hvert hold har mindst én kop placeret i en kopholder}\strut
+{Spillet er \textbf{\textit{i gang}}. På det \textbf{Aktive hold} har hver spiller én \textbf{Ball}. Hvert hold har mindst én kop placeret i en kopholder}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Postkondition}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Der er mindst én kop tilbage på hver Player side og UI er opdateret *Reference til Ordlist*}\strut
+{Der er mindst én \textbf{Cup} tilbage på hver Player side og UI er opdateret *Reference til Ordlist*}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -64,33 +64,33 @@ Sekundær: Modstander hold, Kop, Bold}\strut
 \begin{enumerate}
 \tightlist
 \item
-  {\textbf{Aktiv hold:} kaster den første bold}
+  {\textbf{Active Team:} kaster den første \textbf{Ball}}
 \item
-  {\textbf{Aktiv hold:} kaster den anden bold}
+  {\textbf{Active Team:} kaster den anden \textbf{Ball}}
 \item
-  {\textbf{Aktiv hold:} en eller flere kop(per) er ramt}\newline
-  [Exc 1 : \textbf{Aktiv hold} rammer ikke en kop]\newline
-  [Exc 2 : \textbf{Aktiv hold} rammer den sidste kop]\newline
+  {\textbf{Active Team:} en eller flere \textbf{Cup(s)} er ramt \newline
+  [Exc 1 : \textbf{Active Team} rammer ikke en \textbf{Cup}]
+  \newline
+  [Exc 2 : \textbf{Active Team} rammer den sidste \textbf{Cup}]}
 \item
-    {\textbf{Modstander hold:} fjerner koppen/kopperne fra kopholder(ne), tager bordtennisbolden(e) og drikker øllen}
+    {\textbf{Opponent Team:} fjerner den eller de ramte \textbf{Cup(s)} fra kopholder(ne), tager \textbf{Ball(s)} og drikker øllen}
 \item 
-    {\textbf{Systemet:} registrerer fjernelse af kop fra kopholder(ne) og opdaterer UI}
+    {\textbf{Systemet:} registrerer fjernelse af \textbf{Cup} fra kopholder(ne) og opdaterer UI}
 \item  
-    {\textbf{Modstander hold:} får \textbf{\textit{turen}} og bliver dermed det \textbf{\textit{aktive hold}}. Det aktive hold er nu \textbf{\textit{modstander holdet}}. Spillet fortsættes}
+    {\textbf{Opponent Team:} får \textbf{\textit{turen}} og bliver dermed det \textbf{Active Team}. Det tidligere \textbf{Active Team} er nu \textbf{Opponent Team}. Spillet fortsættes}
 \end{enumerate}\strut
-
 
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Udvidelser eller undtagelser}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-[Exc 1 : \textbf{\textit{Aktiv hold}} rammer ikke] 
+[Exc 1 : \textbf{Active Team} rammer ikke en \textbf{Cup}] 
 \begin{enumerate}
-\item {\textbf{Modstander hold:} får \textbf{\textit{turen}} og bliver dermed det \textbf{\textit{aktive hold}}. Det gamle \textbf{\textit{aktive hold}} er nu \textbf{\textit{modstander holdet}}. Spillet fortsættes}
-\item Usecase afsluttes
+\item {\textbf{Opponent Team:} får \textbf{\textit{turen}} og bliver dermed det \textbf{Active Team}. Det tidligere \textbf{Active Team} er nu \textbf{Opponent Team}. Spillet fortsættes}
+\item Use case afsluttes
 \end{enumerate}
-[Exc 2 : \textbf{Aktiv hold} rammer den sidste kop]]
+[Exc 2 : \textbf{Active Team} rammer den sidste \textbf{Cup}]
 \begin{enumerate}
 \item Use case afsluttes med postkondition: \textbf{\textit{Spillet er slut}}
 \end{enumerate}\strut

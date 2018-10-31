@@ -1,7 +1,7 @@
 \documentclass[Kravspecifikation/Kravspec_Main.tex]{subfiles}
 \begin{document}
 
-\subsection{UC1: Start spil}
+\subsection{UC1: Start game}
 
 \protect\hypertarget{t.982baa266913794041029567659e3677b1ccea8f}{}{}\protect\hypertarget{t.0}{}{}
 
@@ -12,25 +12,25 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Navn}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{UC1: Start spil}\strut
+{UC1: Start game}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Mål}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Spillet er \textit{\textbf{i gang}}}\strut
+{\textit{\textbf{Spillet er i gang}}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Initiering}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Aktiv hold}\strut
+{\textbf{Active Team}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Aktører}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Primær: \textbf{Aktiv hold}\\Sekundær: \textbf{Mønt}, \textbf{Kop} og \textbf{Bold}}\strut
+{Primær: \textbf{Active Team}\\Sekundær: \textbf{Coin}, \textbf{Cup} og \textbf{Ball}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -42,13 +42,13 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Antal samtidige forekomster}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{1}\strut
+{Ingen}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Prækondition}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Systemet er operationelt og rutinen beskrevet under \textit{\textbf{Start op}} er udført.}\strut
+{Systemet er operationelt og rutinen beskrevet under \textit{\textbf{Start op}} er udført.\\ \textbf{\textit{Spillet er ikke i gang}}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -63,39 +63,39 @@
 \begin{enumerate}
 \tightlist
 \item
-  {\textbf{Aktiv hold:} indsætter 5 kr mønt i bolddispenseren \newline [Exc 1: \textbf{Aktiv hold} indsætter en mønt som ikke er 5 kr. i bolddispenseren]}
+  {\textbf{Active Team:} indsætter 5 kr \textbf{Coin} i bolddispenseren \newline [Exc 1: \textbf{Active Team} indsætter en \textbf{Coin} som ikke er 5 kr. i bolddispenseren]}
 \item
-  {\textbf{Systemet:} udsteder 2 bordtennisbolde og tænder kopholder-lys i Player side \newline
+  {\textbf{Systemet:} udsteder 2 \textbf{Ball}s og tænder kopholder-lys i Player side \newline
   [Exc 2: Ingen bolde]}
 \item
-  {\textbf{Aktiv hold:} placerer kopper i kopholderne i Player side}
-\item {\textbf{Systemet:} skifter farve på kopholder-lys i Player side, når en kop placeres i en kopholder \newline
+  {\textbf{Active Team:} placerer kopper i kopholderne i Player side}
+\item {\textbf{Systemet:} skifter farve på kopholder-lys i Player side, når en \textbf{Cup} placeres i en kopholder \newline
   [Exc 2: Ingen bolde]}
 \item
-  {\textbf{Systemet:} Henviser \textbf{aktiv hold} til WebPage vha. Display og anmoder om spiller oplysninger}
+  {\textbf{Systemet:} Henviser \textbf{active Team} til WebPage vha. Display og anmoder om spiller oplysninger}
 \item
-  {\textbf{Aktiv hold:} indtaster antal spillere gennem WebPage}
+  {\textbf{Active Team:} indtaster antal spillere gennem WebPage}
 \item
-  {\textbf{Aktiv hold:} indtaster hold navne gennem WebPage}
+  {\textbf{Active Team:} indtaster hold navne gennem WebPage}
 \item
-  {\textbf{Aktiv hold:} trykker på start knappen på WebPage}
+  {\textbf{Active Team:} trykker på start knappen på WebPage}
 \end{enumerate}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Udvidelser eller undtagelser}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{[Exc 1: \textbf{Aktiv hold} indsætter en mønt som ikke er 5 kr. i bolddispenseren]}
+{[Exc 1: \textbf{Active Team} indsætter en \textbf{Coin} som ikke er 5 kr. i bolddispenseren]}
 \begin{enumerate}
 \tightlist
 \item \textbf{Systemet:} frigiver mønten
-\item Use Case afsluttes
+\item Use Case afsluttes med postkonditionen:  \textbf{\textit{Spillet er ikke i gang}}
 \end{enumerate}
 {[Exc 2: Ingen bolde]}
 \begin{enumerate}
 \tightlist
 \item \textbf{Systemet:} frigiver mønten
-\item Use Case afsluttes
+\item Use Case afsluttes med postkonditionen:  \textbf{\textit{Spillet er ikke i gang}}
 \end{enumerate}
 {}\strut
 \end{minipage}\tabularnewline

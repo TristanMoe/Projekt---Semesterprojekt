@@ -62,9 +62,9 @@ Til at beskrive systemet er der udviklet et aktør kontekst diagram, se figur \r
         \textbf{Aktør navn} & Ball \\ \hline
         \textbf{Alternativ referencer} & Bold og Bordtennisbold \\ \hline
         \textbf{Type} & Sekundær \\ \hline
-        \textbf{Beskrivelse} & Denne aktør er en bordtennisbold som bruges til at spille spillet (Beer Pong), se afsnit \ref{sec:rules}. Systemet skal også håndtere flere bolde, da det skal dispensere bolde i \textbf{\textit{opstart}}.\\ \hline
+        \textbf{Beskrivelse} & Denne aktør er en bordtennisbold som bruges til at spille spillet (Beer Pong), se afsnit \ref{sec:rules}. Systemet skal håndtere flere \textbf{Balls}. Bolde indgår i systemet på to måder. Første måde er som en del af spillet, i det de to hold prøver at ramme en \textbf{Cup} med en \textbf{Ball}. Derudover skal systemet håndtere \textbf{Balls}, i det der skal dispensere \textbf{Balls} i \textbf{\textit{opstart}}.\\ \hline
     \end{tabular}
-    \caption{Aktør beskrivelse for Ball}
+    \caption{Aktør beskrivelse for \textbf{Ball}}
     \label{tab:BallBeskrivelse}
 \end{table}
 
@@ -76,9 +76,9 @@ Til at beskrive systemet er der udviklet et aktør kontekst diagram, se figur \r
         \textbf{Aktør navn} &  Cup\\ \hline
         \textbf{Alternativ referencer} &  Kop og plastik kop\\ \hline
         \textbf{Type} & Sekundær \\ \hline
-        \textbf{Beskrivelse} & Denne aktør er en kop. De to hold prøver at ramme i en kop med en bold. Systemet skal registrere om koppen er i en kopholder eller ej.  \\ \hline
+        \textbf{Beskrivelse} & Denne aktør er en kop. De to hold prøver at ramme i en \textbf{Cup} med en \textbf{Ball}. Systemet skal registrere om en \textbf{Cup} er i en kopholder eller ej.  \\ \hline
     \end{tabular}
-    \caption{Aktør beskrivelse for Cup}
+    \caption{Aktør beskrivelse for \textbf{Cup}}
     \label{tab:CupBeskrivelse}
 \end{table}
 
@@ -90,7 +90,7 @@ Til at beskrive systemet er der udviklet et aktør kontekst diagram, se figur \r
         \textbf{Aktør navn} & Worker \\ \hline
         \textbf{Alternativ referencer} & Servicemedarbejder og arbejder \\ \hline
         \textbf{Type} & Sekundær\\ \hline
-        \textbf{Beskrivelse} & Denne aktør er en medarbejder for ejeren af systemet. Har til opgave at vedligeholde systemet, dvs. at der skal fyldes bolde i systemet\\ \hline
+        \textbf{Beskrivelse} & Denne aktør er en medarbejder for ejeren af systemet. Har til opgave at vedligeholde systemet, dvs. at der skal fyldes \textbf{Balls} i systemet\\ \hline
     \end{tabular}
     \caption{Aktør beskrivelse for Worker}
     \label{tab:WorkerBeskrivelse}
@@ -105,21 +105,9 @@ Der benyttes use cases til at beskrive de funktionelle krav. Der er derfor lavet
     \caption{Use Case diagram for systemet}
     \label{fig:Use_case}
 \end{figure}
-Da Der benyttes engelske navne i diagrammer men danske i tekst, er der på tabel \ref{tab:uc_translation} beskrevet de danske navne.
+Der er fire use cases for systemet. De tre use cases UC1-UC3 beskriver egentlig én use case (kunne fx hedde Play game). Det er valgt at dele det op i 3 use cases. UC1 beskriver hvordan man starter et spil. Når et spil er startet (i UC1) kan selve spillet spilles, i UC2. UC2 beskriver hvordan én \textbf{\textit{tur}} spilles, og hvordan systemet skal reagere. Denne use case (UC2) gentages indtil \textbf{\textit{spillet er slut}} . Når et \textbf{\textit{spil er slut}} starter UC3, denne starter når den sidste \textbf{Cup} fjernes fra en af Player siderne. I denne use case beskrives hvordan systemet skal annoncere vinderen af systemet. Når denne use case (UC3) er færdig, kan et nyt spil starte igen (UC1). 
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{|L{0.35\textwidth}|L{0.35\textwidth}|}
-        \hline
-        \textbf{Engelsk} & \textbf{Dansk} \\ \hline
-        UC1: Start game & UC1: Start spil \\ \hline
-        UC2: Play turn & UC2: Spil tur \\ \hline
-        UC3: End game & UC3: Spil slut \\ \hline
-        UC4: Refill balls & UC4: Påfyldning af bolde \\ \hline
-    \end{tabular}
-    \caption{Oversættelse af Use Case navne til dansk}
-    \label{tab:uc_translation}
-\end{table}
+Derudover er der en use case UC4 som beskriver hvordan bolddispenseren fyldes op. Systemet initierer denne use case ved at informere \textbf{Worker} vha. bolddispenser status led. Desuden kan der ikke startes et nyt spil før der er nok \textbf{Balls} i bolddispenseren (2 \textbf{Balls}).
 
 \newpage
 

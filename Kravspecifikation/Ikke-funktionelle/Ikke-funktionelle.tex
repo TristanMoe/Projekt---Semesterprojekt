@@ -15,8 +15,8 @@ K1.3 & Display'ets billede skal være 24 tommer +/- 0.5 tommer diagonalt med et 
 K1.4 & Afstanden mellem hver kopholder skal være X & \\ \hline
 K1.5 & En kopholder skal være rund med en diameter på X & \\ \hline 
 K1.6 & Systemet skal kunne håndtere kopper med en øvre diameter i intervallet [X;X] og en nedre diameter i intervallet [X;X] & \\ \hline
-K1.7 & Systemet skal tage imod en dansk femkrone som betaling. Diameter på 28.5 mm +/- 0.5mm og tykkelse på 2.00 +/- 0.1 mm & \\ \hline
-K1.8 & Systemet skal returnere mønter med en diameter på 27.0 mm og under og tykkelse på under 2.35 mm og under & \\ \hline
+K1.7 & Systemet skal kun tage imod en dansk femkrone som betaling. Diameter på 28.5 mm +/- 0.5mm og tykkelse på 2.00 +/- 0.1 mm & \\ \hline
+K1.8 & Systemet skal returnere mønter med en diameter på 27.0 mm og under og tykkelse på 2.35 mm og under & \\ \hline
 K1.9 & Systemet skal ikke tage imod returnere mønter med en diameter på 29.0 mm og over og tykkelse på over 2.35 mm& \\ \hline
 \end{tabular}
 \caption{Ikke funktionelle krav for de fysiske dimensioner}
@@ -28,9 +28,10 @@ K1.9 & Systemet skal ikke tage imod returnere mønter med en diameter på 29.0 m
 \begin{tabular}{|L{0.1\textwidth}|L{0.75\textwidth}|L{0.15\textwidth}|}
 \hline
 \textbf{ID} & \textbf{Krav} & \textbf{Prioritet} \\ \hline
+K2.1 & Systemet skal hoste et wifi netværk med SSID "Beer Pong Table" og ingen adgangskode. & \\ \hline
 K2.2 & Når alt er sat op (der er glas på bordet og betalt for bolde) må der som maksimum kun gå 10 sekunder før spillets &  \\ \hline
-K2.3 & Displayskærmen på bordet skal kunne vise et spillers navn og score hurtigere end 5 sekunder efter, at man har tastet sit navn på mobilappen og trykket ok. &  \\ \hline
-K2.4 & Displayskærmen skal kunne vise \textit{\textbf{spil status}} og \textit{\textbf{spiller oplysninger}} samtidigt. & \\ \hline
+%K2.3 & Displayskærmen på bordet skal kunne vise et spillers navn og score hurtigere end 5 sekunder efter, at man har tastet sit navn på mobilappen og trykket ok. &  \\ \hline
+K2.3 & Displayskærmen skal kunne vise \textit{\textbf{spil status}} og \textit{\textbf{spiller oplysninger}} samtidigt. & \\ \hline
 \end{tabular}
 \caption{Ikke funktionelle krav for User Interface}
 \label{tab:user_interface}
@@ -52,6 +53,27 @@ K3.6 & Bolddispenseren skal kunne indeholde 14 bolde. & \\ \hline
 \label{tab:ydeevne}
 \end{table}
 
+\subsection{Pålidelighed}
+\begin{table}[H]
+\begin{tabular}{|L{0.1\textwidth}|L{0.75\textwidth}|L{0.15\textwidth}|}
+\hline
+\textbf{ID} & \textbf{Krav} & \textbf{Prioritet} \\ \hline
+K4.1 & Det skal detekteres mindst 95 ud af 100 gange at der placeres en \textbf{Cup} i en kopholder.  &  \\ \hline
+K4.2 & Det skal detekteres mindst 95 ud af 100 gange at der løftes en \textbf{Cup} fra en kopholder.  &  \\ \hline
+K4.3 & I en periode på 1 time uden ydre påvirkninger af systemet må der højest være 1 falsk detektering af placering af en \textbf{Cup} på tom kopholder &  \\ \hline
+K4.4 & I en periode på 1 time uden ydre påvirkninger af systemet må der højest være 1 falsk detektering af løfting af en \textbf{Cup} fra kopholder hvor der står en kop&  \\ \hline
+K4.5 & Der må højest være 1 falsk detektering af løfting af en \textbf{Cup} fra kopholder hvor der står en \textbf{Cup}, når en \textbf{Ball} rammer i en \textbf{Cup} 100 gange&  \\ \hline
+K4.6 & Når en \textbf{Ball} rammer en kopholder 100 gange (uden nogen \textbf{Cup}) må der højest ske 1 falsk detektering af at der placeres en \textbf{Cup} i den givne kopholder&  \\ \hline
+K4.7 & Det skal detekteres mindst 98 ud af 100 gange at der indsættes en 5 krone i bolddispenser. &  \\ \hline
+K4.8 & Det skal detekteres højst 2 ud af 100 gange at der indsættes en 5 krone i bolddispenser når der indsættes enhver anden dansk mønt. &  \\ \hline
+K4.9 & I en periode på 1 time uden ydre påvirkninger af systemet må der højest være 1 falsk detektering af indsættelse af en dansk 5 krone i bolddispenser &  \\ \hline
+K4.10 & Der må højst ske en fejl ved levering af 2 \textbf{Balls} (dvs. der leveres mindre eller flere end 2 \textbf{Balls}), 1 ud af 50 gange der sendes signal om at der skal leveres 2 \textbf{Balls}.  &  \\ \hline
+
+
+\end{tabular}
+\caption{Ikke funktionelle krav for pålidelighed}
+\label{tab:reliability}
+\end{table}
 
 
 

@@ -1,7 +1,7 @@
 \documentclass[Kravspecifikation/Kravspec_Main.tex]{subfiles}
 \begin{document}
 
-\subsection{UC4: Påfyldning af bolde}
+\subsection{UC4: Refill balls}
 
 \protect\hypertarget{t.982baa266913794041029567659e3677b1ccea8f}{}{}\protect\hypertarget{t.0}{}{}
 
@@ -12,13 +12,13 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Navn}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{UC4: Påfyldning af bolde}\strut
+{UC4: Refill balls}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Mål}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Bolddispenseren har nok bolde til at starte et spil}\strut
+{Bolddispenseren har nok \textbf{\textit{Balls}} til at starte et spil}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -30,8 +30,8 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Aktører}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Primær: \textbf{Servicemedarbejder} \\
-Sekundær: \textbf{Bold}
+{Primær: \textbf{Worker} \\
+Sekundær: \textbf{Ball}
 }\strut
 \end{minipage}\tabularnewline
 \toprule
@@ -44,20 +44,20 @@ Sekundær: \textbf{Bold}
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Antal samtidige forekomster}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{1}\strut
+{Ingen}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Prækondition}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {\textbf{\textit{Spillet er ikke i gang}}.
-Der er under to bolde i bolddispenseren}\strut
+Der er under to \textbf{Balls} i bolddispenseren}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Postkondition}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Der er to eller flere bolde i bolddispenseren }\strut
+{Der er to eller flere \textbf{Balls} i bolddispenseren }\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -68,13 +68,13 @@ Der er under to bolde i bolddispenseren}\strut
 \item
   {\textbf{Systemet:} tænder den røde led på bolddispenser status led og slukker den grønne (hvis var tændt)}
 \item
-  {\textbf{Servicemedarbejder:} låser op til bolddispenser}
+  {\textbf{Worker:} låser op til bolddispenser}
 \item
-  {\textbf{Servicemedarbejder:} tilføjer én bold af gangen}
+  {\textbf{Worker:} tilføjer én \textbf{Ball} af gangen}
 \item \textbf{Systemet:} slukker den røde led på bolddispenser status led. \newline
   [Ext 1 : Bolddispenser er fyldt helt op]
 \item 
-  {\textbf{Servicemedarbejder:} lukker og låser for bolddispenser }
+  {\textbf{Worker:} lukker og låser for bolddispenser }
 \end{enumerate}\strut
 \end{minipage}\tabularnewline
 \toprule

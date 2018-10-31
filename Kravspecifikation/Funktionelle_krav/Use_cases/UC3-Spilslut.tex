@@ -1,7 +1,7 @@
 \documentclass[Kravspecifikation/Kravspec_Main.tex]{subfiles}
 \begin{document}
 
-\subsection{UC3: Spil slut}
+\subsection{UC3: End game}
 
 \protect\hypertarget{t.982baa266913794041029567659e3677b1ccea8f}{}{}\protect\hypertarget{t.0}{}{}
 
@@ -12,7 +12,7 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Navn}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{UC3: Spil slut}\strut
+{UC3: End game}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -24,13 +24,13 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Initiering}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{\textbf{Modstander hold}}\strut
+{\textbf{Opponent Team}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Aktører}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Primær: \textbf{Modstander hold}\\Sekundær: \textbf{Kop}}\strut
+{Primær: \textbf{Opponent Team}\\Sekundær: \textbf{Cup}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -42,7 +42,7 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Antal samtidige forekomster}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{1}\strut
+{Ingen}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -54,7 +54,7 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Postkondition}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{UI er opdateret med hvem der har vundet}\strut
+{UI er opdateret med hvem der har vundet.\\ \textbf{\textit{Spillet er ikke i gang}}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -63,7 +63,7 @@
 \begin{enumerate}
 \tightlist
 \item
-  {\textbf{Modstander hold:} fjerner den sidste kop fra sin Player side.}
+  {\textbf{Opponent Team:} fjerner den sidste \textbf{Cup} fra sin Player side.}
 \item \textbf{Systemet:} opdatere kopholder-lys på hver Player side til at vise hvem der har vundet og hvem der har tabt.
 \item {\textbf{Systemet:} Opdatere Display til at vise navnet på det hold som har vundet.}
 \end{enumerate}\strut
