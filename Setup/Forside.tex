@@ -1,3 +1,10 @@
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\kursusTitel\\Gruppe \gruppeNr}
+\rhead{\titlename\\ \nouppercase{\leftmark}}
+\lfoot{\afleveringsdato\\}
+\rfoot{Side \thepage\space af \pageref{LastPage}}
+
 \begin{titlepage}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
@@ -9,8 +16,8 @@
 %----------------------------------------------------------------------------------------
 
 \textsc{\LARGE Aarhus Universitet }\\[0.3cm] % Name of your university/college
-\textsc{\Large 3. Semesterprojekt }\\[0.3cm]
-\textsc{\Large Gruppe 7 }\\[0.5cm] % Major heading such as course name
+\textsc{\Large \kursusTitel }\\[0.3cm]
+\textsc{\Large Gruppe \gruppeNr }\\[0.5cm] % Major heading such as course name
  % Minor heading such as course title
 
 %----------------------------------------------------------------------------------------
@@ -18,7 +25,7 @@
 %----------------------------------------------------------------------------------------
 
 \HRule \\[0.4cm]
-{ \huge \bfseries \titlename}\\[0.03cm]{Beerpong Table} % Title of your document
+{ \huge \bfseries \titlename}\\[0.03cm]{\system} % Title of your document
 \HRule \\[1.5cm]
 
  
@@ -43,7 +50,7 @@
 \begin{minipage}{0.4\textwidth}
 \begin{flushright} \small
 \emph{Vejleder:} \\
-Martin Ansbjerg Kjær \\ Civ. Ing., Ph.D., Adjunkt % Supervisor's Name
+\vejleder \\ Civ. Ing., Ph.D., Adjunkt % Supervisor's Name
 \end{flushright}
 \end{minipage}\\[1cm]
 
@@ -55,13 +62,16 @@ Martin Ansbjerg Kjær \\ Civ. Ing., Ph.D., Adjunkt % Supervisor's Name
 %	DATE SECTION
 %----------------------------------------------------------------------------------------
 
-{\large December 2018}\\[1cm] % Date, change the \today to a set date if you want to be precise
+{\large \afleveringsdato}\\[1cm] % Date, change the \today to a set date if you want to be precise
 
 %----------------------------------------------------------------------------------------
 %	LOGO SECTION
 %----------------------------------------------------------------------------------------
 
-\includegraphics{Setup/graphics/AU.png}\\[1cm] %Logo
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.15\textwidth]{Setup/graphics/AU.png}
+\end{figure}
 
 \vfill
 \end{titlepage}

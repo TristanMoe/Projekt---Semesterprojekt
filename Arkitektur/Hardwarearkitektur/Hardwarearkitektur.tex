@@ -32,7 +32,7 @@ Ball dispenser & Se afsnit \textit{\nameref{sec:systemarkitektur}}   \\ \hline
 
 \subsubsection{Intern blokdiagram - \nameref{sec:overall_hardware}}
 
-På figur 2.2 ses et ibd for det overordnede system, hvor signaler er vist.
+På figur \ref{fig:overall_hardware_ibd} ses et ibd for det overordnede system, hvor signaler er vist.
 
 \begin{figure}[H]
     \centering
@@ -46,7 +46,7 @@ På figur 2.2 ses et ibd for det overordnede system, hvor signaler er vist.
 \subsection{Player side} \label{sec:playerside_hardware}
 \subsubsection{Blok definitionsdiagram - \nameref{sec:playerside_hardware}}
 
-På figur 1.3 ses BDD for player side. Player side findes findes på begge sider af beer pong bordet. Det vil sige at der er en PSoC for hver side af beer pong bordet, sammen med 6 kop sensorer og 6 kopholdere med lys.
+På figur \ref{fig:playerside_hardware_bdd} ses BDD for player side. Player side findes findes på begge sider af beer pong bordet. Det vil sige at der er en PSoC for hver side af beer pong bordet, sammen med 6 Cup Holders med hver en Cup Light og Cup Sensor.
 
 \begin{figure}[H]
     \centering
@@ -63,15 +63,27 @@ På figur 1.3 ses BDD for player side. Player side findes findes på begge sider
 \begin{tabular}{L{0.2\columnwidth}|L{0.8\columnwidth}}
 \hline
 \textbf{Blok} & \textbf{Beskrivelse} \\ \hline
+Cup Holder & Denne blok skal sørge for at lyse under én kop og samtidig detektere om der er en kop eller ej. Den består som det ses på figur \ref{fig:playerside_hardware_bdd} af en Cup light og en Cup sensor \\ \hline
+Cup Holders Controller & Denne blok skal sørge for at styre lyset på alle Cup Holders på baggrund af det signal den får fra PSoC Player side. Den skal derudover håndtere signalet fra Cup sensoren i hver Cup Holder og sende ét signal videre til PSoC Player side. \\ \hline
 Cup light & Skal lyse under en kop. Styres af PSoC Player side, og ændres alt afhængig af om kop er placeret på den pågældende kopholder og spillets stadie.\\ \hline
 Cup sensor & Skal detektere om der er en kop eller ej på et bestem område af bordet (hvor der er plads til én kop)\\ \hline
 PSoC Player side & Skal håndtere sensor input fra 6 Cup sensor's og styre lys på 6 Cup light's. Dette skal ske på bagrund af hvad den får at vide fra RPi. Den skal også sende sensor data til RPi\\ \hline
 \end{tabular}
 \end{table}
 
+\subsubsection{Intern blokdiagram - Cup Holder}
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth][c]{%
+        \includegraphics[width=1.3\columnwidth,trim={0.24in 0.24in 0.24in 0.24in},clip, page=8]{Arkitektur/graphics/BDD_og_IBD.pdf}
+    }
+    \caption{Intern blokdiagram for Cup Holder.}
+    \label{fig:playerside_hardware_bdd}
+\end{figure}
+
 \subsubsection{Intern blokdiagram - \nameref{sec:playerside_hardware}}
 
-Nedenfor på figur 1.4 ses et ibd for player side, hvor man ser PSoC'en i midten, som checker for inputs fra kop sensorerne. Sensorerne ses på venstre side i ibd'et. Alt afhængig af inputs fra sensorerne vil PSoC'en opdaterer Kop LED'erne. Hver sensor styrer indirekte LED'ens status.
+Nedenfor på figur \ref{fig:playerside_hardware_ibd} ses et ibd for player side, hvor man ser PSoC'en i venstre side, som styre Cup Light i hver Cup Holder vha. Cup Holders Controlelr. Derudover får den også input fra Cup Sensor fra hver Cup Holder, også vha. Cup Holders Controller. PSoC'en styrer så alle Cup Lights afhængig af spillets tilstand og inputter fra alle Cup Sensors. 
 
 \begin{figure}[H]
     \centering
@@ -84,23 +96,32 @@ Nedenfor på figur 1.4 ses et ibd for player side, hvor man ser PSoC'en i midten
 
 \subsubsection{Portbeskrivelser - \nameref{sec:playerside_hardware}}
 
-\begin{table}[]
-\begin{tabular}{|l|l|l|l|}
+\begin{table}[H]
+\begin{tabular}{|L{0.2\textwidth}|L{0.2\textwidth}|L{0.2\textwidth}|L{0.4\textwidth}|}
 \hline
-blok navn        & port navn    & port type & portbeskrivelse                                                                      \\ \hline
-Player Side      & 5V           & DC        & strømforsyning                                                                       \\ \hline
-                 & RPI          & I2C       & kommunikation mellem RPI og player side. protokol beskrevet i grænsefladebeskrivelse \\ \hline
-PSoC player Side & Sensor       & XXX       & XXX                                                                                  \\ \hline
-                 & lightControl & XXX       & XXX                                                                                  \\ \hline
-Cup sensor       & signal       & XXX       & XXX                                                                                  \\ \hline
-Cup light        & Control      & XXX       & XXX                                                                                  \\ \hline
+\textbf{blok navn}               & \textbf{port navn}     & \textbf{port type}         & \textbf{portbeskrivelse}                                                                     \\ \hline
+Player Side             & 5V            & DC                & strømforsyning                                                                       \\ \hline
+                        & RPI           & I2C               & kommunikation mellem RPI og player side. protokol beskrevet i grænsefladebeskrivelse \\ \hline
+                        & interrupt     & open-drain        & fortæller RPi om hvornår der er nyt data. \\ \hline
+PSoC player Side        & lightsControl & SPI               & XXX                                                                                  \\ \hline
+                        & irControl     & CMOS              & XXX                                                                                  \\ \hline
+                        & sensors       & analog current    & XXX \\ \hline
+Cup Holders Controller  & lightsControl & SPI               & XXX \\ \hline
+                        & irControl     & CMOS              & XXX \\ \hline
+                        & sensorsOutput & analog current    & XXX \\ \hline
+                        & lightCtrls    & rgbPWM            & XXX \\ \hline
+                        & irCtrls       & CMOS              & XXX \\ \hline
+                        & sensors       & analog current    & XXX \\ \hline
+Cup Holder              & lightCtrl     & rgbPWM            & XXX \\ \hline
+                        & irCtrl        & CMOS              & XXX \\ \hline
+                        & sensorsOutput & analog current    & XXX \\ \hline
 \end{tabular}
 \end{table}
 
 \subsection{Ball dispenser} \label{sec:balldispenser_hardware}
 \subsubsection{Blok definitionsdiagram - \nameref{sec:balldispenser_hardware}}
 
-På figur 1.5 ses et BDD for ball dispenser. Der er kun en ball dispenser i hele systemet. Ball dispenser består af en coin collecter, hvor 5 krone mønten man skal starte spillet med skal indsættes, hvorefter to bolde vil dispenseres. Dette gøres gennem Ball release, der består af en motor(aktuator), som står for dispenseringen. En ting der er vigtig for systemet er at vide, hvornår der er nok bolde i ball dispenseren. Dette gøres ved hjælp af underblokken ball count sensor. Her vil en sensor sørge for at der er mindst to bolde klar til dispensering hele tiden ellers lyser en status LED rødt. Hertil vil en status LED lyse grønt, hvis ball dispenseren er fuld. Samspil mellem alle blokkene styres af PSoC'en.
+På figur \ref{fig:balldispenser_hardware_bdd} ses et BDD for ball dispenser. Der er kun en ball dispenser i hele systemet. Ball dispenser består af en coin collecter, hvor 5 krone mønten man skal starte spillet med skal indsættes, hvorefter to bolde vil dispenseres. Dette gøres gennem Ball release, der består af en motor(aktuator), som står for dispenseringen. En ting der er vigtig for systemet er at vide, hvornår der er nok bolde i ball dispenseren. Dette gøres ved hjælp af underblokken ball count sensor. Her vil en sensor sørge for at der er mindst to bolde klar til dispensering hele tiden ellers lyser en status LED rødt. Hertil vil en status LED lyse grønt, hvis ball dispenseren er fuld. Samspil mellem alle blokkene styres af PSoC'en.
 
 \begin{figure}[H]
     \centering
@@ -131,7 +152,7 @@ Status LEDs & To LED'er til at informere om bold dispenseren er fuld eller tom. 
 
 \subsubsection{Intern blokdiagram - \nameref{sec:balldispenser_hardware}}
 
-På figur 1.6 ses et ibd diagram for Ball dispenseren, hvor man her ser, at PSoC'en har kontakt til Raspberry pie, og sørger for samspillet mellem coincollector, Ball count sensor og motoren aktuator. Man kan her se at ball release blokken ikke længere er med fra BDD diagrammet. Derimod er de blokke den bestod af med, som er aktuatoren(den bevægelige del), en actuator controller til styring af den bevægelige motor og til sidst en sensor til at holde styr på motorens(aktuatorens) position.
+På figur \ref{fig:balldispensere_hardware_ibd} ses et ibd diagram for Ball dispenseren, hvor man her ser, at PSoC'en har kontakt til Raspberry pie, og sørger for samspillet mellem coincollector, Ball count sensor og motoren aktuator. Man kan her se at ball release blokken ikke længere er med fra BDD diagrammet. Derimod er de blokke den bestod af med, som er aktuatoren(den bevægelige del), en actuator controller til styring af den bevægelige motor og til sidst en sensor til at holde styr på motorens(aktuatorens) position.
 
 \begin{figure}[H]
     \centering

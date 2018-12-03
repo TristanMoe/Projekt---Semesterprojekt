@@ -4,11 +4,11 @@
 \newcommand{\kursusTitel}{Semesterprojekt 3}
 \newcommand{\linje}{E/IKT}
 \newcommand{\semester}{3}
-\newcommand{\system}{Beer Pong Master\copyright}
+\newcommand{\system}{Beer Pong Table}
 \newcommand{\rapportType}{Proces}
 \newcommand{\gruppeNr}{7}
 \newcommand{\vejleder}{Martin Ansbjerg Kjær}
-\newcommand{\afleveringsdato}{6/6-2018}
+\newcommand{\afleveringsdato}{19. december 2018}
 
 %%%% PAKKER %%%%
 % ¤¤ Oversaettelse og tegnsaetning ¤¤ %
@@ -56,6 +56,7 @@
 \usepackage{lipsum}							% Dummy text \lipsum[..]
 \usepackage[shortlabels]{enumitem}			% Muliggoer enkelt konfiguration af lister
 \usepackage{pdfpages}						% Goer det muligt at inkludere pdf-dokumenter med kommandoen \includepdf[pages={x-y}]{fil.pdf}
+\usepackage[bottom]{footmisc}               % Saetter footnotes i bunden af siden
 \pdfoptionpdfminorversion=6					% Muliggoer inkludering af pdf dokumenter, af version 1.6 og hoejere
 \pretolerance=2500 							% Justering af afstand mellem ord (hoejt tal, mindre orddeling og mere luft mellem ord)
 
@@ -87,6 +88,9 @@
 \definecolor{khaki}{RGB}{240,230,140}
 \definecolor{lavender}{RGB}{230,230,250}
 
+%indentering af section
+\usepackage{changepage}
+
 %Code highlighting
 \usepackage{minted}
 
@@ -97,10 +101,23 @@
 %%%% REFERENCE TIL SECTION-NAME %%%%
 \usepackage{nameref}
 
+%sidehoved
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+%%%% paragraph %%%%
+%\usepackage{titlesec}
+%\setcounter{secnumdepth}{4}
+
+%\titleformat{\paragraph}
+%{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+%\titlespacing*{\paragraph}
+%{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
 % ========== PAKKER DER SKAL LOADES TIL SIDST ==================
 %\usepackage{xcolor}
 %\usepackage{listings}
-\usepackage{csquotes}                       %så holder bilatex kæft
+\usepackage{csquotes}           %så holder bilatex kæft
 \usepackage{subfiles}
 
 

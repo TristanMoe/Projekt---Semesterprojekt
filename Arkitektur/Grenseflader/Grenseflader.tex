@@ -79,16 +79,17 @@ BallDispenser & 0x12 & 0010010 \\ \hline
 \end{table}
 
 \textbf{Playerside til RPi}
-\\Playersides hoved funktion er at sende antal kopper tilbage på de angivede pladser. Denne information er vital for RPi'en, som videregiver denne information til andre delsystemet (fx Display og WebPage). 
+\\Playersides hovedfunktion er at sende antal kopper tilbage på de angivede pladser. Denne information er vital for RPi'en, som videregiver denne information til andre delsystemet (fx Display og WebPage). 
 Playerside sender en byte til RPi, hvor de 6 LSB bit repræsenterer en kop. Et højt bit betyder at en kop er placeret på den angivet plads osv (se figur \ref{fig:cups_setup}). 
 \begin{table}[H]
-\centering
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lll}
 \hline
-\multicolumn{1}{|l|}{\textbf{Playerside til RPi}} & \multicolumn{2}{l|}{\textbf{Kommando (Binær)}} \\ \hline
-\multicolumn{1}{|l|}{Kopper} & \multicolumn{2}{l|}{00000000} \\ \hline
-\multicolumn{3}{l}{}
-\end{tabular}
+\multicolumn{1}{|l|}{\textbf{Kommando navn}} & \multicolumn{1}{l|}{\textbf{Kommando værdi (Binær)}} & \multicolumn{1}{l|}{\textbf{Beskrivelse}} \\ \hline
+\multicolumn{1}{|l|}{\textbf{CUPS}} & \multicolumn{1}{l|}{00000000 - 00111111} & \multicolumn{1}{l|}{Hvert bit angiver en kop.} \\ \hline
+ &  & 
+\end{tabular}%
+}
 \end{table}
 
 \begin{figure}[H]
@@ -96,6 +97,33 @@ Playerside sender en byte til RPi, hvor de 6 LSB bit repræsenterer en kop. Et h
     \includegraphics[width=\textwidth]{Arkitektur/Grenseflader/Graphics/cups.png}
     \caption{Repræsentation af 1 byte af kopper}
     \label{fig:cups_setup}
+\end{figure}
+
+\newpage
+\textbf{Valg af holdfarve}
+\\Hvert hold skal have mulighed for at vælge en farve som skal associeres med deres hold. Farven valgt vil afspejles i spillet. Hvis farven rød (Farvekode 255 0 0) vælges for et hold, så vil deres belysning omkring tilhørende kopper være denne farve. Hvis en holdmedlem med den røde farve rammer en af modstanderens kopper, vil den skifte til den samme farve som holdmedlemmets farve (I dette tilfælde rødt). Dette var en kort beskrivelse af, hvad som sker fra brugerens perspektiv. Fra et mere teknisk perspektiv, så modtager RPi'en en farvekode fra Webpage (En fra hvert hold). RPi'en skal ikke gemme denne viden, blot sende den videre til hvert Playerside, så de ved hvilke farve de skal skifte til, hvis en af deres sensorer registrere kopfjernelse eller en bordtennis bold. Hver playerside skal vide hvilken farve de skal bruge, samt hvilke farve modstanderen har. Dette gøres ved brugen af 'Team color indicator'-byten. 
+\\Kommandoen består af 5 bytes: Først sendes kommandoens type (1 byte), derefter indikation på hvilke holds farve og til sidste sendes farvekode. Der sendes i alt to af disse kommandoer til hvert playerside. En kommando som angiver 'myColor' og en som angiver 'opponentColor'. 
+\begin{table}[H]
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Kommando navn} & \textbf{Kommando værdi (Hex)} & \textbf{Beskrivelse} \\ \hline
+\textbf{Colorcode} & 0x21 & Angivelse af kommando type \\ \hline
+\multirow{2}{*}{\textbf{Team color indicator}} & 0x01 & \begin{tabular}[c]{@{}l@{}}'myColor', angiver at dette \\ er Playerside's egen farve\end{tabular} \\ \cline{2-3} 
+ & 0x02 & \begin{tabular}[c]{@{}l@{}}'opponentColor', angiver at dette\\  er Playerside's modstanders farve\end{tabular} \\ \hline
+\textbf{Red color code} & 0x00 - 0xFF & Rød farvestyrke \\ \hline
+\textbf{Green color code} & 0x00 - 0xFF & Grøn farvestyrke \\ \hline
+\textbf{Blue color code} & 0x00 - 0xFF & Blå farvestyrke \\ \hline
+\end{tabular}%
+}
+\end{table}
+Til forskel for de andre kommandoer i protokollen, indeholder denne en kommandotype-byte, for at indikere at dette ikke er et stadie som sendes (Det kan diskuteres hvorvidt det ikke skal implementeres for alle kommandoer)
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Arkitektur/Grenseflader/Graphics/teamColor.png}
+    \caption{Kommando struktur og eksempel på kommunikation}
+    \label{fig:teamColor}
 \end{figure}
 
 \subsubsection{Grænseflade mellem RPi og BallDispenser}
@@ -128,7 +156,6 @@ NotEmpty & 0x20 & 00100000 \\ \hline
 \end{tabular}%
 }
 \end{table}
-
 
 
 

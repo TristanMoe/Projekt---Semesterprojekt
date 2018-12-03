@@ -1,0 +1,136 @@
+\documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
+\begin{document}
+
+\lstdefinestyle{customc}{
+    breaklines=true,
+    language=C,
+    basicstyle=\small\sffamily,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=tb,
+    columns=fullflexible,
+    showstringspaces=false,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    stringstyle=\color{orange},
+}
+
+\lstset{escapechar=@,style=customc}
+
+\section{CupLight Software Implementering}
+
+\subsection{ShiftPWM}
+Det første step til implementeringen af software, er at implementere det, der genererer PWM-signalet på den ønskede pin på PSoC. 
+\subsubsection{ShiftRegPWM Modulet}
+Til implementeringen af dette blev der hentet en del inspiration fra et blog indlæg lavet af Timo Denk \footnote{https://timodenk.com/blog/shiftregister-pwm-library/}. Især den datastruktur og den modificerende algoritme derpå,  han har udviklet til sit library, blev brugt som inspiration til at skrive ShiftRegPWM modulet. 
+\\Modulet ShiftReg indeholder 4 metoder, en interrupt-handler og en datastruktur. Startes der ud med datastrukturen, så har den  til formål at holde styr på sekvensen af bits, der skal skiftes ind i 74HC595, for at det ønskede PWM signal opnås på en ønskede pin. Data strukturen ses i listing \ref{lst:ShiftRegPWM_DataStruct}.
+
+\begin{lstlisting}[caption={Datastruktur for ShiftRegPWM}, label={lst:ShiftRegPWM_DataStruct}]
+volatile uint8_t shiftRegData[RESOLUTION*SHIFT_REGISTERS] = {0};
+\end{lstlisting}
+
+Det ses også her at det er muligt at definere(i #defines), hvor stor en opløsning man vil have PWM-signalet, samt hvor mange ShiftRegisters, der er daisy chained. 
+\\Som de fleste andre ting, der laves i PSoC, så har dette modul også en init-funktion, der skal initialisere, de "komponenter", der er på designet \ref{fig:CupLight_ShiftPWM_PSoC_Design}. Disse komponenter er et SPI-master komponent, der står for at skifte bits ind i 74HC595'en, en Timer, der har til ansvar at interrupte, hver gang ShiftRegisteret skal opdateres og til sidst en UART, der fungere som stub og debugging til modulet.
+\\Hvis der startes ud med en beskrivelse af timeren, så har den som sagt til ansvar at lave et interrupt, der skal opdatere pins. Derfor hører interrupt service rutinen sammen med en funktion kaldet update. Implementeringen af disse kan ses i listing \ref{lst:ISR_Update_impl}.
+
+
+\begin{lstlisting}[caption={ISR & Update}, label={lst:ISR_Update_impl}]
+CY_ISR(updater_handler)
+{
+    update();
+}                   
+void update()
+{
+    for (int i = SHIFT_REGISTERS - 1; i >= 0; i--)
+    {
+       SPIM_led_control_WriteTxData(shiftRegData[time + i * RESOLUTION]);
+    }
+    toggleLatchShiftReg();
+    
+    if (++time == RESOLUTION) {
+      time = 0;
+    }
+}
+\end{lstlisting}
+
+Da update funktionen nærmest er selve interrupt service rutinen, så gennemgås denne. Denne funktion tager for antallet af Shift Registers og skifter det data, der svarer til den nuværende pin værdi for at skabe det ønskede PWM-signal. Når dette er skiftet ind i registeret så latches signalet altså, det bliver sat på output pins af Shift Registerne. Herefter inkrementeres den globale variable, der holder styr på, hvor langt man er i data sættet, og hvis den overskrider opløsningen så nulstilles den.
+
+\\Nu er det så relevant at kigge på, hvordan en pin sættes til en bestemt PWM værdi, hvilket gøres med setPin funktionen, der kan ses i listing \ref{lst:setPin_impl}
+
+\begin{lstlisting}[caption={Implementeringen af setPin}, label={lst:setPin_impl}]
+void setPin(uint8_t pin, uint8_t value)
+{
+    value = (uint8_t) (value / 255.0 * RESOLUTION); //Scale value
+    uint8_t shiftRegister = pin / 8; //8 pins per shift register
+    for (int t = 0; t < RESOLUTION; ++t)
+    {
+      // set (pin % 8)th bit to (value > t)
+      shiftRegData[t + shiftRegister * RESOLUTION] ^= (-(value > t) ^ shiftRegData[t + shiftRegister * RESOLUTION]) & (1 << (pin % 8));
+    }
+}
+\end{lstlisting}
+
+Det er i denne listing \ref{lst:setPin_impl} at det meste inspiration var hentet og mere specifikt til den algoritme, der sætter værdierne af data strukturen, så de passer med det PWM-signal, der bliver lavet på pins. Den korte beskrivelse af algoritmen er, at hvis argumentet value er større end den plads i arrayet, som skrives til og pladsen er den rigtige i forhold til den pin, der er givet som argument, så sættes den plads i datastrukturen. 
+\\Nu har man altså den ønskede funktionalitet til at styre et PWM signal på en pin på 74HC595 IC'en, men der mangler stadig det modul, der skal fungere som interface, som specificeret i den oprindelige arkitektur.
+
+\subsubsection{CupLight\_IF modulet}
+I dette afsnit beskrives implementeringen af det interface, der skal anvendes til at styre en LED. Kigges der i arkitekturen, så skal der implementeres følgende funktioner.
+\begin{enumerate}
+    \item \textit{void controlLight(uint8\_t nr, color\_t color)}
+    \item \textit{void controlAllLights(color\_t color)}
+\end{enumerate}
+
+Funktionen \textit{controlLight} tager som parameter et nummer og en farve. Det vil altså sige at denne funktion, skal kunne styre farven på en specifik kop holder. Denne funktion implementeres gennem kald til ShiftPWM modulet, for at styre det ønskede lys. Implementering af funktionen ses i listing \ref{lst:controlLight_impl}.
+
+\begin{lstlisting}[caption={Implementeringen af controlLight}, label={lst:controlLight_impl}]
+void controlLight(uint8_t nr, color_t color)
+{
+    uint8_t shiftRegPos = 3*nr;
+    setPin(shiftRegPos,~color.Red);
+    setPin(shiftRegPos+1,~color.Green);
+    setPin(shiftRegPos+2,~color.Blue);
+}
+\end{lstlisting}
+
+Det ses af funktionen, at interfacet begynder at bruge at anvede Hardware implementeringen i det, der sendes den inverterede farve værdi, fordi der netop bruges PNP transistorer. Derudover er der også implementeret valget om, at pins ved siden af hinanden hører til det samme lys. Her er det også værd at nævne, at en anden implementering kunne have været at dedikere et shift register til hver farve.
+
+Funktionen \textit{controlAllLights} tager kun en farve som parameter, og implementeringen af denne er ret lige til, da det kun er en for-løkke der itererer henover antallet af lys, og kalder \textit{controlLight} med den indikere farve. Det smarte ved denne implementering er, at hvis \textit{controlLight} opdateres så bæres den opdatering automatisk over i \textit{controlAllLights}.  Implementeringen kan ses i listing \ref{lst:controlAllLights_impl}
+
+\begin{lstlisting}[caption={Implementeringen af controlAllLights}, label={lst:controlAllLights_impl}]
+void controlAllLights(color_t color)
+{
+    for (uint8_t i = 0; i < NUMLEDS; i++){
+         controlLight(i,color);
+    }
+}
+\end{lstlisting}
+
+For god ordens skyld er her en tabel, der opsummere funktionerne, der er præsentere i dette afsnit.
+
+\begin{table}[H]
+\caption{Variabel, type og funktions definitioner og beskrivelser}
+\label{CupLightDef_tab}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Variabel Navn}                          & \textbf{Variabel Beskrivelse}                                                                                                                                                                \\ \hline
+SHIFT\_REGISTERS                                & \begin{tabular}[c]{@{}l@{}}Define, der beskriver antallet af shift registers, \\ der skal laves PWM på\end{tabular}                                                                          \\ \hline
+RESOLUTION                                      & \begin{tabular}[c]{@{}l@{}}Define der angiver opløsningen af værdier af PWM signalet. \\ Kan have værdier fra 1-255.\end{tabular}                                                                               \\ \hline
+uint8\_t time                                   & \begin{tabular}[c]{@{}l@{}}Global variabel, der fungere som iterator \\ henover datastrukturen shiftRegData.\end{tabular}                                                                    \\ \hline
+uint8\_t shiftRegData{[}{]}                     & \begin{tabular}[c]{@{}l@{}}Datastruktur der holder de værdier, der skiftes ind i registeret til time. \\ Har størrelsen: RESOLUTION*SHIFT\_REGISTERS\end{tabular}                            \\ \hline
+\textbf{Type Definition}                        & \textbf{Type Beskrivelse}                                                                                                                                                                    \\ \hline
+color\_t                                        & \begin{tabular}[c]{@{}l@{}}En type der indeholder 3 uint8, der beskriver henholdsvis, \\ den røde, grønne og blå værdi, som farven skal bestå af\end{tabular}                                \\ \hline
+\textbf{Funktions Navn}                         & \textbf{Funktions Beskrivelse}                                                                                                                                                               \\ \hline
+void initShiftRegPWM()                          & \begin{tabular}[c]{@{}l@{}}Funktion der initiere de relevante PSoC komponenter, \\ som ShiftRegPWM modulet anvender.\end{tabular}                                                            \\ \hline
+void setPin(uint8\_t pin, uint8\_t value)       & \begin{tabular}[c]{@{}l@{}}Funktion der sætter en pin på et shift register til en værdi. \\ Funktionen tager selv højde for opløsning af værdien.\end{tabular}                               \\ \hline
+CY\_ISR(updater\_handler)                       & \begin{tabular}[c]{@{}l@{}}Interrupt service rutine, der kaldes når nye værdier \\ skal shiftes ned på shift registeret.\end{tabular}                                                        \\ \hline
+void update()                                   & \begin{tabular}[c]{@{}l@{}}Funktion der kaldes af interrupt service rutinen update\_handler, \\ der står for logikken bag, hvilke værdier,\\ der skal skiftes ned på registeret\end{tabular} \\ \hline
+void toggleLatchShiftReg()                      & \begin{tabular}[c]{@{}l@{}}Hjælpe funktion til update, der latcher den indskiftede data \\ ud på pins af shift registeret.\end{tabular}                                                      \\ \hline
+void controlLight(uint8\_t nr, color\_t color); & \begin{tabular}[c]{@{}l@{}}Funktion der kontrollerer det ønskede lys til en \\ bestemt farve af typen color\_t.\end{tabular}                                                                 \\ \hline
+void controlAllLights(color\_t color);          & Funktion der kontrollerer alle lys til en bestemt farve af typen color\_t.                                                                                                                   \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\end{document}

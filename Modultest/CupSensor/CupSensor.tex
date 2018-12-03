@@ -1,0 +1,125 @@
+\documentclass[Modultest/Modultest_main.tex]{subfiles}
+\begin{document}
+\section{Cup Holder}
+Der udføres en modultest som tester både, hardware blokken Cup Sensor og software klassen CupSensor\_IF. Dette er ikke nødvendigvis den mest rigtige måde at udføre modultest på. Den vigtige grænseflade til sensoren er i softwaren mellem controllerklassen GameController og CupSensor\_IF på PlayerSideApp. Hardwaren og softwaren blev også udviklet parralelt med hinanden, og der er derfor ikke specificeret en detaljeret hardware grænseflade, da dette ikke er så vigtigt. Derfor anses det som værende acceptabelt at udføre modultest af hardware og software samtidig.
+
+\subsection{Krav der testes}
+Cup sensoren formål er at detektere at en cup er placeret eller ej, samt at detektere at en bold rammer i koppen. Til at teste sensoren udvælges de relvevante dele fra kravspecifikation og arkitekturen. Der er fra kravspecifikationen nedenstående krav til sensoren
+\begin{enumerate}
+    \item Systemet skal fungere med $110\si{ml} \pm 20\si{ml}$ Ceres Top øl i hver Cup. \label{itm:beer_type_and_volume}
+    \item  Systemet skal fungere med en hvid Ball. \label{itm:ball_color}
+    \item Systemet skal detektere en bold der falder fra en højde på 30cm over bordet. \label{itm:ball_drop_height}
+    \item Systemet skal detektere placering af en Cup når centrum af Cup og centrum af CupHolder er under 10mm \label{itm:placing_radius}
+    \item  Det skal med et konfidensniveau på 95\% detekteres at der placeres en \textbf{Cup} i en kopholder. \label{itm:placing_confidence}
+    \item Det skal med et konfidensniveau på 95\% detekteres at der løftes en \textbf{Cup} fra en kopholder. \label{itm:removing_confidence}
+    \item Det skal med et konfidensniveau på 95\% detekteres at en \textbf{Ball} rammer i  en \textbf{Cup} som står i en kopholder. Bolden skal tabes med en højde på 30cm over bordoverfladen.\label{itm:ball_drop_confidence}
+    \item I en periode på 1 time uden ydre påvirkninger af systemet må der højest være 1 falsk detektering af placering af en \textbf{Cup} på tom kopholder \label{itm:placing_false_detection}
+    \item I en periode på 1 time uden ydre påvirkninger af systemet må der højest være 1 falsk detektering af løfting af en \textbf{Cup} fra kopholder hvor der står en kop\label{itm:removing_false_detection}
+    \item Når en \textbf{Ball} rammer en kopholder og hopper væk igen 100 gange (uden nogen \textbf{Cup}) må der højest ske 1 falsk detektering af at der placeres en \textbf{Cup} i den givne kopholder\label{itm:placing_false_detection_ball_bounce}
+\end{enumerate}
+
+For at teste disse krav laves der forskellige måleserier. Alle måleserier udføres med Ceres Top øl (punkt \ref{itm:beer_type_and_volume}). Alle måleserier gentages med 90ml, 110ml og 130ml øl (punkt \ref{itm:beer_type_and_volume}), for at teste den øvre og nedre grænse af mængden af øl, samt den specificerede mængde øl (110ml). Hvis sensoren består testen med disse mængder øl, antages det at den også vil virke i hele intervallet mellem 90ml og 130ml. Alle måleserier benytter en hvid bold (punkt \ref{itm:ball_color}). Ved alle måleserier der involverer detektering af at en bold rammer i, tabes boldens centrum fra 30cm over bordet (punkt \ref{itm:ball_drop_height}). Der udføres forskellige måleserier til at beregne konfidensniveauerne (punkt \ref{itm:placing_confidence}, \ref{itm:removing_confidence} og \ref{itm:ball_drop_confidence}). Der udføres måleserier hvor der ventes en time og der måles der noteres hvor mange falske detekteringer der forekommer (punkt \ref{itm:placing_false_detection} og \ref{itm:removing_false_detection}). Der udføres måleserier hvor en bold rammer bordet og hopper væk igen 100 gange (punkt \ref{itm:placing_false_detection_ball_bounce}).
+
+Der er fra arkitekturen nedenstående krav til sensoren.
+\begin{enumerate}
+    \item Skal fungere med en forsyningsspænding på $5.0\si{V} \pm 0.2\si{V}$ \label{itm:supply_voltage}
+    \item Skal kalde metoden updateCupStatus når en kop fjernes og placeres \label{itm:update_cup_function}
+    \item Skal kalde metoden updateHitStatus når en kop rammes af en bold. \label{itm:update_hit_function}
+\end{enumerate}
+
+For at teste disse krav udføres forskellige måleserier. Alle måleserier gentages ved en forsyningsspændinger på 4.8V, 5.0V og 5.2V (punkt \ref{itm:supply_voltage}), for at teste den øvre og nedre grænse af forsyningsspændingen, nominielle forsyningsspænding (5.0V). Hvis sensoren består testen med disse forsyningsspændinger, antages det at den også vil virke i hele intervallet mellem 4.8V og 5.2V. Til alle måleserier benyttes et testprogram som kræver at de to funktioner updateCupStatus og updateHitStatus bliver kaldt. Hvis disse ikke bliver kaldt, er der ingen måleserier der vil virke (punkt \ref{itm:update_cup_function} og \ref{itm:update_hit_function}).
+
+\subsection{Testopstilling}
+
+
+\subsection{Målinger}
+For at teste konfidensniveauet for detektering af placering af kop og fjernelse af kop (punkt \ref{itm:placing_confidence} og \ref{itm:removing_confidence} fra kravspecifikationen), laves der en måleserie hvor der placeres en kop og derefter fjernes den igen 100 gange. Testprogrammet tæller hvor mange gange en kop placeres, fjernes og rammes af en bold. Hvis der sker en fejl som at der fx. ikke detekteres en at en kop bliver fjernet, fremprovokeres en detektion af fjernelse af kop og ændringer i testprogrammet tælleværdier noteres for resultaterne kompenseres for dette. Resultaterne ses nedenfor. Måleserien gentages som tidligere beskrevet med 90ml, 110ml og 130ml, disse måleserie udføres ved 4.8V, 5.0V og 5.2V. Så i alt 9 måleserier.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|L{0.15\textwidth}|L{0.15\textwidth}|L{0.2\textwidth}|L{0.2\textwidth}|L{0.2\textwidth}|}
+         \hline
+         \textbf{Øl volumen} & \textbf{Spænding} & \textbf{Antal placering} & \textbf{Antal fjernelser} & \textbf{Antal bolde} \\ \hline
+         90ml & 4.8V & 100 & 100 & 0 \\ \hline 
+         90ml & 5.0V & 100 & 100 & 0 \\ \hline 
+         90ml & 5.2V & 100 & 100 & 0\\ \hline
+         110ml & 4.8V & 100 & 100 & 0 \\ \hline 
+         110ml & 5.0V & 100 & 100 & 0 \\ \hline 
+         110ml & 5.2V & 100 & 100 & 0 \\ \hline
+         130ml & 4.8V & 100 & 100 & 0 \\ \hline 
+         130ml & 5.0V & 100 & 100 & 0\\ \hline 
+         130ml & 5.2V & 100 & 100 & 0 \\ \hline
+    \end{tabular}
+    \caption{Måling af placering og fjernelse af 100 kopper}
+     \label{tab:100_placed_removed_cups}
+\end{table}
+
+
+For at teste konfidensniveauet for detektering af at en bold rammer i (punkt \ref{itm:ball_drop_confidence} fra kravspecifikationen), udføres en måleserie hvor der tabes tabes en bold 100 gange med en højde på 30cm over bordoverfladen. Det detekteres hvor mange gange dette detekteres vha. testprogrammet. Der udføres ligesom før en måleserie med 90ml, 110ml og 130ml. Disse tre måleserie udføres for en forsyningsspænding på 4.8V, 5.0V og 5.2V. Igen i alt 9 måleserier. 
+Disse måleserier er ikke helt ideele da mængden af øl formindskes mellem hver gang bolden tabes. Der kan være noget som sprøjter ud af koppen, og hovedsagligt vil der være øl tilbage på bolden når den tages ud. Man burde derfor at genopfylde koppen til den nødvendige mængde øl, mellem hver gang bolden tabes. Da dette vil tage lang tid, genopfyldes koppen kun mellem hver måleserie.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|L{0.15\textwidth}|L{0.15\textwidth}|L{0.2\textwidth}|}
+         \hline
+         \textbf{Øl volumen} & \textbf{Spænding} & \textbf{Antal detekteringer} \\ \hline
+         90ml & 4.8V & 96 \\ \hline 
+         90ml & 5.0V & 100 \\ \hline 
+         90ml & 5.2V & 98 \\ \hline
+         110ml & 4.8V & 97\\ \hline 
+         110ml & 5.0V & 100 \\ \hline 
+         110ml & 5.2V & 100\\ \hline
+         130ml & 4.8V & 99\\ \hline 
+         130ml & 5.0V & 93\\ \hline 
+         130ml & 5.2V & 85\\ \hline
+    \end{tabular}
+    \caption{Måling af tab af bold 100 gange}
+     \label{tab:100_hit_cup}
+\end{table}
+
+For at teste hvor mange falske detekteringer der er når en bold rammer sensoren uden nogen kop (punkt \ref{itm:placing_false_detection_ball_bounce} fra kravspecifikationen), udføres en måleserie hvor en bold kastes på sensoren hvorefter den hopper væk. Dette udføres 100 gange. Der tælles vha. testprogrammet hvor mange detekteringer af placering af kop der kommer.  Denne måleserie gentages ved forsyningsspændingerne 4.8V, 5.0V og 5.2V. Resultatet kan ses nedenfor.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|L{0.15\textwidth}|L{0.2\textwidth}|}
+         \hline
+         \textbf{Spænding} & \textbf{Antal detekteringer af placering af kop} \\ \hline
+         4.8V &  0\\ \hline 
+         5.0V &  0\\ \hline 
+         5.2V &  0\\ \hline
+    \end{tabular}
+    \caption{Måling af bold som rammer sensor 100 gange}
+     \label{tab:100_hit_sensor}
+\end{table}
+
+For at teste hvor mange falske detekteringer af placering af en kop der sker på en time (punkt \ref{itm:placing_false_detection} fra kravspecifikationen), udføres en måleserie hvor der ikke står en kop på sensoren i en time og det tælles vha. testprogrammet hvor mange falske detekteringer af placering af kop der kommer. Dette udføres kun ved en forsyningsspænding på 5V, pga. tidsmangel. Resultatet kan ses nedenfor.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|L{0.15\textwidth}|L{0.2\textwidth}|}
+         \hline
+         \textbf{Spænding} & \textbf{Antal detekteringer af placering af kop} \\ \hline
+         5.0V &  \\ \hline
+    \end{tabular}
+    \caption{Måling af sensor uden nogen kop i en time}
+     \label{tab:1_hour_no_cup}
+\end{table}
+
+For at teste hvor mange falske detekteringer af fjernelse af en kop der sker på en time (punkt \ref{itm:removing_false_detection} fra kravspecifikationen), udføres en måleserie hvor der står en kop på sensoren i en time og det tælles hvor mange falske detekteringer af fjernelse af kop og bold rammer i der kommer. Hvis der sker en detektering af en bold som rammer i fjernes koppen og placeres igen for at der igen kan detekteres at at bold rammer i. Denne måleserie udføres kun med en forsyningsspænding på 5.0V og 110ml øl i koppen, pga. tidsmangel. Resultatet kan ses nedenfor.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|L{0.15\textwidth}|L{0.2\textwidth}|L{0.2\textwidth}|}
+         \hline
+         \textbf{Spænding} & \textbf{Antal fjernelse} & \textbf{Antal bolde} \\ \hline
+         5.0V & & \\ \hline
+    \end{tabular}
+    \caption{Måling af sensor med kop med 110ml øl i en time}
+     \label{tab:1_hour_with_cup}
+\end{table}
+
+\subsection{Databehandling}
+
+\subsection{Konklusion}
+
+
+
+\end{document}

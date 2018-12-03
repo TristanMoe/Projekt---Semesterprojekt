@@ -1,0 +1,13 @@
+\documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
+\begin{document}
+\section{Valg af kalibreringskoefficienter}
+For at bestemme placed_trigger måles den aflæste den signalet fra sensoren 10 gange når der står en kop med 90ml, og 10 gange med 110ml og 10 gange med 130ml.
+Det mindste signal kom fra den med 130ml.
+Der er middelværdien 21 relativ til baseline, med en præcision med 95\% konfidensniveau på 12. Den målte værdi kan dermed risikere at være 9 relativ til baseline. Men idet koppen placeres er signalet højere. Der måles derfor hvor stor dette signal bliver, 10 gange for hver mængde øl (90ml, 110ml og 130ml). For både 90ml og 110ml er der en stor varians, men da de begge har et højt signal når der er en kop, bruges disse målinger ikke. For 130ml er der en middelværdi på 33 relativ til baseline, og en præcision på 22 (med 95\% konfidensniveau). Det vil sige at det kan risikeres at det laveste signal er 33-22=11 relativ til baseline. Derfor sættes placed_trigger til 11. 
+
+removed_trigger sættes lidt under den laveste mulige stationære værdi der kan måles (med et konfidensniveau på 95\%). Denne er som tidligere beskrevet, 9 relativ til baseline. Derfor sættes removed_trigger til 8.
+
+For at bestemme hit_trigger tabes en bold ned i en kop som står på sensoren 10 gange for hver mængde øl (90ml, 110ml, 130ml). Der måles den maksimale signal fra sensoren idet bolden rammer i, hver gang. Det antages først at dette er normalfordelt. Der er så stor en standardafvigelse at peaksignalet med et konfidensniveau på 95\% kan risikere at være under baseline signalet. Dette giver ikke nogen mening, og er ikke brugbar. Det vil måske være mulgit at bruge normalfordeling til at beregne hit_trigger, hvis der foretages flere målinger. Men det er ikke muligt med de målinger der er blevet foretaget. Derfor vælges der så lav en hit_trigger som muligt uden at signalet kommer op over hit_trigger idet koppen fjernes. Igen er dataen ikke ret brugbar til at benytte beregninger ud fra normalfordellinger. Men det observeres at det maksimale signal der fremkommer ved at fjerne koppen er 1.79 gange signalet for når der står en kop med øl (i forhold til baseline).
+Derfor vælges en lidt større værdi end denne. hit_trigger sættes til at være 1.9. Dette er ikke den ideele måde at bestemme hit_trigger på, men det er det er testet og 1.9 er en god værdi til at detektere så mange bolde der ramme i som muligt samtidig med at der ikke detekteres.
+
+\end{document}
