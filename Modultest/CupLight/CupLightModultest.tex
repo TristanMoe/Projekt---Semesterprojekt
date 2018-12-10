@@ -129,8 +129,8 @@ Den fysiske opstilling kan ses i figur \ref{fig:ShiftRegPWM_test}
 På opstillingen ses nederst i venstre hjørne PSoC'en, der har følgende ledninger forbundet til fumlebrættet i midten.
 
 \begin{table}[H]
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|l|}
+\centering
+\begin{tabular}{|L{0.25\textwidth}|L{0.1\textwidth}|L{0.55\textwidth}|}
 \hline
 \textbf{Ledningsfarve} & \textbf{Navn} & \textbf{Funktion}                         \\ \hline
 Lilla                  & sclk          & Clock der anvendes til shifting           \\ \hline
@@ -139,7 +139,7 @@ Grøn                   & mosi          & Pin hvor den serielle data shiftes til
 Hvid                   & Vdd           & Forsyning til fumlebræt                   \\ \hline
 Grå                    & Gnd           & Ground til fumlebræt                      \\ \hline
 \end{tabular}%
-}
+
 \end{table}
 
 Til højre i figur \ref{fig:ShiftRegPWM_test} ses Analog Discovery2, der har en ledning til den første output pin af 74HC595 registeret.
@@ -240,6 +240,7 @@ Her ses at det, at den målte og forventede duty cycle er den samme.
 I tabelen herunder ses alle målinger samlet, hvor den procentvise difference også er fundet.
 
 \begin{table}[H]
+\centering
 \begin{tabular}{|l|l|l|}
 \hline
 \textbf{\%dc\_e} & \textbf{\%dc\_m} & \textbf{\%diff} \\ \hline

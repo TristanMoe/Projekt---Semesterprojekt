@@ -23,24 +23,24 @@ Systemet gør brug af I2C-protokollen i forhold til kommunikationen mellem RPi, 
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|l|l|l}
-\cline{1-2}
-Interruptlinje & Kommando (Binær) &  \\ \cline{1-2}
-Data Ready & 00000000 &  \\ \cline{1-2}
-No Data & 11111111 &  \\ \cline{1-2}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Interruptlinje} & \textbf{ Kommando (Binær)} \\ \hline
+Data Ready & 00000000  \\ \hline
+No Data & 11111111 \\ \hline
 \end{tabular}
 \end{table}
 Når denne data er blevet sendt, skal enheden trække linjen højt igen. Hvis et af de andre PSoC enheder stadig trækker linjen lavt, vil RPi'en fortsat anmode om data. Hvis den modtager et "No Data"-byte vil den gå videre og anmode det næste device. 
-\\\\\textbf{Eksempel på kommunikation}
 \begin{table}[H]
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+    \centering
+    \begin{tabular}{|L{0.2\textwidth}|L{0.15\textwidth}|L{0.15\textwidth}|L{0.15\textwidth}|L{0.15\textwidth}|}
 \hline
-\textbf{Bit 0 - 6} & \textbf{Bit 7} & \textbf{Bit 8} & \textbf{Bit 9 - 16}  & \multicolumn{4}{l|}{\textbf{Bit 17}} \\ \hline
-Slave Address & R/W & ACK & Data Bit & \multicolumn{4}{l|}{NACK} \\ \hline
-\end{tabular}%
-}
+\textbf{Bit 0 - 6} & \textbf{Bit 7} & \textbf{Bit 8} & \textbf{Bit 9 - 16}  & \textbf{Bit 17} \\ \hline
+Slave Address & R/W & ACK & Data Bit & NACK \\ \hline
+\end{tabular}
+    \caption{Eksempel på kommunikation}
 \end{table}
+
 \textbf{Slave Address:} Adresse for den PSoC vi ønsker at kommunikere med. \\
 \textbf{R/W:} Bit som determinere om RPi'en skal læse eller skrive til en slave \\
 \textbf{ACK:} Konfirmation fra slave, at kommando er modtaget. \\
@@ -48,15 +48,14 @@ Slave Address & R/W & ACK & Data Bit & \multicolumn{4}{l|}{NACK} \\ \hline
 \textbf{NACK:} Signal i forhold til kommunikation er færdig \\
 
 \begin{table}[H]
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|l|}
+\centering
+\begin{tabular}{|L{0.2\textwidth}|L{0.3\textwidth}|L{0.3\textwidth}|}
 \hline
-\textbf{Enhed} & \textbf{Adresse (Hex)} & Adresse (Binær) \\ \hline
+\textbf{Enhed} & \textbf{Adresse (Hex)} & \textbf{Adresse (Binær)} \\ \hline
 Playerside 1 & 0x10 & 0010000 \\ \hline
 Playerside 2 & 0x11 & 0010001 \\ \hline
 BallDispenser & 0x12 & 0010010 \\ \hline
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 \subsubsection{Grænseflade mellem RPi og Playerside}
@@ -65,8 +64,8 @@ BallDispenser & 0x12 & 0010010 \\ \hline
 \textbf{RPi til Playerside}
 \\Kommandoer mellem RPi og Playerside. RPi kontrollerer hvilken stadie Playerside af i via I2C protokollen: 
 \begin{table}[H]
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|l|}
+\centering
+\begin{tabular}{|L{0.3\textwidth}|L{0.3\textwidth}|L{0.3\textwidth}|}
 \hline
 \textbf{RPi til Playerside} & \textbf{Kommando (Hex)} & \textbf{Kommando (Binær)} \\ \hline
 \textbf{IDLE} & 0x0A & 00001010 \\ \hline
@@ -74,22 +73,20 @@ BallDispenser & 0x12 & 0010010 \\ \hline
 \textbf{PLAYING} & 0x0C & 00001100 \\ \hline
 \textbf{LOST} & 0x0D & 00001101 \\ \hline
 \textbf{WON} & 0x0E & 00001110 \\ \hline
-\end{tabular}%
-}
+\end{tabular}
+
 \end{table}
 
 \textbf{Playerside til RPi}
 \\Playersides hovedfunktion er at sende antal kopper tilbage på de angivede pladser. Denne information er vital for RPi'en, som videregiver denne information til andre delsystemet (fx Display og WebPage). 
 Playerside sender en byte til RPi, hvor de 6 LSB bit repræsenterer en kop. Et højt bit betyder at en kop er placeret på den angivet plads osv (se figur \ref{fig:cups_setup}). 
 \begin{table}[H]
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lll}
+\centering
+\begin{tabular}{|L{0.3\textwidth}|L{0.3\textwidth}|L{0.3\textwidth}|}
 \hline
-\multicolumn{1}{|l|}{\textbf{Kommando navn}} & \multicolumn{1}{l|}{\textbf{Kommando værdi (Binær)}} & \multicolumn{1}{l|}{\textbf{Beskrivelse}} \\ \hline
-\multicolumn{1}{|l|}{\textbf{CUPS}} & \multicolumn{1}{l|}{00000000 - 00111111} & \multicolumn{1}{l|}{Hvert bit angiver en kop.} \\ \hline
- &  & 
-\end{tabular}%
-}
+\textbf{Kommando navn} & \textbf{Kommando værdi (Binær)} & \textbf{Beskrivelse} \\ \hline
+\textbf{CUPS} & 00000000 - 00111111 & Hvert bit angiver en kop. \\ \hline
+\end{tabular}
 \end{table}
 
 \begin{figure}[H]
@@ -104,18 +101,17 @@ Playerside sender en byte til RPi, hvor de 6 LSB bit repræsenterer en kop. Et h
 \\Hvert hold skal have mulighed for at vælge en farve som skal associeres med deres hold. Farven valgt vil afspejles i spillet. Hvis farven rød (Farvekode 255 0 0) vælges for et hold, så vil deres belysning omkring tilhørende kopper være denne farve. Hvis en holdmedlem med den røde farve rammer en af modstanderens kopper, vil den skifte til den samme farve som holdmedlemmets farve (I dette tilfælde rødt). Dette var en kort beskrivelse af, hvad som sker fra brugerens perspektiv. Fra et mere teknisk perspektiv, så modtager RPi'en en farvekode fra Webpage (En fra hvert hold). RPi'en skal ikke gemme denne viden, blot sende den videre til hvert Playerside, så de ved hvilke farve de skal skifte til, hvis en af deres sensorer registrere kopfjernelse eller en bordtennis bold. Hver playerside skal vide hvilken farve de skal bruge, samt hvilke farve modstanderen har. Dette gøres ved brugen af 'Team color indicator'-byten. 
 \\Kommandoen består af 5 bytes: Først sendes kommandoens type (1 byte), derefter indikation på hvilke holds farve og til sidste sendes farvekode. Der sendes i alt to af disse kommandoer til hvert playerside. En kommando som angiver 'myColor' og en som angiver 'opponentColor'. 
 \begin{table}[H]
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|l|}
+\centering
+\begin{tabular}{|L{0.32\textwidth}|L{0.28\textwidth}|L{0.3\textwidth}|}
 \hline
 \textbf{Kommando navn} & \textbf{Kommando værdi (Hex)} & \textbf{Beskrivelse} \\ \hline
 \textbf{Colorcode} & 0x21 & Angivelse af kommando type \\ \hline
-\multirow{2}{*}{\textbf{Team color indicator}} & 0x01 & \begin{tabular}[c]{@{}l@{}}'myColor', angiver at dette \\ er Playerside's egen farve\end{tabular} \\ \cline{2-3} 
- & 0x02 & \begin{tabular}[c]{@{}l@{}}'opponentColor', angiver at dette\\  er Playerside's modstanders farve\end{tabular} \\ \hline
+\multirow{2}{*}{\textbf{Team color indicator}} & 0x01 & 'myColor', angiver at dette er Playerside's egen farve \\ \cline{2-3} 
+ & 0x02 & 'opponentColor', angiver at dette  er Playerside's modstanders farve \\ \hline
 \textbf{Red color code} & 0x00 - 0xFF & Rød farvestyrke \\ \hline
 \textbf{Green color code} & 0x00 - 0xFF & Grøn farvestyrke \\ \hline
 \textbf{Blue color code} & 0x00 - 0xFF & Blå farvestyrke \\ \hline
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 Til forskel for de andre kommandoer i protokollen, indeholder denne en kommandotype-byte, for at indikere at dette ikke er et stadie som sendes (Det kan diskuteres hvorvidt det ikke skal implementeres for alle kommandoer)
 
@@ -133,28 +129,25 @@ Ligesom for Playerside, så kontrollerer RPi'en hvilke stadie BallDispenseren er
 Kommandoer som indleder tilstandene for BallDispenser. 
 
 \begin{table}[H]
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|l|}
+\centering
+\begin{tabular}{|L{0.25\textwidth}|L{0.3\textwidth}|L{0.35\textwidth}|}
 \hline
 \textbf{RPi til BallDispenser} & \textbf{Kommando (Hex)} & \textbf{Kommando (Binær)} \\ \hline
 Dispense\_On & 0x14 & 00010100 \\ \hline
 Dispense\_Off & 0x15 & 00010101 \\ \hline
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 \textbf{BallDispenser til RPi}
 Eventbaserede "interrupts" som signaleres til RPi'en fra BallDispenseren. 
 \begin{table}[H]
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|L{0.25\textwidth}|L{0.3\textwidth}|L{0.35\textwidth}|}
 \hline
 \textbf{BallDispenser to RPi} & \textbf{Kommando (Hex)} & \textbf{Kommando (Binær)} \\ \hline
 CoinInsterted & 0x1E & 00011110 \\ \hline
 Empty & 0x1F & 00011111 \\ \hline
 NotEmpty & 0x20 & 00100000 \\ \hline
 \end{tabular}%
-}
 \end{table}
 
 

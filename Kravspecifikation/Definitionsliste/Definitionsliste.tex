@@ -26,7 +26,7 @@ Definitionslisten er lavet som et 'look up' værktøj, der kan bruges gennem hel
         Oplysninger om bordets tilstand. Dvs. hvor mange kopper der er tilbage og holdenes navn. \\
         \hline
         \textit{\textbf{Spiller oplysninger}} & \underline{System definition}:
-        Oplysninger om spillerne og holdenes navne. \\
+        Oplysninger om spillerne og holdenes navne, samt farver. \\
         \hline
         \textit{\textbf{Score}} & \underline{System-Bruger interaktion}:
         At kaste en bold og ramme i en af kopperne på bordet. At score medfører fjernelsen af den ramte kop. Det hold hvis kop blev ramt fjerner koppen. \\
@@ -34,14 +34,28 @@ Definitionslisten er lavet som et 'look up' værktøj, der kan bruges gennem hel
         \textit{\textbf{Turen}} & \underline{Bruger definition}:
         Et hold har retten til at kaste bolde når de er i besiddelse af to bolde, retten overdrages frem og tilbage mellem holdene ved at kaste de to bolde. \\
         \hline
-        
+        \textit{\textbf{Aktive hold}} & \underline{Bruger definition}:
+        Det hold der holder turen, så længe holdet har kastet 0 eller 1 bold. Ved kast af 2 bolde bytter det aktive hold og \textit{modstander holdet} definition.\\
+        \hline
+        \textit{\textbf{Modstander hold}} & \underline{Bruger definition}:
+        Det hold der ikke holder turen, så længe det andet hold har kastet 0 eller 1 bold. Ved kast af 2 bolde bytter det aktive hold og \textit{modstander holdet} definition.\\
+        \hline
+        \textit{\textbf{Taber hold}} & \underline{Bruger definition}:
+        Det hold der efter \textbf{spillet er slut} ikke har flere kopper tilbage på sin side.\\
+        \hline
+        \textit{\textbf{Vinder hold}} & \underline{Bruger definition}:
+        Det hold der efter \textbf{spillet er slut} stadig har flere kopper tilage på sin side.\\
+        \hline
         \textit{\textbf{UI}} & \underline{System definition}:
         Alle de elementer fra systemet som benyttes til at kommunikere med brugeren; lys under og rundt om kopholderne, skærmdisplay på bordet, webpage og bolddispenserens LED'er.\\
         \hline
-        
-        \textit{\textbf{Game Events}} & \underline{System definition}:
+        \textit{\textbf{Game Events}} & \underline{Bruger interaktion}:
         De udefra kommende events ind i systemet, der trigger et Event på PSoC-playerside. Det er f.eks. en Kop flyttes i forhold til en kop holder, eller en bold rammer i en kop\\
         \hline
+        \textit{\textbf{Spil præparation}} & \underline{System-bruger interaktion}:
+        Systemet har udført \textbf{opstart}, hvorefter \textbf{holdene} udfører \textit{UC1:Start Game}. \\
+        \hline
+        
     \caption{Definitionsliste for begreber og udtryk der benyttes flere steder i dette og andre dokumenter}
     \label{tab:def_liste}
     \end{longtable}

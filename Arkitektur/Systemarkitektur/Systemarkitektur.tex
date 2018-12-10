@@ -18,12 +18,13 @@ I det følgende gives en beskrivelse af arkitekturen for Beerpong Table. Formål
 \subsection{Blokbeskrivelse}
 
 \begin{table}[H]
-\begin{tabular}{L{0.2\columnwidth}|L{0.8\columnwidth}}
+\centering
+\begin{tabular}{|L{0.2\columnwidth}|L{0.7\columnwidth}|}
 \hline
 \textbf{Blok} & \textbf{Beskrivelse} \\ \hline
 Player side & Skal sørge for at håndtere alt med hensyn til kopperne på den ene ende af bordet. Den skal derfor registrere når en kop fjernes. Og den skal også styre lyset under hver kop. (Evt. skal den også registrere når en bold rammer i en kop) \newline CPU'en i Player side er en PSoC. \\ \hline
 RPi & Har til ansvar at styre spillets gang. Den får informationer om de forskellige sensorer fra de andre CPU'er i systemet. Derudover får den også information fra en hjemmeside som den hoster. Den skal på baggrund af disse informationer styre de forskellige aktuatorer vha. de andre CPU'er. Den skal også styre hvad der vises på en skærm. \newline CPU'en i RPi er en Raspberry pi zero W  \\ \hline
-Ball dispenser & Skal modtage mønter fra brugeren og fortælle RPi om dette. Den skal levere en bordtennisbold når den får besked om det fra RPi. Når den er løbet tør for bolde, skal den informere RPi om dette. Den skal også have lys til at informere bruger og servicemedarbejder om det. \newline CPU'en i Ball dispenser er en PSoC.  \\ \hline
+Ball dispenser & Skal modtage mønter fra brugeren og fortælle RPi om dette. Den skal levere en bordtennisbold når den får besked om det fra RPi. Når den er løbet tør for bolde, skal den informere RPi om dette. Den skal også have lys til at informere bruger og servicemedarbejder om status på bolddispenseren. \newline CPU'en i Ball dispenser er en PSoC.  \\ \hline
 \end{tabular}
 \end{table}
 

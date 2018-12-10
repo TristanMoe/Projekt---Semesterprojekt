@@ -9,14 +9,12 @@ I dette afsnit beskrives software arkitekturen for Applikationen til RPi'en. App
     \item Display grafisk grænseflade som udsender/viser information til brugeren. 
 \end{enumerate}
 Et klassediagram er blevet lavet for hele applikationen og den kan ses i figur \ref{CD_RPI}. I de næste afsnit vil de enkelte klasser blive beskrevet samt tilhørende funktioner. 
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/RPi/graphics_RPi/Class.png}
     \caption{Klassediagram for RPi}
     \label{fig:CD_RPI}
 \end{figure}
-
 \subsubsection{Funktionsbeskrivelse for RPi}
 \large{\textbf{Controller:  GameController}}\\
 GameController er den centrale klasse for use case 1 - 3. Den sørger for at sende og modtage data gennem klassen I2C. Alt modtaget data bliver evalueret i GameController og sendt videre i overensstemmelse med protokollen og use case flow. Klassen varetager alt logikken og de flest beslutninger i systemet.\\\\
@@ -28,7 +26,6 @@ GameController er den centrale klasse for use case 1 - 3. Den sørger for at sen
 \textbf{Retur værdi:} ingen \\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
-
 \textbf{InfoReady(U1 : UserInfo, U2 : UserInfo) : void}
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Denne funktion initialisere skal initialisere team1\_ og team2\_, således de har de rigtig informationer for hvert hold. 
@@ -128,19 +125,16 @@ Data læst skal gemmes i klassens readBuffer, samt funktionen returnere antal by
 \textbf{writeBuffer} Array med data som skal sendes til Playerside enhed \\[0.2cm]
 \textbf{itsFilePointer} 'Pointer' til den specifikke fil/node associeret med Playerside enheden\\[0.2cm]
 \textbf{playerside\_} indikator til hvilket Playerside enhed som klassen repræsenterer\\[0.2cm]
-\end{adjustwidth}\\
+\end{adjustwidth}
 \textbf{Boundary:  BallDispenser}\\
 Klasse til at læse/skrive til BoldDispenser via I2C protokollen. Data/kommandoer sendes til I2CInterruptDriveren fra User Space. Klassen behandler også data modtaget fra I2CInterruptDriveren (Kernal space). \\\\
 {\large\textbf{Funktionsbeskrivelser: BallDispenser}}\\[0.2cm]
-Funktions- og attributbeskrivelse laves ikke for BallDispenser klassen beskrives ikke, da de er identiske for Playerside. Den eneste forskel er at klassen skal kommunikere med en BallDispenser enhed i stedet for en Playerside enhed. \\
-\large{\textbf{Boundary:  I2C\_Protocol}}\\
-Information om kommandoernes betydning og funktion. 
+Funktions- og attributbeskrivelse laves ikke for BallDispenser klassen beskrives ikke, da de er identiske for Playerside. Den eneste forskel er at klassen skal kommunikere med en BallDispenser enhed i stedet for en Playerside enhed. \\\\
 {\large\textbf{Attributbeskrivelser: MsgProtocol}}
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{commands} database / hukommelse om alle kommandoer og stadier, som sendes til mellem delsystemerne og hardware enhederne (fx Playerside og BallDispenser)\\[0.2cm]
 \textbf{color} RGB farve type, består af 3 bytes, som definere den specifikke farve\\[0.2cm]
-\end{adjustwidth}\\
-
+\end{adjustwidth}
 {\large\textbf{Boundary: WebPage}}\\
 Klassen udgør serversiden af hjemmesiden. Den gør brug af et WebSocket API og står for at håndtere beskeder, som modtages fra
 client. Den skal initialisere to objektere af UserInfo klassen og sende dem til GameController klassen.\\
@@ -163,42 +157,38 @@ client. Den skal initialisere to objektere af UserInfo klassen og sende dem til 
 Klassen indeholder informationer, som repræsenterer Playersides. Klassen skal således indeholde alle informationer, som er relevante for et givet hold.\\
 \\{\large\textbf{Attributbeskrivelser: UserInfo}}
 \begin{adjustwidth}{1cm}{0pt}
-\textbf{username1\_} En tekststreng, der udgør brugernavn for spiller 1 \\[0.2cm]
-\textbf{username2\_} En tekststreng, der udgør brugernavn for spillers 2 \\[0.2cm]
-\textbf{team\_} En tekststreng, der udgør holdes navn \\[0.2cm]
-\textbf{cups[6]\_} Et array der angiver om kopperne er placeret eller fjernet  \\[0.2cm]
-\textbf{myColor: Color} Indeholder holdets farve  \\[0.2cm]
+\textbf{username1\_} En tekststreng, der udgør brugernavn for spiller 1. \\[0.2cm]
+\textbf{username2\_} En tekststreng, der udgør brugernavn for spillers 2. \\[0.2cm]
+\textbf{team\_} En tekststreng, der udgør holdes navn. \\[0.2cm]
+\textbf{cups[6]\_} Et array der angiver om kopperne er placeret eller fjernet. \\[0.2cm]
+\textbf{red\_} En unsigned int, som angiver lysstyrken af det røde lys i holdet farve. Den ligger i intervallet 0-255, hvor 0 betyder slukket og 255 betyder fuld lysstyrke. \\[0.2cm]
+\textbf{green\_} En unsigned int, som angiver lysstyrken af det grønne lys i holdet farve. Den ligger i intervallet 0-255, hvor 0 betyder slukket og 255 betyder fuld lysstyrke. \\[0.2cm]
+\textbf{blue\_} En unsigned int, som angiver lysstyrken af det blå lys i holdet farve. Den ligger i intervallet 0-255, hvor 0 betyder slukket og 255 betyder fuld lysstyrke. \\[0.2cm]
+\textbf{myColor: Color} Indeholder holdets farve.  \\[0.2cm]
+\textbf{Opponent: Color} Indeholder modstanderholdets farve.  \\[0.2cm]
 \end{adjustwidth}
 \\
 {\large\textbf{Funktionsbeskrivelser: UserInfo}}\\[0.2cm]
-\textbf{setCups(cups: int) : bool}
+\textbf{setCups(\&cups: int) : bool}
 \begin{adjustwidth}{1cm}{0pt}
-\textbf{Beskrivelse:} Skal sætte antallet af kopper, default er 6 kopper.\\
+\textbf{Beskrivelse:} Skal sætte antallet af kopper, default er 12 kopper.\\
 \textbf{Parametre:} cups: Antallet af kopper placeret i Playerside. \\[0.2cm]
-\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Retur værdi:} bool: True returneres, hvis der er er sat et positivt antal kopper i Playerside, ellers returneres false. \\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
 
-\textbf{setUser1(&user1: const string) : void}
+\textbf{setUser1(\&user1: const string) : void}
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Skal sætte brugernavnet for spiller 1.\\
-\textbf{Parametre:} &user1: Reference til en tekststreng, som udgør brugernavnet for spiller 1. \\[0.2cm]
+\textbf{Parametre:} user1: Tekststreng som udgør brugernavnet for spiller 1. \\[0.2cm]
 \textbf{Retur værdi:} ingen \\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
 
-\textbf{setUser2(&user2: const string) : void}
+\textbf{setUser2(\&user2: const string) : void}
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Skal sætte brugernavnet for spiller 1.\\
-\textbf{Parametre:} &user2: Reference til en tekststreng, som udgør brugernavnet for spiller 2. \\[0.2cm]
-\textbf{Retur værdi:} ingen \\[0.2cm]
-\textbf{Bivirkninger:} ingen \\[0.2cm]
-\end{adjustwidth}
-
-\textbf{setTeam(&team: const string) : void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf{Beskrivelse:} Skal sætte holdnavnet.\\
-\textbf{Parametre:} &user2: Reference til en tekststreng, som udgør holdnavnet. \\[0.2cm]
+\textbf{Parametre:} user2: Tekststreng som udgør brugernavnet for spiller 2. \\[0.2cm]
 \textbf{Retur værdi:} ingen \\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
@@ -206,7 +196,31 @@ Klassen indeholder informationer, som repræsenterer Playersides. Klassen skal s
 \textbf{setTeam(\&team: const string) : void}
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Skal sætte holdnavnet.\\
-\textbf{Parametre:} &team: Reference til en tekststreng, som udgør holdnavnet. \\[0.2cm]
+\textbf{Parametre:} team: Tekststreng som udgør holdnavnet. \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+\textbf{setRed(\&red: const string) : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Skal sætte styrken af den røde farve i holdfarven.\\
+\textbf{Parametre:} red: Styrken af farven rød i holdfarven. \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+\textbf{setGreen(\&green: const string) : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Skal sætte styrken af den grønne farve i holdfarven.\\
+\textbf{Parametre:} green: Styrken af farven grøn i holdfarven. \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+\textbf{setBlue(\&blue: const string) : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Skal sætte styrken af den blå farve i holdfarven.\\
+\textbf{Parametre:} blue: Styrken af farven blå i holdfarven. \\[0.2cm]
 \textbf{Retur værdi:} ingen \\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
@@ -223,7 +237,31 @@ Klassen indeholder informationer, som repræsenterer Playersides. Klassen skal s
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Skal returnere antallet af kopper, der er placeret i Playerside.\\
 \textbf{Parametre:} ingen \\[0.2cm]
-\textbf{Retur værdi:} const int: Antallet af kopper\\[0.2cm]
+\textbf{Retur værdi:} const int: Antallet af kopper i Playerside.\\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+\textbf{const getRed() : uint8\_t}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Skal returnere en byte med styrken af farven rød i holdfarven.\\
+\textbf{Parametre:} ingen \\[0.2cm]
+\textbf{Retur værdi:} uint8\_t: Indholdet af farven rød i holdfarven.\\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+\textbf{const getGreen() : uint8\_t}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Skal returnere en byte med styrken af farven grøn i holdfarven.\\
+\textbf{Parametre:} ingen \\[0.2cm]
+\textbf{Retur værdi:} uint8\_t: Indholdet af farven grøn i holdfarven.\\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+\textbf{const getBlue() : uint8\_t}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Skal returnere en byte med styrken af farven blå i holdfarven.\\
+\textbf{Parametre:} ingen \\[0.2cm]
+\textbf{Retur værdi:} uint8\_t: Indholdet af farven blå i holdfarven.\\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
 
@@ -231,7 +269,7 @@ Klassen indeholder informationer, som repræsenterer Playersides. Klassen skal s
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Skal returnere brugernavnet for spiller 1.\\
 \textbf{Parametre:} ingen \\[0.2cm]
-\textbf{Retur værdi:} const string: Brugernavn for spiller 1\\[0.2cm]
+\textbf{Retur værdi:} const string: Brugernavn for spiller 1.\\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
 
@@ -239,7 +277,7 @@ Klassen indeholder informationer, som repræsenterer Playersides. Klassen skal s
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Skal returnere brugernavnet for spiller 2.\\
 \textbf{Parametre:} ingen \\[0.2cm]
-\textbf{Retur værdi:} const string: Brugernavn for spiller 2\\[0.2cm]
+\textbf{Retur værdi:} const string: Brugernavn for spiller 2.\\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
 
@@ -247,15 +285,15 @@ Klassen indeholder informationer, som repræsenterer Playersides. Klassen skal s
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Skal returnere holdnavnet.\\
 \textbf{Parametre:} ingen \\[0.2cm]
-\textbf{Retur værdi:} const string: Holdnavn\\[0.2cm]
+\textbf{Retur værdi:} const string: Holdnavn.\\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
 
-\textbf{const getTeamColor() : const Color}
+\textbf{const getTeamColor() : const color}
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Skal returnere holdet farve.\\
 \textbf{Parametre:} ingen \\[0.2cm]
-\textbf{Retur værdi:} const Color: Indeholder holdets farve som RGB værdier.\\[0.2cm]
+\textbf{Retur værdi:} const color: Indeholder holdets farve som RGB værdier.\\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
 
@@ -263,16 +301,14 @@ Klassen indeholder informationer, som repræsenterer Playersides. Klassen skal s
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Indikerer om der er nogen kopper tilbage i Playerside.\\
 \textbf{Parametre:} ingen \\[0.2cm]
-\textbf{Retur værdi:} bool: True returneres hvis der ikke er flere kopper i Playerside, ellers returneres false.\\[0.2cm]
+\textbf{Retur værdi:} bool: True returneres, hvis der ikke er flere kopper i Playerside, ellers returneres false.\\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
 
 \textbf{Sekvensdiagram for UC1: GameController}\\
-GameControlleren er logikken i systemet og tager alle de store beslutninger. Dens hovedfunktioner er at modtage data fra de enkelte delsystemer, som BallDispenser og Playerside, og agerer i forhold til dette. Boundaryklasserne "Playerside" og "BallDispenser" læser konstant efter nyt data - 
-
-GameController poller derefter delsystemerne: den spørger hvem som har sendt interruptet. Når den har fundet ud af dette, så spørger den om den data den ønsker at sende, og opdaterer de andre systemer i forhold til den data. 
-\\GameController sender også hvilken stadie Playerside og BoldDispenser skal være i, fx når spillet startes skal de være i stadiet "Starting". 
-
+GameControlleren er logikken i systemet og tager alle de store beslutninger. Dens hovedfunktioner er at modtage data fra de enkelte delsystemer, som BallDispenser og Playerside, og agerer i forhold til dette. Boundaryklasserne "Playerside" og "BallDispenser" læser konstant efter nyt data - i den forstand at den læser, hvor processen sover indtil data er modtaget. Når nyt data er modtaget, behandler de dataen og videresender det til GameController. \\\\
+I forhold til spillets gang sender GameController information til delsystemerne via boundaryklasserne. Fx den sender stadier til Playerside (IDLE) og BallDispenser (DISPENSE\_OFF). Den bruger to UserInfo objekter til at symboliserer to spillende hold, og kontrollere gennem dem, hvornår spillet er ovre (og andre informationer). \\\\
+Hver opmærksom på at mellemrummet mellem eksekverings specifikation 'boksen' indikerer en pause i processen; fx processeson 'sover', når der læses fra "BallDispenser" eller der ventes information fra WebPage. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/RPi/graphics_RPi/UC1_SD.png}
@@ -281,8 +317,7 @@ GameController poller derefter delsystemerne: den spørger hvem som har sendt in
 \end{figure}
 
 \textbf{Sekvensdiagram for UC2: GameController}\\
-Spillet er startet og GameController har til opgave at hele tiden holde systemet opdateret i forhold til brugerens interaktioner. Hver gang brugeren fjerner en kop modtager RPi'en et interrupt (samme princip som i sekvensdigram for UC1). GameController opdaterer herefter displayet, således det som vises stemmer overens med det som sker på virkeligheden. 
-
+Spillet er startet og GameController har til opgave at hele tiden holde systemet opdateret i forhold til brugerens interaktioner. Hver gang brugeren fjerner en kop modtager RPi'en et interrupt fra Playerside-systemet. Denne information opbevares i UserInfo objekterne, således at både GameController og Displayet har adgang til hvilke kopper, som er placeret. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/RPi/graphics_RPi/UC2_SD.png}
@@ -292,7 +327,7 @@ Spillet er startet og GameController har til opgave at hele tiden holde systemet
 
 \newpage
 \textbf{Sekvensdiagram for UC3: GameController}\\
-GameControlleren har selv kontrolleret antallet af kopper tilbage på hvert side i forhold til det data, som har været sendt fra de to Playersides. Når den sidste kop er fjernet, sender den henholdsvis et signal til hver Playerside, hvem som har vundet og tabt. Dette vises på displayet i et specifikt tidsinterval, hvor derefter systemet vil gå i dvale og være klar til nye spillere. 
+GameControlleren har selv kontrolleret antallet af kopper tilbage på hvert side i forhold til det data, som har været sendt fra de to Playersides (Via UserInfo objekterne team1\_ og team2\_. Når den sidste kop er fjernet, sender den henholdsvis et signal til hver Playerside, i forhold til hvem som har vundet og tabt. Dette vises på displayet i et specifikt tidsinterval, hvor derefter systemet vil gå i dvale og være klar til nye spillere - GameController intiere stadiet "IDLE" til sidst, og giver samme besked til boundary klasserne. 
 
 \begin{figure}[H]
     \centering
@@ -303,23 +338,13 @@ GameControlleren har selv kontrolleret antallet af kopper tilbage på hvert side
 
 \newpage
 \textbf{Sekvensdiagram for UC4: GameController}\\
-I tilfælde af at boldDispenseren ikke har flere bolde, skal RPi'en udstede en besked til servicemedhjælperen og vente på at den er fyldt op (Eller har nok bolde til et spil).
+I tilfælde af at BallDispenseren ikke har flere bolde, skal RPi'en udstede en besked til servicemedhjælperen og vente på at den er fyldt op (Eller har nok bolde til et spil). Når GameController modtager signalet "NotEmpty" fra BallDispenser kan den initiere stadiet "IDLE" igen. 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/RPi/graphics_RPi/UC4_SD.png}
    \caption{Sekvensdiagram for UC4}
     \label{fig:UC4_SD_RPi}
-\end{figure}
-
-\textbf{Tilstandsmaskine: WebPage}\\
-WebPage er brugerens mulighed for at gøre spillet personligt. Her indtastes holdnavne og brugernavne. WebPage er i en dvale tilstand indtil spillet starter. Her bliver brugeren spurgt om denne information gennem GUI'en og givet en IP-addresse via displayet. Når brugeren har trykket på "Start Game" udsteder den en konstant besked indtil spillet er slut. 
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/RPi/graphics_RPi/stm_web.png}
-    \caption{Tilstandsmaskine for WebPage}
-    \label{fig:stm_Web}
 \end{figure}
 
 \textbf{Tilstandsmaskine: Display}\\
@@ -333,13 +358,27 @@ Displayet viser konstant spillets status og fortæller brugerne hvad de skal gø
 \end{figure}
 
 \textbf{Tilstandsmaskine: GameController}\\
-Tilstandsmaskinen for GameController afspejler spillets gang. Den skifter konsekvent tilstand for hvert gang den får et interrupt og data fra de 3 delsystemer: Playerside(1 og 2) og BoldDispenser. 
-
+Tilstandsmaskinen for GameController afspejler spillets gang. GameController skifter tilstand i forhold til de input den får givet fra PSOC-enhederne. Når den går ind i en given tilstand notificerer den alle boundary klasserne om dets tilstandsskifte - dette symboliseres ved funktionerne "SystemPlaying()", "SystemIdle()" osv. \\\\
+GameController afspejler også hele systemets tilstand:
+\begin{enumerate}
+    \item IDLE: Send "IDLE"-tilstandsbesked til Playersides. Åben for møntmodtageren, tænd for displayet og vis tilhørende skærmbillede. 
+    \item STARTING: Send "STARTING"-tilstandsbesked til Playersides. Luk for møntmodtager og vis tilhørende skærmbillede på displayet. Skal håndtere information om ny kop placering fra Playersides. Skal vente på bruger data fra WebPage. 
+    \item PLAYING: Send "PLAYING"-tilstandsbesked til Playersides, samt "MyColor" og "OpponentColor". Vis tilhørende skærmbillede på displayet. Skal håndtere information om ny kop fra Playersides, samt indikere til displayet, hvornår en kop bliver fjernet / indsat. 
+    \item ENDGAME: Send "LOST"- og "WON"-tilstandsbesked til Playesrsides. Vis tilhørende skærmbillede. Efter tidsinterval skal den initiere IDLE-tilstand. 
+\end{enumerate}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/RPi/graphics_RPi/stm_Game.png}
+    \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/RPi/graphics_RPi/Stm_Game.png}
     \caption{Tilstandsmaskine for GameController}
     \label{fig:stm_Game}
 \end{figure}
+
+\textbf{Tilstandsmaskine: Refill Balls}\\
+Denne tilstandsmaskine er forholdsvis simpel, og kan ses som en forlængelse af GameControllers - den er blot delt op for at gøre det mere overskueligt. Hvis RPi'en modtager informationen, at der er mangle på bolde "EMPTY", så initiere den tilstanden "SERVICE": 
+\begin{enumerate}
+    \item SERVICE: Luk for møntmodtageren, og vis tilhørende skærmbillede (Hidkald servicemedhjælper). Vent indtil bolddispenseren er påfyldt 2 eller flere bolde og har sendt beskeden "NOTEMPTY". 
+\end{enumerate}
+
+%%MANGLER BILLEDE!
 
 \end{document}

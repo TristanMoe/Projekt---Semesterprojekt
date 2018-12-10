@@ -7,26 +7,12 @@
 
 %===============FORSIDE======================
 \input{Setup/Forside.tex}
+\subfile{Processdokument/Versionshistorik/Versionshistorik.tex}\newpage
 \tableofcontents
 \newpage
-\begin{table}[H]
-\centering
-\resizebox{.7\textwidth}{!}{%
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{Ver.} & \textbf{Dato} & \textbf{Initialer} & \textbf{Beskrivelse} \\ \hline
- 0.1    &18/11/2018 &MG &Forord indledning og start på Scrum  \\ \hline
- 0.2    &24/11/2018 &MG &Afslutning af Scrum afsnit \\ \hline
- 0.3    &25/11/2018 &MG &Gruppedannelse,planlægning og arbejdsfordeling  \\ \hline
- 0.4    &26/11/2018 &All &Indskrivning af insight og arbejdsområde  \\ \hline
-\end{tabular}%
-}
-\caption{Versions Historik}
-\label{process_version}
-\end{table}
 
 \section{Forord}
-Dette dokument er skrevet af PRJ3 gruppe 7, der en projektgruppe bestående af 3. semesters E- og IKT-studerende fra Aarhus Universitets. Dette dokument er udarbejdet som en beskrivelse af den proces, gruppen har været igennem under hele semesteret og har til formål, at være en opsummering og sammenbringelse af procesrelateret information for, hvem end det må interessere. Det forudsætter for at forstå dette dokument, at i hvert fald Projekt Introduktionen og noget af Kravspecifikationen er læst forud for dette. 
+Dette dokument er skrevet af PRJ3 gruppe 7, der en projektgruppe bestående af 3. semesters E- og IKT-studerende fra Aarhus Universitets. Dette dokument er udarbejdet som en beskrivelse af den proces, gruppen har været igennem under hele semesteret og har til formål, at være en opsummering og sammenbringelse af procesrelateret information for, hvem end det må interessere. Det forudsætter for at forstå dette dokument, at i hvert fald Projekt Introduktionen og noget af Kravspecifikationen er læst forud for dette. Derudover fungere dette dokument som en uddybning af Proces afsnittet i rapporten.
 
 \section{Indledning}
 I dokumentet vil der være en beskrivelse af alt det arbejde, der er lavet i forbindelse med processen til udvikling af projektet. Der vil være en beskrivelse af, hvordan gruppen blev dannet, og den samarbejdsaftale, der blev lavet, som kontrakt for gruppen. Det beskrives også hvilket udviklingsredskab eller udviklingmetode, der blev valgt, hvordan projektet blev ledet og den arbejdsfordeling, der har været mellem medlemmerne af gruppen. Der vil også blive beskrevet, hvordan forskellig planlægning blev lavet i gruppen, hvordan møderne blev afholdt, og hvordan eventuelle konflikter er håndteret.
@@ -36,8 +22,7 @@ På 3. semester projektet var det muligt at ønske, et givent antal personer, ma
 følgende tabel ses \textit{Insights} sammensætningen af gruppen, der kan sammenlignes med figur\footnote{https://www.insights.com/dk/produkter/insights-discovery/} \ref{fig:group_types}.
 \begin{table}[H]
 \centering
-\resizebox{.5\textwidth}{!}{%
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|L{0.2\textwidth}|L{0.2\textwidth}|L{0.4\textwidth}|}
 \hline
 \textbf{Navn} & \textbf{Farve} & \textbf{Type} \\ \hline
 Nikolaj & Blå & Reformerende Observatør  \\ \hline
@@ -48,8 +33,7 @@ Martin G.J. & Blå  & Observatør \\ \hline
 Martin F. & Lilla & Reformator  \\ \hline
 Aaron & Orange & Motivator \\ \hline
 Marcus & Gul & Inspirator \\ \hline
-\end{tabular}%
-}
+\end{tabular}
 \caption{Sammensætning af Insights typer i gruppen}
 \label{table_group_types}
 \end{table}
@@ -60,9 +44,6 @@ Marcus & Gul & Inspirator \\ \hline
     \caption{De forskellige Insights typer i gruppen}
     \label{fig:group_types}
 \end{figure}
-
-\section{Samarbejdsaftale}
-
 
 \section{Udviklingsforløb}
 \subsection{Introduktion}
@@ -131,7 +112,7 @@ Sprintplanlægningen gjorde, at der var faste mål at arbejde hen imod, samtidig
 
 \subsubsection{Sprint 5}
 I dette sprint var der igen fokus på design og implementering af de forskellige moduler. Da det virkede godt i forrige sprint, at have nogle klarer mål, der var i stand til at blive testet eller fremstillet som demo, så blev denne metode anvendt igen. Derfor var målene fra dette sprint at få lavet demoer af sensorer, i form af detektering af mønt og detektering af kop. Derudover blev der videre udviklet og udbygget på lys, men også kommunikation mellem gamecontroller og webpage og display.
-\\Af retrospektivet for sprintet ses det, hvordan der internt er sket en forbedring imellem de forskellige moduler til at kigge på, hvad de forskellige har lavet og give konstruktiv kritik heraf. En anden ting, der gav gennemsigtighed med status af de forskellige moduler, var ved at sende video'er eller billeder af forskellige ting, der lykkedes for dem. Af dårlige ting ses det dog at de tasks igen var meget omfangsrige, og de tog lang tid at lave. De var måske heller ikke veldefinerede i forhold til, hvad der skulle dokumenteres så meget af dette manglede i forhold til design og implementering. Som opfølgning fra sidste sprint ses det, at gruppen har forbedret brugen af Redmine (brug af repository, flytte tasks og logge tid), samt at anvende risikoanalyse og demoer. I det næste sprint blev det besluttet at fokusere på dokumentationen og forbedre kommunikationen endnu mere.
+\\Af retrospektivet for sprintet ses det, hvordan der internt er sket en forbedring imellem de forskellige moduler til at kigge på, hvad de forskellige har lavet og give konstruktiv kritik heraf. En anden ting, der gav gennemsigtighed omkring status af de forskellige moduler, var at sende video'er eller billeder af forskellige ting der lykkedes internt i gruppen. Af dårlige ting ses det dog at de tasks igen var meget omfangsrige, og de tog lang tid at lave. De var måske heller ikke veldefinerede i forhold til, hvad der skulle dokumenteres, så der manglede meget af dette i forbindelse med design og implementering. Som opfølgning fra sidste sprint ses det, at gruppen har forbedret brugen af Redmine (brug af repository, flytte tasks og logge tid), samt at anvende risikoanalyse og demoer. I det næste sprint blev det besluttet at fokusere på dokumentationen og forbedre kommunikationen endnu mere.
 
 \subsubsection{Sprint 6}
 Igen blev der eksperimenteret i sprintet, da det blev afprøvet at alle lavede tasks inden mødet, hvor på Scrum master så om aftenen inden mødet, sorterede i de  relevante tasks til dette sprint. De blev så taget op på mødet, hvor der blev lavet estimering af tiden på og fordeling af tasks. Derudover blev der også lagt fokus på at teamet kom til møderne, da det blev mere og mere nødvendigt at kommunikere og lave ting i fællesskab. Ellers blev der igen lagt vægt på de ting, der havde virket indtil videre i forbindelse med Scrum.
@@ -139,9 +120,14 @@ Igen blev der eksperimenteret i sprintet, da det blev afprøvet at alle lavede t
 
 
 \subsubsection{Sprint 7}
+I planlægningen af dette sprint var det igen gjort klart, at dokumentation skulle færdiggøres, da noget af det skulle reviewes til Review2. Meget af dokumentationen blev færdiggjort så det kunne sendes til review, men det der primært blev arbejdet på i sprintet var integrationen mellem forskellige dele. Der blev altså færdiggjort, forbedret og fikset forskellige moduler så de kunne integreres. Det kom så på bekostning af at al dokumentationen ikke blev færdiggjort, som det var planlagt og det fremstod af tidsplanen. Det er selvfølgelig ikke optimalt, at der ikke holdes sig til tidsplanen, men dette blev set nødvendigt for at have dele af systemet, der virkede sammen. Der nok blevet prioriteret forkert i starten af sprintet, da det skulle være forudset, at mange er tilbageholdene med at dokumentere ting, der muligvis skal laves om efter en integrationstest. Det er dog blevet klargjort at det er en forkert holdning at have, da fejl stadig dokumentere udviklingsprocessen.
 
+I sprintet var der også problemer med gruppemedlemmer, der var dårlige til at dukke op, hvilket besværligegjorde integrationen og test af andre dele. \\
+
+Det blev besluttet, at der i næste sprint igen var fokus på dokumentationen, så alt var 100\% klar til at skrives i rapporten, og derudover fik de dele, der endnu ikke var færdiggjort, en definitiv deadline for, hvornår der ikke blev tildelt flere ressourcer.
 \subsubsection{Sprint 8}
-\subsubsection{Konklusion på Scrum}
+
+\subsubsection{Konklusion på Scrum anvendelse i gruppen}
 I forhold til den oprindelige figur \ref{fig:scrum_process}, så har det ikke været muligt at anvende Scrum på helt rigtig vis. Derfor er der lavet en ny figur der bedre repræsentere, hvordan Scrum er blevet anvendt i 3. semester projekt i gruppe 7. Dette ses af figur \ref{fig:Scrum_usage}.
 \begin{figure}[H]
     \centering
@@ -149,8 +135,10 @@ I forhold til den oprindelige figur \ref{fig:scrum_process}, så har det ikke v�
     \caption{Brugen af Scrum i teamet}
     \label{fig:Scrum_usage}
 \end{figure}
-Af figur \ref{fig:Scrum_usage} ses det, hvordan gruppen er deres egne Product Owners, hvordan de laver tasks til backloggen og står for sprint planlægningsmødet. Det ses også at Sprints har en varighed af 2 uger, samt at der er Standup meeting ca. hver 4. dag. Her ses også at noget af det arbejde, der bliver færdig gjort bliver sendt til ekstern review af den anden gruppe, og at der afholdes møder med vejleder. Rolen som Scrum Master går også på tur efter hvert sprint.
+Af figur \ref{fig:Scrum_usage} ses det, hvordan gruppen er deres egne Product Owners, hvordan de laver tasks til backloggen og står for sprint planlægningsmødet. Det ses også at Sprints har en varighed af 2 uger, samt at der er Standup meeting ca. hver 4. dag. Her ses også at noget af det arbejde, der bliver færdiggjort bliver sendt til ekstern review af den anden gruppe, og at der afholdes møder med vejleder. Rolen som Scrum Master går også på tur efter hvert sprint.
 %Hvad har vi lært af Scrum. Hvad virkede, hvad virkede ikke, hvad var svært, hvad var let?
+\\\\Igennem de forrige beskrivelser af hvert enkelt sprint ses det, hvordan der er blevet eksperimenteret med forskellige redskaber i forbindelse med Scrum. Der udtages de vigtigste erfaring i forhold til dette. Det første der gavnede gruppen meget var introduktionen af \textbf{Demoer og Sprint mål} i udviklingen. Til at starte med resulterede planlægningen ikke i noget målbart. Det hjalp derfor udviklingen meget at introducere sprint mål, der kunne fremvises og hvor der kunne siges, at det her blev opnået i sprintet. Derudover virkede \textbf{Risikoanalyse} også som et godt redskab i Scrum udviklingen. Det var op til de enkelte i gruppen at specificere risikoer i forbindelse med projektet, der skulle tages op på vejledermødet. Disse risikoer blev diskuteret og taget hånd om i Sprint planlægningen. Der var også redskaber i forbindelse med Scrum, der virkede godt lige fra start. Det er \textbf{Retrospektiv}, \textbf{Scrumboard}(Selvom anvendelsen af dette forbedredes undervejs), \textbf{StandUp-meeting} og \textbf{Sprintplanlægning}.
+
 
 \subsection{Udviklingsværktøjer fra 2. Semester}
 \subsubsection{Introduktion}
@@ -178,26 +166,25 @@ Af figur \ref{fig:Sysml_usage} ses det, at Sekvens-, Statemachine- og Use Case-d
 
 
 \section{Projektledelse}
-Scrum Master
+Scrum Master har stået for ledelsen i det pågældende sprint i forbindelse med styring af gruppen til planlægningen og under sprintet. 
+\\Når der skulle tages store beslutninger angående systemet, så blev det gjort på demokratisk vis. De små beslutninger f.eks. beslutnigner angående teknologier og beslutninger i de enkelte delmoduler blev besluttet af dem der arbejdede og havde sat sig ind i modulet.
 
 \section{Arbejdsfordeling}
-En af de gode ting ved Scrum er, at man kan påtage sig mange forskellige opgaver inden for mange forskellige områder i et projekt. Dette er umiddelbart ikke realiteten, da mange af de ting, der skal laves på et projekt kræver eksperter inden for flere specifikke områder. Det kan umiddelbart være svært at arbejde på noget hardware eller kode, da man først skal sætte sig ind i teknologien bag det. Muligheden for at sætte sig ind i det er der, da projektet er så gennemdokumenteret som muligt, men ressourcerne er der måske ikke i det, det kræver en del ressourcer at sætte sig i en ny teknologi. Det skal dog siges at de forskellige i gruppen har været inde over de forskellige dele og teknologier, omend det måske er overfladisk for at reviewe noget kode, udregninger til hardware eller forbindelser mellem modulerne. Derfor er der lavet en overordnet arbejdsfordeling som kan ses i tabel \ref{table_work_distribution}.
+En af de gode ting ved Scrum er, at man kan påtage sig mange forskellige opgaver inden for mange forskellige områder i et projekt. Dette er umiddelbart ikke realiteten, da mange af de ting, der skal laves på et projekt kræver eksperter inden for flere specifikke områder. Det kan umiddelbart være svært at arbejde på noget hardware eller kode, da man først skal sætte sig ind i teknologien bag det. Muligheden for at sætte sig ind i teknologierne er der, da projektet er så gennemdokumenteret som muligt, men ressourcerne er der måske ikke i det, det kræver en del ressourcer at sætte sig i en ny teknologi. Det skal dog siges at de forskellige i gruppen har været inde over de forskellige dele og teknologier, omend det måske er overfladisk for at reviewe noget kode, udregninger til hardware eller forbindelser mellem modulerne. Derfor er der lavet en overordnet arbejdsfordeling som kan ses i tabel \ref{table_work_distribution}.
 \begin{table}[H]
 \centering
-\resizebox{0.7\textwidth}{!}{%
-\begin{tabular}{|l|l|}
+\begin{tabular}{|L{0.2\textwidth}|L{0.7\textwidth}|}
 \hline
 \textbf{Navn} & \textbf{Overordnet Arbejdsområde} \\ \hline
-Nikolaj & hardware og hardwarenær software \\ \hline
+Nikolaj & Hardware og hardwarenær software \\ \hline
 Tristan &  RPi softwaresystem (Controller, Kommunikation og Integration)\\ \hline
 Mathias & Controller software boundary  \\ \hline
 Edward &  \\ \hline
-Martin G.J & software boundaries \\ \hline
+Martin G.J & Software boundaries \\ \hline
 Martin F. & Software  \\ \hline
 Aaron & Status LED'er, Ballcount sensor og dispensering af bolde \\ \hline
-Marcus & Interaktivt lys under kopper \\ \hline
-\end{tabular}%
-}
+Marcus & Interaktivt lys under kopper og proces \\ \hline
+\end{tabular}
 \caption{Overordnet arbejdsfordeling i gruppen}
 \label{table_work_distribution}
 \end{table}

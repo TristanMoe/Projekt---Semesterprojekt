@@ -1,29 +1,21 @@
 \documentclass[Kravspecifikation/Kravspec_Main.tex]{subfiles}
 \begin{document}
 \section{Ikke-funktionelle krav}
-De ikke funktionelle krav beskriver systemets fysiske dimensioner og GUI. Samt en række specifikationer om systemet ydeevne. For specifik forklaring, se Definitionsliste (side xx).
+De ikke funktionelle krav beskriver systemets fysiske dimensioner, fysiske parameter, og det forskellige GUI. Herudover beskriver det også en række specifikationer om systemet ydeevne. For specifik forklaring, se Definitionsliste (side xx).
 
-Til at beskrive nogle af kravene er der nogle skitser som hjælper med at forklare kravene. Der er lavet en skitse der beskriver hvordan en Cup holder ser ud. Dette kan ses på figur \ref{fig:LEDplacement}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth,trim={2in 0.4in 2in 1.3in},clip, page=1]{Kravspecifikation/Ikke-funktionelle/graphics/LEDplacement.pdf}
-    \caption{Skitse der viser de forskellige dele af en cup holder. Der er påtegnet forskellige diametre med mål. Målenes tolerance er specificeret i tabel \ref{tab:fysiske_dimensioner}.}
-    \label{fig:LEDplacement}
-\end{figure}
-
-På figur \ref{fig:LEDplacement} er der en ring af lys (Cup light). Denne ring er afgrænset af den indre cirkel (med diameteren $D_{inner}$ og den ydre cirkel (med diameteren $D_{outer}$). De 5 sorte cirkler (med diameteren $D_{led}$) repræsenterer LED'er som er lyskilderne i Cup light. De er placeret på en cirkel med diameteren $D_{center}$
+Til at beskrive nogle af kravene er der nogle skitser som hjælper med at forklare kravene. 
 
 \subsection{Fysiske Parametre}
 Dimensioner bliver angivet i følgende format [længde/bredde/højde][cm]
 \begin{table}[H]
-\begin{tabular}{|L{0.1\textwidth}|L{0.75\textwidth}|L{0.15\textwidth}|}
+\centering
+\begin{tabular}{|L{0.1\textwidth}|L{0.6\textwidth}|L{0.15\textwidth}|}
 \hline
 \textbf{ID} & \textbf{Krav} & \textbf{Prioritet} \\ \hline
 K1.1 & Beer Pong bordet skal være 240cm/60cm/70cm +/- 1cm  &  \\ \hline
 K1.2 & Systemet skal kunne håndtere en Ball med en diameter på 40mm +/- 1mm&  \\ \hline
 K1.3 & Display'ets billede skal være 24 tommer +/- 0.5 tommer diagonalt med et format på 16:9&  \\ \hline
-K1.4 & Systemet skal kunne håndtere kopper med en øvre diameter på $94\si{mm} \pm 3\si{mm}$ og en nedre diameter på $65\si{mm} \pm 3\si{mm}$  og en højde på & \\ \hline
+K1.4 & Systemet skal kunne håndtere kopper med en øvre diameter på $94\si{mm} \pm 3\si{mm}$ og en nedre diameter på $65\si{mm} \pm 3\si{mm}$  og en højde på $120mm \pm{5mm}$ & \\ \hline
 K1.5 & Systemet skal kun tage imod en dansk femkrone som betaling. Diameter på 28.5 mm +/- 0.5mm og tykkelse på 2.00 +/- 0.1 mm & \\ \hline
 K1.6 & Systemet skal returnere mønter med en diameter på 27.0 mm og under og tykkelse på 2.35 mm og under & \\ \hline
 K1.7 & Systemet skal ikke tage imod returnere mønter med en diameter på 29.0 mm og over og tykkelse på over 2.35 mm& \\ \hline
@@ -34,7 +26,7 @@ K1.11 & $D_{outer}$ på figur \ref{fig:LEDplacement} skal være $75\si{mm} \pm 1
 K1.12 & Vinklen mellem to LED'er i CupLight skal være $70^{\circ} \pm 2^{\circ}$ & \\ \hline
 K1.13 & Afstanden mellem to CupHolders skal være $100\si{mm} \pm 2\si{mm}]$ & \\ \hline
 K1.14 & Systemet skal fungere med $110\si{ml} \pm 20\si{ml}$ Ceres Top øl i hver Cup & \\ \hline
-K1.15 & Systemet skal fungere med en hvid Ball & \\ \hline
+K1.15 & Systemet skal fungere med en almindelig hvid bordtennis bold & \\ \hline
 K1.16 & Systemet skal detektere en bold der falder fra en højde på 30cm over bordet. & \\ \hline 
 K1.17 & Systemet skal detektere placering af en Cup når centrum af Cup og centrum af CupHolder er under 10mm & \\ \hline
 
@@ -45,11 +37,22 @@ K1.17 & Systemet skal detektere placering af en Cup når centrum af Cup og centr
 
 
 \subsection{User Interface}
+Der er lavet en skitse der beskriver hvordan en Cup holder ser ud. Dette kan ses på figur \ref{fig:LEDplacement}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth,trim={2in 0.4in 2in 1.3in},clip, page=1]{Kravspecifikation/Ikke-funktionelle/graphics/LEDplacement.pdf}
+    \caption{Skitse der viser de forskellige dele af en cup holder. Der er påtegnet forskellige diametre med mål. Målenes tolerance er specificeret i tabel \ref{tab:fysiske_dimensioner}.}
+    \label{fig:LEDplacement}
+\end{figure}
+
+På figur \ref{fig:LEDplacement} er der en ring af lys (Cup light). Denne ring er afgrænset af den indre cirkel (med diameteren $D_{inner}$ og den ydre cirkel (med diameteren $D_{outer}$). De 5 sorte cirkler (med diameteren $D_{led}$) repræsenterer LED'er som er lyskilderne i Cup light. De er placeret på en cirkel med diameteren $D_{center}$. LED'ernes placering $(D_{led})$ er valgt ud fra at passe med de fysiske krav på en kop (se krav i ).
 \begin{table}[H]
-\begin{tabular}{|L{0.1\textwidth}|L{0.75\textwidth}|L{0.15\textwidth}|}
+\centering
+\begin{tabular}{|L{0.1\textwidth}|L{0.65\textwidth}|L{0.15\textwidth}|}
 \hline
 \textbf{ID} & \textbf{Krav} & \textbf{Prioritet} \\ \hline
-K2.1 & Systemet skal hoste et wifi netværk med SSID "Beer Pong Table" og ingen adgangskode. & \\ \hline
+K2.1 & Systemet skal hoste et wifi netværk med SSID ''Beer\_Pong\_Table'' og adgangskoden ''beerpong''. & \\ \hline
 K2.2 & Når alt er sat op (der er glas på bordet og betalt for bolde) må der som maksimum kun gå 10 sekunder før spillets &  \\ \hline
 %K2.3 & Displayskærmen på bordet skal kunne vise et spillers navn og score hurtigere end 5 sekunder efter, at man har tastet sit navn på mobilappen og trykket ok. &  \\ \hline
 K2.3 & Displayskærmen skal kunne vise \textit{\textbf{spil status}} og \textit{\textbf{spiller oplysninger}} samtidigt. & \\ \hline
@@ -69,7 +72,8 @@ K2.11 & Den grønne lysdiode i StatusLED skal tændes, når BallDispenser er ful
 
 \subsection{Ydeevne}
 \begin{table}[H]
-\begin{tabular}{|L{0.1\textwidth}|L{0.75\textwidth}|L{0.15\textwidth}|}
+\centering
+\begin{tabular}{|L{0.1\textwidth}|L{0.65\textwidth}|L{0.15\textwidth}|}
 \hline
 \textbf{ID} & \textbf{Krav} & \textbf{Prioritet} \\ \hline
 K3.1 & Bolddispenser skal levere den første af to bolde indenfor 5s efter der indsættes en mønt. &  \\ \hline
@@ -85,7 +89,8 @@ K3.6 & Bolddispenseren skal kunne indeholde 14 bolde. & \\ \hline
 
 \subsection{Pålidelighed}
 \begin{table}[H]
-\begin{tabular}{|L{0.1\textwidth}|L{0.75\textwidth}|L{0.15\textwidth}|}
+\centering
+\begin{tabular}{|L{0.1\textwidth}|L{0.65\textwidth}|L{0.15\textwidth}|}
 \hline
 \textbf{ID} & \textbf{Krav} & \textbf{Prioritet} \\ \hline
 K4.1 & Det skal med et konfidensniveau på 95\% detekteres at der placeres en \textbf{Cup} i en kopholder.  &  \\ \hline
@@ -114,7 +119,8 @@ K4.10 & Der må højst ske en fejl ved levering af 2 \textbf{Balls} (dvs. der le
 \end{figure}
 
 \begin{table}[H]
-\begin{tabular}{|L{0.1\textwidth}|L{0.75\textwidth}|L{0.15\textwidth}|}
+\centering
+\begin{tabular}{|L{0.1\textwidth}|L{0.65\textwidth}|L{0.15\textwidth}|}
 \hline
 \textbf{ID} & \textbf{Krav} & \textbf{Prioritet} \\ \hline
 K5.1 & WebPage er en hjemmeside med statisk IP-adresse 10.9.8.2, som hostes af en RPi. & \\ \hline
@@ -125,7 +131,7 @@ K5.5 & Holdnavne og brugernavne indtastet på hjemmesiden skal være tekststreng
 K5.6 & På hjemmesiden skal der for hvert af de to hold kunne vælges holdfarve ved at justere intensiteten af farverne rød, grøn og blå i et RGB farveskema. & \\ \hline
 K5.7 & Hver af farverne rød, grøn og blå tildeles en integer værdi mellem 0 og 255, hvor 0 er lavest og 255 er højest. Der skal dermed kunne vælges imellem 256*256*256=16.777.216 farver.  & \\ \hline
 K5.8 & Når oplysningerne sendes, må der højst gå 0,1 sekund, før der modtages et svar fra serveren. & \\ \hline
-K5.9 & Der må højst ske en fejl i afsendingen 1 ud af 20 gange. & \\ \hline
+K5.9 & Der må højst ske en fejl i afsendingen 1 ud af 50 gange. & \\ \hline
 \end{tabular}
 \caption{Ikke funktionelle krav for WebPage}
 \label{tab:WebPage}
@@ -135,7 +141,8 @@ K5.9 & Der må højst ske en fejl i afsendingen 1 ud af 20 gange. & \\ \hline
 
 \subsection{GUI}
 \begin{table}[H]
-\begin{tabular}{|L{0.1\textwidth}|L{0.75\textwidth}|L{0.15\textwidth}|}
+\centering
+\begin{tabular}{|L{0.1\textwidth}|L{0.65\textwidth}|L{0.15\textwidth}|}
 \hline
 \textbf{ID} & \textbf{Krav} & \textbf{Prioritet} \\ \hline
 K8.1 & GUI systemet skal kunne skfite fra et baggrunds billede til et nyt, på under et sekund: efter der modtages et signal fra RPI'en.  & \\ \hline

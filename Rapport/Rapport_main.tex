@@ -1,0 +1,64 @@
+\documentclass[a4paper,12pt,fleqn,oneside]{article} 
+\input{Setup/Preamble.tex}
+
+
+\def\titlename{Rapport}
+
+\begin{document}
+
+%================FORSIDE======================
+\input{Setup/Forside.tex}
+\subfile{Rapport/Versionshistorik/Versionshistorik.tex}\newpage
+\subfile{Rapport/Abstract/Abstract.tex}
+\newpage
+\tableofcontents
+\newpage
+Test \ref{sec:overall_hardware} test
+\subfile{Rapport/Forord/Forord.tex}
+\subfile{Rapport/Indledning/Indledning.tex}
+\subfile{Rapport/Krav/Krav.tex}
+\subfile{Rapport/Afgraensning/Afgraensning.tex}
+\subfile{Rapport/Metode_og_proces/Metode_og_proces.tex}
+\subfile{Rapport/Analyse/Analyse.tex}
+\subfile{Rapport/Arkitektur/Arkitektur.tex}
+\subfile{Rapport/BallDispenser/BallDispenser.tex}
+\subfile{Rapport/Implementering/Implementering.tex}
+\subfile{Rapport/Test/Test.tex}
+\subfile{Rapport/Resultater/Resultater.tex}
+\subfile{Rapport/Diskussion_af_resultater/Diskussion_af_resultater.tex}
+\subfile{Rapport/Konklusion/Konklusion.tex}
+\subfile{Rapport/Fremtidigt_arbejde/Fremtidigt_arbejde.tex}
+\cite{Law2012} 
+
+\printbibliography
+
+
+\end{document}
+
+%Introduktion af struktur (Afslutning på arkitekturen, afgrænsning whatever)
+
+%BallDispenser PSoC (Section)
+%- Bolddispenser
+%- Møntdispenser 
+
+%Playerside PSoC (Section)
+%Introduktion prosatekst 
+
+%- Cuplight (Subsection)
+%      - Introduktion 
+%      - Hardware Design (subsubsection)
+%             - RESTEN AF AFSNIT ER textbf{TITEL PÅ DET DU GERNE VIL SKRIVE, FORHELVEDE AARON!}
+%      - Softwaredesign (subsubsection) 
+%      - Implementering (subsubsection)
+%      - Modultest (subsubsection) 
+%- CupSensor (subsection) 
+
+%RPiApp (Section) 
+%- Interrupt driver 
+%- Userspace system
+%- WebPage
+%- GUI 
+
+%Integrationstest (Section)
+%- Playerside 
+
