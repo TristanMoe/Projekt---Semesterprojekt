@@ -52,6 +52,23 @@
 
 % ¤¤ Misc. ¤¤ %
 \usepackage{listings}						% Placer kildekode i dokumentet med \begin{lstlisting}...\end{lstlisting}
+
+\lstdefinestyle{customc}{
+    breaklines=true,
+    language=C,
+    basicstyle=\small\sffamily,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=tb,
+    columns=fullflexible,
+    showstringspaces=false,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    stringstyle=\color{orange},
+}
+
+
 \usepackage{blindtext}
 \usepackage{lipsum}							% Dummy text \lipsum[..]
 \usepackage[shortlabels]{enumitem}			% Muliggoer enkelt konfiguration af lister
@@ -100,6 +117,7 @@
 
 %%%% REFERENCE TIL SECTION-NAME %%%%
 \usepackage{nameref}
+\newcommand*{\fullref}[1]{\textbf{\ref{#1} \nameref{#1}}} % One single link
 
 %sidehoved
 \usepackage{fancyhdr}
@@ -107,19 +125,36 @@
 
 %referer til afsnit i andre dokumenter
 \usepackage{xr}
-\makeatletter
-\newcommand*{\addFileDependency}[1]{% argument=file name and extension
-  \typeout{(#1)}
-  \@addtofilelist{#1}
-  \IfFileExists{#1}{}{\typeout{No file #1.}}
-}
-\makeatother
+
+\externaldocument[arch:]{aux_files/Arkitektur}
+\externaldocument[accepttestspec:]{aux_files/Accepttestspecifikation}
+\externaldocument[hwdesign:]{aux_files/HardwareDesign}
+\externaldocument[analyse:]{aux_files/Analyse}
+\externaldocument[integration:]{aux_files/Integrationstest}
+\externaldocument[kravspec:]{aux_files/Kravspecifikation}
+\externaldocument[modultest:]{aux_files/Modultest}
+\externaldocument[proces:]{aux_files/Procesdokument}
+\externaldocument[swdesign:]{aux_files/Softwaredesign}
+
+%%%% biblatex %%%%
+\usepackage[backend=bibtex,style=ieee]{biblatex}
+\bibliography{Litteratur} 
+
+%%%% KRAV numerering %%%%
+
+\newcounter{req} \setcounter{req}{0}
+\newcounter{subreq}[req] \setcounter{subreq}{0}
  
-\newcommand*{\myexternaldocument}[1]{%
-    \externaldocument{#1}%
-    \addFileDependency{#1.tex}%
-    \addFileDependency{#1.aux}%
-}
+\renewcommand{\thereq}{\arabic{req}}
+\renewcommand{\thesubreq}{\arabic{req}.\arabic{subreq}}
+ 
+\newenvironment{req}[1]%
+{
+\refstepcounter{req}{K\thereq}}{}
+\newenvironment{subreq}[1]%
+{
+\refstepcounter{subreq}{\noindent K\thesubreq}}{}
+
 
 %%%% paragraph %%%%
 %\usepackage{titlesec}

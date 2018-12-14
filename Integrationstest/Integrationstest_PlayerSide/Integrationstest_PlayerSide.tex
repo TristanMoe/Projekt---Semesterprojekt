@@ -15,7 +15,7 @@ Dette afsnit beskriver den integration og de tests mellem undermodulerne, der ha
 \end{itemize}
 Det er vigtigt, at lægge mærke til at hardware for CupSensor og CupLight allerede var "integreret" til et modul inden denne test, se modultest CupHolder. 
 
-\\Følgende software moduler skulle også integreres til et samlet modul:
+Følgende software moduler skulle også integreres til et samlet modul:
 \begin{itemize}
     \item CupSensor\_IF.
     \item CupLight\_IF.
@@ -170,11 +170,11 @@ I integrationstesten har der været flere små fejl, der har forstyrret integrer
     \label{fig:int_interrupt_priorities}
 \end{figure}
 
-\\Der var også forskellige små fejl i forskelligt logik i gamecontrolleren, som blev tydeliggjort af integrationstesten og fikset herefter.
+Der var også forskellige små fejl i forskelligt logik i gamecontrolleren, som blev tydeliggjort af integrationstesten og fikset herefter.
 
-\\Derudover var der en fejl i integreringen af CupLight, da der kun blev lavet en test for en kopholder, hvilket ikke blev taget ordentligt hånd om. Efter at opdatering af en parameter var dette problem også løst.
+Derudover var der en fejl i integreringen af CupLight, da der kun blev lavet en test for en kopholder, hvilket ikke blev taget ordentligt hånd om. Efter at opdatering af en parameter var dette problem også løst.
 
-\\Den største fejlkilde ved denne intergreringstest var, at det ikke var muligt at få produceret nok \textit{CupHolders} til at teste hele PlayersideSystemet. Der er dog tiltro til rubustheden af det udviklede system i forbindelse med de forskellige samlede moduler, men der skal laves en genopfyldende test med samtlige kopholder for at sikre integreringen. 
+Den største fejlkilde ved denne intergreringstest var, at det ikke var muligt at få produceret nok \textit{CupHolders} til at teste hele PlayersideSystemet. Der er dog tiltro til rubustheden af det udviklede system i forbindelse med de forskellige samlede moduler, men der skal laves en genopfyldende test med samtlige kopholder for at sikre integreringen. 
 
 \subsection{Konklusion}
 Det kan altså konkluderes at der er blevet lavet et samlet integreret modul, der virker for PSoC PlayerSide, hvor det er muligt at imitere hele spil forløbet i forbindelse med et spil Beer Pong. Selvom testen ikke er helt fyldestgørende på grund af manglende CupHolders, giver det stadig et godt indblik i om systemet virker når det er fuldt samlet. Selve intergrationen af undermodulerne til et samlet modul har været forholdsvis smertefrit, da arkitekturen havde været god nok til, at få tingene til at passe sammen i forvejen. Derudover blev der heller ikke taget nogen design-valg, der havde for stor negativ indflydelse på de andre moduler. Det kunne f.eks. være generende støj, mellem hardware modulerne eller ting i software, der påvirkede andet software.

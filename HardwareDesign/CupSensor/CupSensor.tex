@@ -1,11 +1,11 @@
 \documentclass[HardwareDesign/HardwareDesign_main.tex]{subfiles}
 \begin{document}
 \section{Cup Sensor}
-I dette afsnit beskrives udviklingen af en sensor der kan registrere når en kop placeres på en bestemt placering på bordet. Sensoren skal hvis muligt også detektere når en bold rammer i koppen (er 
-'should' i MoSCoW analysen). Dette kan gøres på flere forskellige måder som undersøges i det følgende underafsnit. Derudover skal der laves noget hardware der gør det muligt at få data fra 6 sensorer 'samtidig'
+I dette afsnit beskrives udviklingen af en sensor (Cup Sensor blokken) der kan registrere når en kop placeres på en bestemt placering på bordet der udvikles i dette projekt. Sensoren skal hvis muligt også detektere når en bold rammer i koppen (er 
+'should' i MoSCoW analysen). Dette kan gøres på flere forskellige måder som undersøges i det følgende underafsnit. Derudover skal der laves noget hardware der gør det muligt at få data fra 6 sensorer 'samtidig' (en del af Cup Holder Controller blokken)
 
 \subsection{Teknologiundersøgelse}
-For at detektere en kop der er placeret, skal koppen med øl påvirke nogle fysiske egenskaber for en sensor, som dermed kan detekteres. Der overvejes forskellige egenskaber som kan detekteres, som kan ses i tabelen nedenfor. De forskellige punkter gennemgås detaljeret bagefter.
+For at detektere en kop der er placeret, skal koppen med øl påvirke nogle fysiske egenskaber for en sensor, som dermed kan detekteres. Der overvejes forskellige egenskaber som kan detekteres, som kan ses i listen nedenfor. De forskellige punkter gennemgås detaljeret bagefter.
 \begin{enumerate}
     \item \label{itm:cupSensor_weight} Kraft.
     \item \label{itm:cupSensor_lightReflection} Lys refleksion. 
@@ -26,7 +26,7 @@ Der er, som beskrevet, nogle metoder hvor der er åbenlyse ulempe som vælges fr
 \subsubsection{Kapacitiv sensor}
 Til at måle en ændring i dielektricitetskonstanten, benyttes en kapacitiv sensor. Fra den første EFYS øvelse, blev det vist at man kan male den frie kapacitet af en metalplade. Den kapacitet som måles er kapaciteten mellem pladen og en sfærisk overflade uendelig langt væk. I realiteten er det bare en stel forbindelse som er tilstrækkelig nok væk. Når der placeres en kop med øl vil der være en større dielektricitetskonstant som dermed øger den frie kapacitet. Det kan betragtes som at pladens areal nu forøges til arealet af overfladen af væsken. Der overvejes også en metode hvor der benyttes to plader, hvor der måles kapaciteten mellem de to plader se figur \ref{fig:two_plates_cap}.
 
-Til at måle kapaciteten af en så relativ lille kondensator kan der benyttes CapSense på PSoC'en. Her skal der ikke benyttes noget ekstra hardware end det der allerede er i PSoC'en (selve microcontrolleren) samt en kondensator som Cypress kalder $C_{MOD}$ med værdien 2.2nF for en PSoC 5LP. Den er allerede på udviklingskittet på P15[4].  Til CapSense er der knyttet en del automatisk signal behandling. En funktionallitet der er i CapSense er at den benytter hvad de kalder en 'baseline'. Denne baseline er den læste værdi når der ikke er en kop, eller andre ting der skal måles med CapSense. Nyttesignalet beregnes ud fra baseline så signalet er 0 (eller tæt på) når der ikke er en kop. Denne baseline kan ændre sig som omgivelserne ændre sig, fx temperaturændring. Der benyttes et lavpasfilter til at opdatere baseline, så længe den holder sig inden for en given 'noise threshold', ellers betragtes det som et nyttesignal.
+Til at måle kapaciteten af en så relativ lille kondensator kan der benyttes CapSense på PSoC'en. Her skal der ikke benyttes noget ekstra hardware end det der allerede er i PSoC'en (selve microcontrolleren) samt en kondensator som Cypress kalder $C_{MOD}$ med værdien 2.2nF for en PSoC 5LP \autocite[115]{AN64846}. Den er allerede på udviklingskittet på ben P15[4] \autocite[2]{PSoCKitSchematics}. Til CapSense er der knyttet en del automatisk signal behandling. En funktionallitet der er i CapSense er at den benytter hvad de kalder en 'baseline'\autocite[18]{AN64846}. Denne baseline er den læste værdi når der ikke er en kop, eller andre ting der skal måles med CapSense. Nyttesignalet beregnes ud fra baseline så signalet er 0 (eller tæt på) når der ikke er en kop. Denne baseline kan ændre sig som omgivelserne ændre sig, fx temperaturændring. Der benyttes et lavpasfilter til at opdatere baseline, så længe den holder sig inden for en given 'noise threshold', ellers betragtes det som et nyttesignal.
 
 Der laves først en ikke dokumenteret test hvor der undersøges de to forskellige metoder som tidligere beskrevet. Den ene er hvor den frie kapacitet måles, den anden er hvor der benyttes to plader. Til den frie kapacitet bruges en kopperplade på ca 30mmx33mm. Til den med to plader benyttes den samme plade, men med en ledning rund om den som fungere som den anden plade. Der observeres ikke nogen synlig forskel i signalet mellem de to metoder, derfor fortsættes nu kun med den frikapacitet.
 
@@ -96,7 +96,7 @@ På figur \ref{fig:cap_test_place_and_drop_110} ses det at der kommer en ændrin
 På figur \ref{fig:cap_test_place_and_remove_220} og figur \ref{fig:cap_test_place_and_drop_220} ses nogenlunde den samme for rådataen (øverste halvdel), udover at den procentvise ændring når bolden rammer i er mindre. Men det observeres også at signalet beregnet ud fra baseline (nederste halvdel af figurerne) er for stort, da det kun er 8 bit. Hvis der skal arbejdes videre med denne metode er det derfor vigtigt at få kalibreret og indstillet CapSense rigtigt.
 
 \subsubsection{Optisk sensor}
-Til at lave en optisk sensor benyttes en IR LED samt en eller flere fotodioder som er sensitive over for IR lys. Der benyttes kredsløbet som ses på \ref{fig:optic_test_diagram}. Operationsforstærkeren fungerer som en strømforstærker, som forstærker strømmen fra fotodioden og laver den om til en spænding. Spændingen ved AmpOut måles vha. Analog Discovery 2. Der er i denne undersøgelse en IR LED i centrum af koppen og og to i siderne som det ses på figur \ref{fig:optic_opstilling}. 
+Til at lave en optisk sensor benyttes en IR LED samt en eller flere fotodioder som er sensitive over for IR lys. Der benyttes kredsløbet som ses på \ref{fig:optic_test_diagram}. Operationsforstærkeren fungerer som en strømforstærker, som forstærker strømmen fra fotodioden og laver den om til en spænding. Spændingen ved AmpOut måles vha. Analog Discovery 2. Der er i denne undersøgelse en IR LED (SFH485\autocite{SFH485}) i centrum af koppen og og to fotodioder (SFH203FA\autocite{SFH203FA}) i siderne som det ses på figur \ref{fig:optic_opstilling}. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{HardwareDesign/CupSensor/graphics/OpticTest/diagram.PNG}
@@ -111,38 +111,47 @@ Til at lave en optisk sensor benyttes en IR LED samt en eller flere fotodioder s
     \label{fig:optic_opstilling}
 \end{figure}
 
-Til at lave målinger der er sammenlignelige med de målinger der laves til den kapacitive sensor, skal den bedste afstand mellem IR LED og fotodioder bestemmes. Dette gøres ved at måle signalet når der ikke er en kop, når der er en kop, når der er en kop i centrum af koppen og når der er en bold i kanten af koppen (over en af fotodioderne). Disse målinger udføres ved afstande i intervallet 7mm til 28mm.
+Til at lave målinger der er sammenlignelige med de målinger der laves til den kapacitive sensor, skal den bedste afstand mellem IR LED og fotodioder bestemmes. Dette gøres ved at måle signalet når der ikke er en kop, når der er en kop med øl, når der er en bold som flyder i øllen i centrum af koppen og når der er en bold som flyder i øllen i kanten af koppen (over en af fotodioderne). Disse målinger udføres ved afstande mellem IR LED og hver af fotodioderne i intervallet 7mm til 28mm. Resultatet kan ses på \ref{fig:optic_test_afstand_raw}, hvor spændingen i forhold til referencen på 1.024V er plottet.
 Målingen uden en kop, kan sammenlignes med det Cypress kalder baseline i CapSense. Denne måling trækkes fra de andre målinger. Herefter fås det der ses på figur \ref{fig:optic_test_afstand}. Derudover beregnes også den procentvise ændring ved at der er en bold i koppen. Dette kan ses på figur \ref{fig:optic_test_afstand_procent}
 
 \begin{figure}[H]
     \centering
+    \includegraphics[width=\textwidth]{HardwareDesign/CupSensor/graphics/OpticTest/beer_afstand_raw.PNG}
+    \caption{Testresultater, der viser signalstyrken i forhold til referencen på 1.024V som funktionen af afstanden mellem LED og fotodiode}
+    \label{fig:optic_test_afstand_raw}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
     \includegraphics[width=\textwidth]{HardwareDesign/CupSensor/graphics/OpticTest/beer_afstand.PNG}
-    \caption{Test resultater, der viser signalstyrken som funktionen af afstanden mellem LED og fotodiode}
+    \caption{Testresultater, der viser signalstyrken som funktionen af afstanden mellem LED og fotodiode}
     \label{fig:optic_test_afstand}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{HardwareDesign/CupSensor/graphics/OpticTest/beer_afstand_procent.PNG}
-    \caption{Test resultater, der viser den procentvise ændrign ved at tilføje en bold til koppen som funktionen af afstanden mellem LED og fotodiode}
+    \caption{Testresultater, der viser den procentvise ændring ved at tilføje en bold til koppen som funktionen af afstanden mellem LED og fotodiode}
     \label{fig:optic_test_afstand_procent}
 \end{figure}
 
-Der ses på figur \ref{fig:optic_test_afstand} at signalet bliver større jo tættere dioderne er på hinanden. (desuden stiger 'baseline' signalet også, men det kan ikke ses på figuren). Derudover ses det på figur \ref{fig:optic_test_afstand_procent} at der sker en større procentvis ændring i signalet, når der er en bold i koppen, jo længere dioderne er fra hinanden. Sensorens hovedformål er at detektere placering af en kop, der skal derfor være et relativt stort signal når der er en kop. Derfor vælges det at arbejde videre med afstanden på ca 10mm, her er et relativt stort signal, sammenlignet med en peak-peak støjværdi på ca 40mV. Der er stadig en relativ stor procentvis ændring på 38\% til 110\%. Sammenlignet med 17\% for den kapacitive sensor.
+Der ses på figur \ref{fig:optic_test_afstand} at signalet bliver større jo tættere dioderne er på hinanden. Desuden ses det på \ref{fig:optic_test_afstand_raw} at 'baseline' signalet (signalet uden en kop) også stiger jo tættere dioderne er på hinanden. Derudover ses det på figur \ref{fig:optic_test_afstand_procent} at der sker en større procentvis ændring i signalet, når der er en bold i koppen, jo længere dioderne er fra hinanden. Sensorens hovedformål er at detektere placering af en kop, der skal derfor være et relativt stort og pålideligt signal når der er en kop. Derfor vælges det at arbejde videre med afstanden på ca 10mm, her er et relativt stort signal, sammenlignet med en peak-peak støjværdi på ca 40mV. Der er stadig en relativ stor procentvis ændring på 38\% til 110\%. Sammenlignet med 17\% for den kapacitive sensor.
 
 Der testes nu den transiente respons ved placering af kop og ved tab af bold i kop. På figur \ref{fig:optic_place_and_drop_110ml} vises resultatet af at placere en kop på sensoren efterfulgt af at tabe en bold i koppen.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{HardwareDesign/CupSensor/graphics/OpticTest/placingCupAndDroppingBall(110ml-beer).png}
-    \caption{Transient repsons for placering af kop (ca ved t=-3,5s)  og tab af bold (ca ved t=0,3s)}
+    \caption{Transient repsons for placering af kop (ca ved t=-3,5s)  og tab af bold (ca ved t=-0,3s)}
     \label{fig:optic_place_and_drop_110ml}
 \end{figure}
 
 
 \textbf{Diskussion af resultater}\\
-Der ses på \ref{fig:optic_place_and_drop_110ml} at der kommer en spids, når der placeres en kop. Denne spids kommer også over der stationære niveau for når der er en bold i koppen. Derudover kommer der en meget stor spids når bolden rammer i koppen. Dette kan muligvis forklares ved at bolden kommer meget tæt på LED og fotodiode. Denne spids er meget stor, det er en procentvis ændring fra når der er en kop på ca $\frac{1100}{400} = 275\%$, hvilket er meget større end den kapacitive sensor på ca. 22\%. Denne spids kan derfor bruges til at detektere at en bold rammer i. Der ses også på \ref{fig:optic_place_and_drop_110ml} at der er en relativ stor signal-støjforhold, sammenlignet med den kapacitive sensor.
+Der ses på \ref{fig:optic_place_and_drop_110ml} at der kommer en spids, når der placeres en kop. Denne spids kommer også over der stationære niveau for når der er en bold i koppen. Derudover kommer der en meget stor spids når bolden rammer i koppen. Dette kan muligvis forklares ved at bolden kommer meget tæt på LED og fotodiode. Denne spids er meget stor, det er en procentvis ændring fra når der er en kop på ca $\frac{1.1\si{V}}{0.4\si{V}} = 275\%$, hvilket er meget større end den kapacitive sensor på ca. 22\%. Denne spids kan derfor bruges til at detektere at en bold rammer i. 
 
+\subsubsection{Signal-støjforhold}
+Som en del af valg af den bedste teknologi (næste afsnit) diskuteres der bl.a. signal-støjforhold for den kapacitive sensor og den optiske sensor. Disse diskussioner bygger ikke på det bedste grundlag, da målingerne blev udført før et ordentligt kendskab til signal-støjforhold, og der blev derfor ikke målt RMS værdien af støjen. Der laves dog stadig overvejelser omkring signal-støjforholdet, ud fra det man kan se på graferne. Hvis man sammenligner de to grafer som ses på \ref{fig:optic_place_and_drop_110ml} og øverst på figur \ref{fig:cap_test_place_and_drop_110} ses det at der er mere støj for den optiske sensor i forhold til hvor stor signal ændring der er (ændring mellem der hvor der ikke er en kop, og der hvor der er en kop). For optiske sensor er der en tyk 'streg' hvilket betyder at der meget støj, da signalet svinger meget op og ned, hvorimod der er en meget tynd 'streg' for den kapacitive sensor. Disse observationer kan derfor indikere at den kapactive sensor har et større signal-støjforhold. Dog er der desvære ikke målinger der efterviser dette.
 
 \subsubsection{Valg af teknologi}
 Begge teknologier virker til at være i stand til at detektere at at kop placeres på og muligvis også at en bold rammer i.
@@ -150,16 +159,25 @@ Der vælges nu en af de to teknologier. Den kapcitive sensor har et højere sign
 
 Sensoren skal kun detektere 3 forskellige tilstande: der er ikke en kop, der er en kop og der er en kop med en bold i. Dette kræver ikke nødvendigvis så stor en SNR. Hvis der derimod skulle måles hvor meget øl der er i en kop, vil det være vigtigt med en høj SNR. Med den optiske sensor er der større ændring i signalet når en bold rammer i.
 
-En meget stor fordel for den kapacitive sensor er at den er meget billig, der skal kun benyttes en PSoC (som allerede skal bruges til andre dele af systemet) og en metal plade, dette kan nemt være som en del af en større printplade. Hvis der i en senere model ikke ønskes at bruge PSoC og dermed CapSense, kan det nok løses med en billigere løsning. Det kan måske være muligt at måle kondensatoren vha. et simpelt RC led, hvor stigetiden måles. Det kan derfor være meget billigt med en kapacitiv sensor. Til en optisk sensor skal der derimod benyttes en del flere komponenter som dermed gør systemet dyrere.
+En meget stor fordel for den kapacitive sensor er at den er meget billig, der skal kun benyttes en PSoC (som allerede skal bruges til andre dele af systemet) og en metal plade, dette kan nemt være som en del af en større printplade. Hvis der i en senere model ikke ønskes at bruge PSoC og dermed CapSense, kan det måske løses med en billigere løsning. Det kan måske være muligt at måle kondensatoren vha. et simpelt RC led, hvor stigetiden måles. Det kan derfor være meget billigt med en kapacitiv sensor. Til en optisk sensor skal der derimod benyttes en del flere komponenter som dermed gør systemet dyrere.
 Det er svært at vælge en teknologi på grundlag af prisen, da der ikke er sat nogen specifikke krav til prisen af produktet. Derfor vælges den optiske sensor, da det gør det meget realistisk at være i stand til at detektere både en kop og at en bold rammer i.
 
+\subsubsection{Diskussion} \label{sec:CupSensorTekUnderDiskussion}
+Undervejs i teknologiundersøgelsen blev der observeret forskellige ting som er interesant til den videre udvikling. 
+I testen hvor forholdet mellem signalstyrke og afstanden mellem LED og fotodiode blev undersøgt, blev det observeret at signalet varierer afhængig af hvor i kanten bolden er. Altså hvis bolden er lige over en fotodiode er signalet højt, men hvis den drejes 90 grader rundt om centrum af koppen, så den er midt i mellem de to fotodioder (men stadig i kanten af koppen), er signalet lavere. Ud fra dette kan det erfares at det vil være fordelagtigt at have flere fotodioder i en cirkel rundt om den infrarøde LED. Dette vil dog være spild at have alt for mange fotodioder, så det tænkes at 4 er tilstrækkelig.
+Som en del af undersøgelsen af hvordan CapSense virker, blev deres signalbehandling beundret. Den måde CapSense detektere om der er en finger/kop/mm. vha. baselines virker som en smart signalbehandling. Det overvejes derfor at benyttes denne type signalbehandling til brug ved den optiske sensor.
+
+\subsubsection{Konklusion} \label{sec:CupSensorTekUnderKonklusion}
+I denne teknologiundersøgelse er der undersøgt specielt to forskellige teknologier, kapacitiv sensor og optisk sensor. Der blev valgt den optiske sensor, som er undersøgt nok til et 'proof of concept', der gør at der i den videre udvikling kan bevares en meget godt tiltro at teknologien vil virke. Men den skal stadig videreudvikles.
+
+\iffalse
 \subsection{Nærmere undersøgelse}
 \subsubsection{Maksimal mulig strøm fra en fotodiode (uden AC coupling)} \label{sec:CupSensorCurrentTest}
 {
 Dette afsnit bygger på et design som det fra teknologiundersøgelsen. Dette er ikke det endelige design og dette afsnit er derfor ikke så brugbart længere. Det kan dermed springes over.
 
 Til at bestemme om forskellige designs er mulige, er det nødvendigt at kende strømmen fra fotodioden i forskellige tilfælde.
-Der benyttes fotodioden SFH 203 FA. I databladet for denne står der at photocurrent er $50 (≥ 30) \si{mA}$ men dette er for en bestem bølgelængde og lysintensitet. Det er ikke tydeligt om det er den maksimale strøm, derfor måles denne.
+Der benyttes fotodioden SFH 203 FA. I databladet for denne står der at photocurrent er $50 (\geq 30) \si{mA}$ men dette er for en bestem bølgelængde og lysintensitet. Det er ikke tydeligt om det er den maksimale strøm, derfor måles denne.
 Det testes nu hvad den maksimal mulige strøm fotodioden kan levere når den direkte belyses af LED'en. Dette er ikke nødvendigvis det maksimale den kan levere, men det antages at fotodioden aldrig vil blive belyst med mere end dette.
 LED'en tændes og strømmen måles ved hjælp af kredsløbet som ses på figur \ref{fig:PhotodiodeTestDiagram}. Strømmen måles ved at måle spændingen over formodstanden. Formodstanden er en parallel kobling af en 68Ohm modstand og en 51Ohm modstand som svare til 29Ohm. Spændingen over modstandene måles til $3.06\si{V}$ og dermed er den samlede strøm gennem dem og dermed LED'en ca $106\si{mA}$. Denne strøm måles da det er ca denne strøm der regnes med at blive brugt. Strømmen fra fotodioden måles vha. TIA'en som ses på figur \ref{fig:PhotodiodeTestDiagram}. Her måles spændingen $4.65V$. Dette er det maksimale output af TIA'en og forstærkningen kan ikke sænkes. Ud fra dette resultat kan det konkluderes at strømmen fra photdioden mindst er $230\si{\mu A}$
 
@@ -198,19 +216,12 @@ Resultaterne vises på tabel \ref{tab:CupSensorCurrentTest}
 \label{tab:CupSensorCurrentTest}
 \end{table}
 }
-
-
-\subsection{Erfaringer fra undersøgelser} \label{sec:CupSensorErfaringer}
-
-Som en del af testen i teknologiundersøgelsen hvor forholdet mellem signalstyrke og afstanden mellem LED og fotodiode, blev det observeret at signalet varierer afhængig af hvor i kanten bolden er. Altså hvis bolden er lige over en fotodiode er signalet højt, men hvis den drejes 90 grader rundt om centrum af koppen, så den er midt i mellem de to fotodioder, er signalet lavere. Ud fra dette kan det erfares at det vil være fordelagtigt at have flere fotodioder i en cirkel rundt om den infrarøde LED. Dette vil dog være spild at have alt for mange fotodioder, så det tænkes at 4 er tilstrækkelig.
-
-%Derudover kan det ud afsnit\textbf{\ref{sec:CupSensorCurrentTest} \nameref{sec:CurrentTest}} kan det ses at under normale omstændigheder, dvs. at der er ikke noget spejl eller nogen kraftige IR lyskilder, vil der maksimalt løbe $25\si{\mu A}$ igennem en fotodiode. Hvis der benyttes 4 fotodioder til hver kop, vil der for hver kop løbe en strøm på maksimalt $100\si{\mu A}$. 
+\fi
 
 
 \subsection{Detektering af lys}
-
 Til at detektere lys bruges der som tidligere beskrevet en fotodiode som skal detektere lys fra en IR LED. 
-Det er valgt at benytte fotodioden SFH203FA som er mest sensitiv overfor infrarødt lys (900 nm) og passer meget godt til lyset som kommer fra LED'en SFH485 (880nm). Det er valgt at benytte infrarødt lys, da der i normale omgivelser vil være større forstyrelser i det synlige område, fx fra kunstig belysning. De valgte komponenter er valgt da de passer godt til hinanden samt at det er dem, som der er tilrådighed. 
+Det er valgt at benytte fotodioden SFH203FA som er mest sensitiv overfor infrarødt lys (900 nm)\autocite[2]{SFH203FA} og passer meget godt til lyset som kommer fra LED'en SFH485 (880nm)\autocite[3]{SFH485}. Det er valgt at benytte infrarødt lys, da der i normale omgivelser vil være større forstyrelser i det synlige område, fx fra kunstig belysning. De valgte komponenter er valgt da de passer godt til hinanden samt at det er dem, som der er tilrådighed. 
 Da der altid vil være forstyrelser fra andre kilder er det valgt at LED'en skal blinke med en given frekvens og der kun måles signaler fra fotodioden ved denne frekvens. Til dette vil der benyttes en mixer, som vil blive forklaret senere. 
 
 \subsubsection{Fotodiode beskrivelse}
@@ -219,7 +230,7 @@ Først beskrives virkemåden af en fotodiode. En fotodiode fungerer som det ses 
     \centering
     \includegraphics[width=\textwidth]{HardwareDesign/CupSensor/graphics/Photodiode_operation.png}
     \caption{Funktionalitet for en fotodiode}
-    \label{fig:PhotodiodeTestDiagram}
+    \label{fig:photodiode_operation}
 \end{figure}
 
 Til at benytte en fotodiode, ønskes en simpel model for en fotodiode. En model kunne være den som ses på figur \ref{fig:photodiodeModel}.
@@ -241,7 +252,7 @@ Det har ikke være muligt at finde tilstrækkelig oplysninger i databladet for d
 \end{figure}
 
 \subsubsection{AC kobling}
-Strømmen ønskes at laves om til en spænding. Men kun AC komponent af signalet, da LED'en blinker vil nyttesignalet være et AC signal. Der benyttes standard kredsløbet fra øvelse 6 i MSE. Dette kan ses på figur \ref{fig:photodiodeCircuit}. DC komponenten af signalet filtreres væk vha. RC ledet. Den resterende AC strøm laves om til en spænding vha. en TIA. På \ref{fig:photodiodeCircuit} ses at der er en modstand R, som bl.a. sørger for at der hele tiden er påtrykt en spænding i spæreretningen. Dette er en af ændringerne i forhold til kredsløbet fra teknologiundersøgelsen. Spændingen i spæreretningen sørger for at formindske kondensatoren $C_D$ i \ref{fig:photodiodeModelSimple}. Det at kondensatoren formindskes kan ses ud fra databladet for SFH485 (se \ref{fig:C_D_graph}). Det ses at $C_0$ (i vores model $C_D$) bliver mindre jo større $V_R$ er. $V_R$ er 'reverse voltage' og altså spændingen i spæreretningen. Ved at tilføje modstanden R, sørges der for at $V_R$ altid er positiv. Dermed er $C_0 = C_D \approx 3.5\si{pF}$ ved $V_R=5\si{V}$. Det ønskes at sænke kapacitansen for $C_D$ da dette vil øge båndbredden for dioden da kondensatoren ikke skal påføres så mange ladninger. Derudover påvirker en kondensator på indgangen af en operationforstærker også stabiliteten af denne operationsforstærker.
+Strømmen ønskes at laves om til en spænding. Men kun AC komponent af signalet, da LED'en blinker vil nyttesignalet være et AC signal. Der benyttes standard kredsløbet fra øvelse 6 i MSE. Dette kan ses på figur \ref{fig:photodiodeCircuit}. DC komponenten af signalet filtreres væk vha. RC ledet. Den resterende AC strøm laves om til en spænding vha. en TIA. På \ref{fig:photodiodeCircuit} ses at der er en modstand R, som bl.a. sørger for at der hele tiden er påtrykt en spænding i spæreretningen. Dette er en af ændringerne i forhold til kredsløbet fra teknologiundersøgelsen. Spændingen i spæreretningen sørger for at formindske kondensatoren $C_D$ i \ref{fig:photodiodeModelSimple}. Det at kondensatoren formindskes kan ses ud fra databladet for SFH485 (se \ref{fig:C_D_graph}). Det ses at $C_0$ (i vores model $C_D$) bliver mindre jo større $V_R$ er. $V_R$ er 'reverse voltage' og altså spændingen i spæreretningen. Ved at tilføje modstanden R, sørges der for at $V_R$ altid er positiv. Dermed er $C_0 = C_D \approx 3.5\si{pF}$ ved $V_R=5\si{V}$. Det ønskes at sænke kapacitansen for $C_D$ da dette vil øge båndbredden for dioden da kondensatoren ikke skal påføres så stor en ladning. Derudover påvirker en kondensator på indgangen af en operationforstærker også stabiliteten af denne operationsforstærker.
 
 \begin{figure}[H]
     \centering
@@ -335,52 +346,77 @@ Til at lave et båndpas filter er det valgt at benytte en mixer hvor lokaloscill
     \label{fig:final_PSoC_design_input_part}
 \end{figure}
 
-En ting der kan ses på diagrammet er, at der ikke er nogen mixer. Dette er fordi ADC'en har en indbygget funktion som kan få den til at have funktionaliteten af en mixer. Det er valgt da det formindsker antallet af nødvendige komponenter. ADC'ens mixer funktionalitet aktiveres ved at vælge "Enable modulator input" i konfigurationen af ADC'en. Når denne er valgt, har ADC'en inputtet 'mi'. Når dette input er højt, inverteres polariteten modulatoren i delta sigma ADC'en. På denne måde fungere ADC'en som en mixer, udover at en normal mixer vil invertere inputtet når LO er lav, derfor er der tilføjet in inverter mellem LED\_clock og 'mi' inputtet.
+En ting der kan ses på diagrammet er, at der ikke er nogen mixer. Dette er fordi ADC'en har en indbygget funktion som kan få den til at have funktionaliteten af en mixer \autoref[3]{ADC-DelSig-datasheet}. Det er valgt da det formindsker antallet af nødvendige komponenter. ADC'ens mixer funktionalitet aktiveres ved at vælge "Enable modulator input" i konfigurationen af ADC'en. Når denne er valgt, har ADC'en inputtet 'mi'. Når dette input er højt, inverteres polariteten modulatoren i delta sigma ADC'en. På denne måde fungere ADC'en som en mixer, udover at en normal mixer vil invertere inputtet når LO er lav, derfor er der tilføjet en inverter mellem LED\_clock og 'mi' inputtet.
+
 Når der benyttes samme clock til at styre LED og til LO, er udgangen fra mixeren et DC niveau, når der ikke er støjsignaler tilstede. Men for at dette DC niveau ikke er nul. Er det vigtigt at signalet til mixeren og LO har samme fase. Det undersøges nu derfor om dette er tilfældet.
 
 Det undersøges om lysets forsinkelse vil have en betydelig indflydelse på fasen af signalet fra fotodioden. Tidsforsinkelsen for lyset vil være 
 $$t_d = \frac{l}{v_l}$$
-hvor $t_d$ er tidsforsinkelse, $l$ er afstanden lyset bevæger sig og $v_l$ er hastigheden af lyset. Hvis det antages at hele lysets lysets gang forgår i øl, som antages at være vand, er lysets hastighed $v_p = \frac{c}{n_{vand}}$, hvor $c$ er lysets hastighed i vakuum og $n_{vand}$ er brydningsindekset for vand.
+hvor $t_d$ er tidsforsinkelse, $l$ er afstanden lyset bevæger sig og $v_l$ er hastigheden af lyset. Hvis det antages at hele den afstand, som lyset bevæger sig foregår i øl, som antages at være vand, er lysets hastighed $v_p = \frac{c}{n_{vand}}$, hvor $c$ er lysets hastighed i vakuum og $n_{vand}$ er brydningsindekset for vand.
 Dermed er tidsforsinkelsen
 $$t_d = n_{vand}\frac{l}{c}$$
 fasen er dermed
-$$\phi_{lys} = -2 \pi f_{LED\_clock} n_{vand}\frac{l}{c}$$, hvor $\phi_{lys}$ er fasen grundet lysets forsinkelse og $f_{LED\_clock}$ er frekvensen LED'en blinker med. Ved indsættelse af værdierne $n_{vand}=1.33$, $f_{LED\_clock} = 10kHz$ og $l=1m$, som er meget længere end hvad det reelt vil være, fås fasen til 
+$$\phi_{lys} = -2 \pi f_{LED\_clock} n_{vand}\frac{l}{c}$$, hvor $\phi_{lys}$ er fasen grundet lysets forsinkelse og $f_{LED\_clock}$ er frekvensen LED'en blinker med. Ved indsættelse af værdierne $n_{vand}=1.33$ \autocite{brydningsindex}, $f_{LED\_clock} = 10kHz$ og $l=1m$, som er meget længere end hvad det reelt vil være, fås fasen til 
 $$\phi_{lys} = -0.032 \si{^{\circ}}$$
 
 Det undersøges om AC koblingen vil have en betydelig indflydelse på fasen. I et tideligere afsnit blev nedenstående udtryk bestemt
 $$V_{out\_I\_D} = I_D R_{feedback} \frac{s}{\frac{1}{R C_{coupling}} + s}$$
 Ved indsætningen af værdier for $R=10k\Omega$, $C_{coupling} = 0.1 \si{\mu F}$ og $s=j2\pi f_{LED\_clock} = j2\pi 10 \si{kHz}$ fås det at fasen er 
-$$\phi_{ac_kobling} = 0.912\si{^{\circ}}$$
+$$\phi_{ac\_kobling} = 0.912\si{^{\circ}}$$
 
 Det kan konkluderes at der stort set ikke er nogen faseforskel. Den lille faseforskel der er, vil forårsage at DC niveauet vil være en lille smule mindre, men den vil være tæt på den maksimale mulige. 
 
-Formålet med at bruge en mixer er at lave et båndpasfilter. For dette er tilfældet skal der på udgangen af mixeren være et lavpasfilter. Dette er også inkluderet i ADC'en som et sinc 4 filter. Filteret virker som et lavpasfilter som vil have vil have uendelig stor dæmpning ved samplefrekvensen og alle dens harmoniske overtoner. Samplefrekvensen indstilles til 2500 samples/s. I kombination med mixeren vil det virke som et båndpas filter.  
+Formålet med at bruge en mixer er at lave et båndpasfilter. For dette er tilfældet skal der på udgangen af mixeren være et lavpasfilter. Dette er også inkluderet i ADC'en som et sinc 4 filter \autocite[35]{ADC_DelSig_datasheet}. Filteret virker som et lavpasfilter som vil have vil have uendelig stor dæmpning ved samplefrekvensen og alle dens harmoniske overtoner. Samplefrekvensen indstilles til 2500 samples/s. I kombination med mixeren vil det virke som et båndpas filter.  
 
-
+\newpage
 \subsection{Håndtering af flere sensorer}
 
 Der overvejes forskellige metoder til at håndtere flere sensorer.
 \subsubsection{Flere kanaler}
-Det overvejes at have en kanal til hver sensor. Det vil sige at LED'erne på de forskellige sensorer blinker med forskellige frekvenser. På denne måde kan man indstille kanalen på mixeren til den kanal der passer til den sensor der ønskes at blive læst. Dette gøres ved at indstille den lokale oscillator til mixeren. Dette vil betyde at alle fotodioderne fra alle sensorerne skal forbindeskan forbindes til det samme ben på PSoC'en, hvilket er fordelagtigt.
+Det overvejes at have én kanal til hver sensor. Et udkast til sådan en løsning kan ses på \ref{fig:multiple_channels}. Det vil sige at LED'erne på de forskellige sensorer (LED1 og LED2) blinker med forskellige frekvenser (Clock\_1 og Clock\_2). På denne måde kan man indstille kanalen på mixeren til den kanal der passer til den sensor der ønskes at blive læst. Dette gøres ved at indstille den lokale oscillator til mixeren (Clock\_3). Hvis det ønskes at læse fra sensoren bestående af LED1 og D1 indstilles Clock\_3 til at have samme frekvens som Clock\_1 (i eksemplet 11kHz). Denne løsning vil betyde at alle fotodioderne fra alle sensorerne kan forbindes til det samme ben på PSoC'en, hvilket er fordelagtigt.
 
-Dette vil ud, fra afsnit \ref{sec:CupSensorErfaringer}, betyde en maksimal strøm på $600\si{\mu A}$. Det blev også observeret i afsnit \textbf{\ref{sec:CupSensorCurrentTest}} at det maksimale output fra en TIA på PSoC'en er ca $4.6\si{V}$. Det vil sige at der maksimalt kan være en feedback modstand på $7.7\si{k\Omega}$ for at forstærkeren ikke går i mætning ved den maksimale strøm. Da det ønskes at benytte en PSoC er dette ikke muligt da feedback modstanden skal være mindst $20\si{k\Omega}$. En anden ulempe vil denne metode er, selv hvis det var muligt at indstille den rigtige forstærkning så vil signalet på udgangen af mixeren være relativt lav da det jo kun er er fra en sensor. Hvis TIA'en derimod er indstillet til at forstærke signalet fra kun en sensor (som i de andre metoder beskrevet), kan denne forstærkning være ca 6 gange større.  
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{HardwareDesign/CupSensor/graphics/Flere_kanaler.PNG}
+    \caption{Udkast til hvordan kredsløbet kan se ud hvis der benyttes flere kanaler. Der er kun medtaget to sensorer(LED1 og D1 og den anden sensor er LED2 og D2). Der er for overskuelighedens skyld kun en fotodiode per sensor}
+    \label{fig:multiple_channels}
+\end{figure}
+
+ En ulempe ved denne metode er, at TIA'en skal have en relativ lav forstærkning, for at den ikke går i mætning i de tilfælde hvor LED'en på alle sensorer er tændt på samme tid. Udgangen på mixeren vil være relativt lav da det jo kun er er fra en sensor. Der vil derfor kræves yderligere forstærkning på udgangen af mixeren. Hvis TIA'en derimod er indstillet til at forstærke signalet fra kun én sensor (som i de andre metoder beskrevet), kan denne forstærkning være ca 6 gange større.
+ 
+ En fordel ved denne metode er at klok-signalet til hver sensor ikke nødvendigvis behøver at være på PSoC'en, man kunne have et lokalt kloksignal ved hver sensor for at minere brugen af ben på PSoC'en.
 
 \subsubsection{Multiplexing}
-En anden metode til at håndtere flere sensorer, er kun at sende kloksignalet til LED'en på én sensor af gangen og samtidig kun måle signalet fra fotodioderne på én sensor af gangen. Til dette skal der bruges 6 digitale udgange og 6 analoge indgange og tilsammen 12 ben på PSoC'en. Dette er en af ulemperne med denne løsning.
+En anden metode til at håndtere flere sensorer, er kun at sende kloksignalet til LED'en på én sensor af gangen og samtidig kun måle signalet fra fotodioderne på én sensor af gangen. Et udkast til sådan en løsning kan ses på \ref{fig:multiplexing}. Til dette skal der bruges 6 digitale udgange og 6 analoge indgange og tilsammen 12 ben på PSoC'en. Dette er en af ulemperne med denne løsning. Der ses på \ref{fig:multiplexing} at der benyttes en multiplexer og en de-multilexer til at sende kloksignalet til en sensor og kun at modtage fra en sensor. Multiplexeren og de-multiplexeren skal således styres sammen, så der læses signalet fra den samme sensor som der sendes et signal til.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{HardwareDesign/CupSensor/graphics/Multiplexing.PNG}
+    \caption{Udkast til hvordan kredsløbet kan se ud hvis der benyttes multiplexing. Der er kun medtaget to sensorer(LED1 og D1 og den anden sensor er LED2 og D2). Der er for overskuelighedens skyld kun en fotodiode per sensor}
+    \label{fig:multiplexing}
+\end{figure}
 
 \subsubsection{Multiplexing med kun en indgang}
-Der overvejes en anden variation af multiplexing. Der sendes stadig kloksignal til en sensor af gangen, men alle sensorers fotodioder forbindes til den samme analoge indgang på PSoC'en. Her vil det blive antaget at lyset der bliver sendt ud fra en sensor ikke påvirker fotodioderne på de andre sensorer. Hvis denne antagelse er gyldig kan alle sensorer måles men med færre ben på PSoC'en end den tideligere beskrevet multiplexing metode. En ulempe til denne metode er at antagelsen om at de andre fotodioder ikke bliver påvirket, muligvis ikke er gyldig.
+Der overvejes en anden variation af multiplexing. Et udkast til sådan en løsning kan ses på \ref{fig:multiplexing_en_indgang}. Der sendes stadig kloksignal til en sensor af gangen, men alle sensorers fotodioder forbindes til den samme analoge indgang på PSoC'en. Her vil det blive antaget at lyset der bliver sendt ud fra en sensor ikke påvirker fotodioderne på de andre sensorer. Hvis denne antagelse er gyldig kan alle sensorer måles men med færre ben på PSoC'en end den tideligere beskrevet multiplexing metode. En ulempe til denne metode er at antagelsen om at de andre fotodioder ikke bliver påvirket, muligvis ikke er gyldig.
 
-\subsubsection{Udvicelse til Multiplexing med kun en indgang}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{HardwareDesign/CupSensor/graphics/Multiplexing_en_indgang.PNG}
+    \caption{Udkast til hvordan kredsløbet kan se ud hvis der benyttes multiplexing med kun en indgang. Der er kun medtaget to sensorer(LED1 og D1 og den anden sensor er LED2 og D2). Der er for overskuelighedens skyld kun en fotodiode per sensor}
+    \label{fig:multiplexing_en_indgang}
+\end{figure}
+
+
+\subsubsection{Udvidelse til Multiplexing med kun en indgang}
 Der overvejes en udvidelse af multiplexing med kun en indgang. I denne udgave vil det kloksignal der sendes til LED'en på en sensor også styre om fotodiodernes strøm skal sendes videre til TIA'en. Så der kun modtages et signal fra den sensor der læses. En ulempe for denne metode er at der skal benyttes flere komponenter end tidligere metode, og systemet bliver mere kompliceret. En fordel er at det ikke er nødvendigt at antage at de andre fotodioder ikke bliver påvirket, da de ikke vil sende signalet videre til TIA'en, og det bliver derfor mere pålidligt.
 
 \subsubsection{Valg af metode}
-Det vil umiddelbart være bedst at benyt den metode hvor der er en kanal til hver sensor, da det fx. kunne være muligt at have en oscillator til hver sensor ekstern fra PSoC'en, så der kun skal bruges ét ben på PSoC'en. Grundet problemet med at forstærkningen ikke kan være lille nok samt at signalet på udgangen af mixeren vil være relativt lavt (dette kan dog forstærkes op) fravælges denne metode. 
+Det vil umiddelbart være bedst at benytte den metode hvor der er én kanal til hver sensor, da det fx. kunne være muligt at have en oscillator til hver sensor ekstern fra PSoC'en, så der kun skal bruges ét ben på PSoC'en. Der er med denne metode problemet at forstærkningen vil være lille og signalet på udgangen af mixeren derfor vil være relativt lavt (dette kan dog forstærkes op). Derudover skal der benyttes flere forskellige kloksignaler på PSoC'en hvilket vil benytte flere recourcer på PSoC'en. Denne metode fravælges derfor. 
 
-Den simple metode med multiplexing (6 udgange og 6 indgange) vil være relativ nem at implementere (i forhold til nogle af de andre metoder) og nok også rimelig pålidelig. Dette er en meget god grund til at vælge denne metode, men den bruger mange ben. Selvom det ikke er noget direkte krav hvor mange ben der må bruges så, er det overordnet i projektet et mål (ikke beskrevet nogen steder) at benytte så få ben som muligt, da det vil muliggøre at benytte en mindre microcontroller/PSoC i et endeligt produkt (De PSoC kits der bruges i dette projekt, tænkes at blive erstattet af en billigere og mindre microcontroller/PSoC). Derfor fravælges denne metode også.
+Den simple metode med multiplexing (6 udgange og 6 indgange) vil være relativ nem at implementere (i forhold til nogle af de andre metoder) og nok også rimelig pålidelig. Dette er en meget god grund til at vælge denne metode, men den bruger mange ben. Selvom det ikke er noget direkte krav hvor mange ben der må bruges, så er det overordnet i projektet et ønske (ikke beskrevet nogen steder) at benytte så få ben som muligt, da det vil muliggøre at benytte en mindre microcontroller/PSoC i et endeligt produkt (De PSoC kits der bruges i dette projekt, tænkes at blive erstattet af en billigere og mindre microcontroller/PSoC). Derfor fravælges denne metode også.
 
-Til sidst er der de to metoder med multiplexing hvor der kun benyttes en indgang. Disse metoder benytte færre ben end den simple multiplexing metode. Der bruges 7 ben frem for 12. Derfor vælges en af disse metoder (en af multiplexing metoderne med kun en indgang). Forskellen mellem de to metoder er hovedsageligt at den ene metode bygger på antagelsen om at der ikke lys udsendt fra en sensor ikke vil påvirke fotodioderne på de andre sensorer. Derfor vælges det at arbejde videre med den metode hvor det antages at denne antagelse er gyldig, og hvis det viser sig at den ikke er, kan det overvejes at skifte til den anden metode.
-
+Til sidst er der de to metoder med multiplexing hvor der kun benyttes en indgang. Disse metoder benytte færre ben end den simple multiplexing metode. Der bruges 7 ben frem for 12. Samme antal ben som der vil bruges med metoden med flere kanaler. Derfor vælges en af disse metoder (en af multiplexing metoderne med kun en indgang). Forskellen mellem de to metoder er hovedsageligt at den ene metode bygger på antagelsen om at lys udsendt fra én sensor, ikke vil påvirke fotodioderne på de andre sensorer. Derfor vælges det at arbejde videre med den metode hvor det antages at denne antagelse er gyldig, og hvis det viser sig at den ikke er, kan det overvejes at skifte til den anden metode.
+\newpage
 \subsection{Signal conditioning}
 
 \subsubsection{Maksimal mulig signalstyrke}

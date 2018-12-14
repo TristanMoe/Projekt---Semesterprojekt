@@ -1,30 +1,13 @@
 \documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
 \begin{document}
 
-\lstdefinestyle{customc}{
-    breaklines=true,
-    language=C,
-    basicstyle=\small\sffamily,
-    numbers=left,
-    numberstyle=\tiny\color{gray},
-    frame=tb,
-    columns=fullflexible,
-    showstringspaces=false,
-    keywordstyle=\bfseries\color{green!40!black},
-    commentstyle=\itshape\color{purple!40!black},
-    identifierstyle=\color{blue},
-    stringstyle=\color{orange},
-}
-
-\lstset{escapechar=@,style=customc}
-
 \section{CupLight Software Implementering}
-
+Implementeringen af CupLight\_IF er lavet i IDE'et PSoC-creator 4.2, hvor interfacet er skrevet i sproget C og kompileret med ARM GCC Generic Version: 4.2.0.641. Da sproget er C, kan der ikke laves rigtige klasser, og der er heller ikke valgt en objekt orienteret løsning med struct og funktionspointers, da interfacet er rimelig småt. I stedet er det implementeret ved moduler bestående af header- og source-filer.
 \subsection{ShiftPWM}
 Det første step til implementeringen af software, er at implementere det, der genererer PWM-signalet på den ønskede pin på PSoC. 
 \subsubsection{ShiftRegPWM Modulet}
 Til implementeringen af dette blev der hentet en del inspiration fra et blog indlæg lavet af Timo Denk \footnote{https://timodenk.com/blog/shiftregister-pwm-library/}. Især den datastruktur og den modificerende algoritme derpå,  han har udviklet til sit library, blev brugt som inspiration til at skrive ShiftRegPWM modulet. 
-\\Modulet ShiftReg indeholder 4 metoder, en interrupt-handler og en datastruktur. Startes der ud med datastrukturen, så har den  til formål at holde styr på sekvensen af bits, der skal skiftes ind i 74HC595, for at det ønskede PWM signal opnås på en ønskede pin. Data strukturen ses i listing \ref{lst:ShiftRegPWM_DataStruct}.
+\\Modulet ShiftRegPWM indeholder 4 metoder, en interrupt-handler og en datastruktur. Startes der ud med datastrukturen, så har den  til formål at holde styr på sekvensen af bits, der skal skiftes ind i 74HC595, for at det ønskede PWM signal opnås på en ønskede pin. Data strukturen ses i listing \ref{lst:ShiftRegPWM_DataStruct}.
 
 \begin{lstlisting}[caption={Datastruktur for ShiftRegPWM}, label={lst:ShiftRegPWM_DataStruct}]
 volatile uint8_t shiftRegData[RESOLUTION*SHIFT_REGISTERS] = {0};
@@ -36,42 +19,60 @@ Det ses også her at det er muligt at definere(i #defines), hvor stor en opløsn
 
 
 \begin{lstlisting}[caption={ISR & Update}, label={lst:ISR_Update_impl}]
+
 CY_ISR(updater_handler)
 {
     update();
 }                   
+
 void update()
 {
     for (int i = SHIFT_REGISTERS - 1; i >= 0; i--)
     {
-       SPIM_led_control_WriteTxData(shiftRegData[time + i * RESOLUTION]);
+      SPIM_led_control_WriteTxData(shiftRegData[time + i * RESOLUTION]); //Send the bytes for each shiftregister
     }
     toggleLatchShiftReg();
     
     if (++time == RESOLUTION) {
       time = 0;
     }
+    Timer_led_updater_ReadStatusRegister(); //Reset ReadStatusRegister
+}
+
+void toggleLatchShiftReg()
+{
+    Pin_latch_Write(0);
+    Pin_latch_Write(1);
 }
 \end{lstlisting}
 
-Da update funktionen nærmest er selve interrupt service rutinen, så gennemgås denne. Denne funktion tager for antallet af Shift Registers og skifter det data, der svarer til den nuværende pin værdi for at skabe det ønskede PWM-signal. Når dette er skiftet ind i registeret så latches signalet altså, det bliver sat på output pins af Shift Registerne. Herefter inkrementeres den globale variable, der holder styr på, hvor langt man er i data sættet, og hvis den overskrider opløsningen så nulstilles den.
+Da update funktionen nærmest er selve interrupt service rutinen, så gennemgås denne. Denne funktion tager for antallet af Shift Registers og skifter det data, der svarer til de nuværende pin værdier for at skabe det ønskede PWM-signal. Når dette er skiftet ind i registeret så latches signalet, altså de indskiftede bytes bliver sat på output pins af Shift Registerne.\\
+Herefter inkrementeres den globale variable, der holder styr på, hvor langt man er i datastrukturen, og hvis den overskrider opløsningen så nulstilles den.
 
 \\Nu er det så relevant at kigge på, hvordan en pin sættes til en bestemt PWM værdi, hvilket gøres med setPin funktionen, der kan ses i listing \ref{lst:setPin_impl}
 
 \begin{lstlisting}[caption={Implementeringen af setPin}, label={lst:setPin_impl}]
+
 void setPin(uint8_t pin, uint8_t value)
 {
     value = (uint8_t) (value / 255.0 * RESOLUTION); //Scale value
     uint8_t shiftRegister = pin / 8; //8 pins per shift register
     for (int t = 0; t < RESOLUTION; ++t)
     {
-      // set (pin % 8)th bit to (value > t)
-      shiftRegData[t + shiftRegister * RESOLUTION] ^= (-(value > t) ^ shiftRegData[t + shiftRegister * RESOLUTION]) & (1 << (pin % 8));
+        if (value > t) //if value is greater than t set the pin bit
+        {
+            shiftRegData[t + shiftRegister * RESOLUTION] |= (1 << (pin%8));
+        }
+        else //else clear the pin bit
+        {
+            shiftRegData[t + shiftRegister * RESOLUTION] &= ~(1 << (pin%8));
+        }
+        
     }
 }
 \end{lstlisting}
 
-Det er i denne listing \ref{lst:setPin_impl} at det meste inspiration var hentet og mere specifikt til den algoritme, der sætter værdierne af data strukturen, så de passer med det PWM-signal, der bliver lavet på pins. Den korte beskrivelse af algoritmen er, at hvis argumentet value er større end den plads i arrayet, som skrives til og pladsen er den rigtige i forhold til den pin, der er givet som argument, så sættes den plads i datastrukturen. 
+Det er i denne listing \ref{lst:setPin_impl} der sættes værdierne af data strukturen, så de passer med det PWM-signal, der bliver lavet på pins. Funktionen skalerer først den givne \textsc{value} i forhold til den specificerede opløsning. Det ønskede \textsc{shiftRegister} bliver bestemt ud fra den givne \textsc{pin}. Herefter gennemgås datastrukturen \textsc{shiftRegData} og hvis \textsc{value} er større end \textsc{t}, så sættes den ønskede pin af registeret. Ellers nulstilles den ønskede pin.
 \\Nu har man altså den ønskede funktionalitet til at styre et PWM signal på en pin på 74HC595 IC'en, men der mangler stadig det modul, der skal fungere som interface, som specificeret i den oprindelige arkitektur.
 
 \subsubsection{CupLight\_IF modulet}
@@ -87,9 +88,9 @@ Funktionen \textit{controlLight} tager som parameter et nummer og en farve. Det 
 void controlLight(uint8_t nr, color_t color)
 {
     uint8_t shiftRegPos = 3*nr;
-    setPin(shiftRegPos,~color.Red);
-    setPin(shiftRegPos+1,~color.Green);
-    setPin(shiftRegPos+2,~color.Blue);
+    setPin(shiftRegPos,color.Red);
+    setPin(shiftRegPos+1,color.Green);
+    setPin(shiftRegPos+2,color.Blue);
 }
 \end{lstlisting}
 
@@ -109,25 +110,30 @@ void controlAllLights(color_t color)
 For god ordens skyld er her en tabel, der opsummere funktionerne, der er præsentere i dette afsnit.
 
 
-\begin{longtable}{|L{0.45\textwidth}|L{0.45\textwidth}|}
-\caption{Variabel, type og funktions definitioner og beskrivelser}
-\label{CupLightDef_tab}
-\hline
-\textbf{Variabel Navn}                          & \textbf{Variabel Beskrivelse}                                                                                                                                                                \\ \hline
-SHIFT\_REGISTERS                                & Define, der beskriver antallet af shift registers, der skal laves PWM på \\ \hline
-RESOLUTION                                      & Define der angiver opløsningen af værdier af PWM signalet. Kan have værdier fra 1-255. \\ \hline
-uint8\_t time                                   & Global variabel, der fungere som iterator henover datastrukturen shiftRegData.\\ \hline
-uint8\_t shiftRegData{[}{]}                     & Datastruktur der holder de værdier, der skiftes ind i registeret til time. Har størrelsen: RESOLUTION*SHIFT\_REGISTERS\\ \hline
-\textbf{Type Definition}                        & \textbf{Type Beskrivelse}                                                                                                                                                                    \\ \hline
-color\_t                                        & En type der indeholder 3 uint8, der beskriver henholdsvis, den røde, grønne og blå værdi, som farven skal bestå af\\ \hline
-\textbf{Funktions Navn}                         & \textbf{Funktions Beskrivelse}                                                                                                                                                               \\ \hline
-void initShiftRegPWM()                          & Funktion der initiere de relevante PSoC komponenter, som ShiftRegPWM modulet anvender.\\ \hline
-void setPin(uint8\_t pin, uint8\_t value)       & Funktion der sætter en pin på et shift register til en værdi. Funktionen tager selv højde for opløsning af værdien.\\ \hline
-CY\_ISR(updater\_handler)                       & Interrupt service rutine, der kaldes når nye værdier skal shiftes ned på shift registeret.\\ \hline
-void update()                                   & Funktion der kaldes af interrupt service rutinen update\_handler, der står for logikken bag, hvilke værdier, der skal skiftes ned på registeret\\ \hline
-void toggleLatchShiftReg()                      & Hjælpe funktion til update, der latcher den indskiftede data ud på pins af shift registeret.\\ \hline
-void controlLight(uint8\_t nr, color\_t color); & Funktion der kontrollerer det ønskede lys til en bestemt farve af typen color\_t.\\ \hline
-void controlAllLights(color\_t color);          & Funktion der kontrollerer alle lys til en bestemt farve af typen color\_t.\\ \hline
-\end{longtable}
+{\large\textbf{Boundary:  CupLight\_IF}}\\
+Attribut, type og funktionsbeskrivelser, der er implementeret i CupLight\_IF.\\
+{\large\textbf{Attributbeskrivelser: CupLight\_IF}}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{SHIFT\_REGISTERS} Define, der beskriver antallet af shift registers, der skal anvendes til PWM. \\[0.2cm]
+\textbf{RESOLUTION} Define der angiver opløsningen af værdier af PWM signalet. Kan have værdier fra 1-255.\\[0.2cm]
+\textbf{uint8\_t time} Global variabel, der fungere som iterator henover datastrukturen \textsc{shiftRegData}.\\[0.2cm]
+\textbf{uint8\_t shiftRegData{[}{]}} Datastruktur der holder de værdier, der skiftes ind i registeret til \textsc{time}. Har størrelsen: $RESOLUTION\cdot SHIFT\_REGISTERS$\\
+\end{adjustwidth}\\
+{\large\textbf{Type Definition}}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{color\_t} En type der indeholder 3 uint8, der beskriver henholdsvis, den røde, grønne og blå værdi, som farven skal bestå af.\\[0.2cm]
+\end{adjustwidth}
+{\large\textbf{Funktions Navn}}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{void initShiftRegPWM()}: Funktion der initiere de relevante PSoC komponenter, som ShiftRegPWM modulet anvender.\\[0.2cm]
+\textbf{void setPin(uint8\_t pin, uint8\_t value)} Funktion der sætter \textsc{RESOLUTION} antal værdier i \textsc{shiftRegData} for at få den ønskede PWM \textsc{value} på den ønskede \textsc{pin}\\[0.2cm]
+\textbf{CY\_ISR(updater\_handler)} Interrupt service rutine, der kaldes når nye værdier skal shiftes ned på shift registeret.\\[0.2cm]
+\textbf{void update()} Funktion der kaldes af interrupt service rutinen update\_handler, der står for logikken bag, hvilke værdier, der skal skiftes ned på registeret\\[0.2cm]
+\textbf{void toggleLatchShiftReg()} Hjælpe funktion til update, der latcher den indskiftede data ud på pins af shift registeret.\\ [0.2cm]
+\textbf{\textit{CupLight\_IF functions:}}\\[0.2cm]
+\textbf{void controlLight(uint8\_t nr, color\_t color)} Funktion der kontrollerer det ønskede lys til en bestemt farve af typen \textsc{color\_t}.\\ [0.2cm] 
+\textbf{void controlAllLights(color\_t color)} Funktion der kontrollerer alle lys til en bestemt farve af typen \textsc{color\_t}.\\ 
+
+\end{adjustwidth}
 
 \end{document}

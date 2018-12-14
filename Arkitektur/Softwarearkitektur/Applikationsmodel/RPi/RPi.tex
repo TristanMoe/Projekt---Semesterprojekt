@@ -1,6 +1,6 @@
 \documentclass[Arkitektur/System_main.tex]{subfiles}
 \begin{document}
-\subsubsection{RPiApp}
+\subsubsection{RPiApp} \label{sec:rpiapp_application_model}
 I dette afsnit beskrives software arkitekturen for Applikationen til RPi'en. Applikationen har fire hovedfunktioner:
 \begin{enumerate}
     \item I2C Kommunikation mellem delenheder (Playerside, BallDispenser)
@@ -8,7 +8,7 @@ I dette afsnit beskrives software arkitekturen for Applikationen til RPi'en. App
     \item WebPage grafisk grænseflade som modtager information fra brugeren
     \item Display grafisk grænseflade som udsender/viser information til brugeren. 
 \end{enumerate}
-Et klassediagram er blevet lavet for hele applikationen og den kan ses i figur \ref{CD_RPI}. I de næste afsnit vil de enkelte klasser blive beskrevet samt tilhørende funktioner. 
+Et klassediagram er blevet lavet for hele applikationen og den kan ses i figur \ref{fig:CD_RPI}. I de næste afsnit vil de enkelte klasser blive beskrevet samt tilhørende funktioner. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/RPi/graphics_RPi/Class.png}
@@ -17,7 +17,7 @@ Et klassediagram er blevet lavet for hele applikationen og den kan ses i figur \
 \end{figure}
 \subsubsection{Funktionsbeskrivelse for RPi}
 \large{\textbf{Controller:  GameController}}\\
-GameController er den centrale klasse for use case 1 - 3. Den sørger for at sende og modtage data gennem klassen I2C. Alt modtaget data bliver evalueret i GameController og sendt videre i overensstemmelse med protokollen og use case flow. Klassen varetager alt logikken og de flest beslutninger i systemet.\\\\
+GameController er den centrale klasse for use case 1 - 3. Den sørger for at sende og modtage data gennem klasserne BallDispenser og PlayersideRead. Alt modtaget data bliver evalueret i GameController og sendt videre i overensstemmelse med protokollen og use case flow. Klassen varetager alt logikken og de flest beslutninger i systemet.\\\\
 {\large\textbf{Funktionsbeskrivelser: GameController}}\\[0.2cm]
 \textbf{SystemStart() : void}
 \begin{adjustwidth}{1cm}{0pt}
@@ -143,7 +143,7 @@ client. Den skal initialisere to objektere af UserInfo klassen og sende dem til 
 \textbf{team1\_} Et UserInfo objekt, afspejler playerside 1 (Brugere, hold og farve) \\[0.2cm]
 \textbf{team2\_} Et UserInfo objekt, afspejler playerside 2 (Brugere, hold og farve) \\[0.2cm]
 \end{adjustwidth}
-\\
+
 {\large\textbf{Funktionsbeskrivelser: WebPage}}\\[0.2cm]
 \textbf{WSInit() : void}
 \begin{adjustwidth}{1cm}{0pt}
@@ -167,7 +167,7 @@ Klassen indeholder informationer, som repræsenterer Playersides. Klassen skal s
 \textbf{myColor: Color} Indeholder holdets farve.  \\[0.2cm]
 \textbf{Opponent: Color} Indeholder modstanderholdets farve.  \\[0.2cm]
 \end{adjustwidth}
-\\
+
 {\large\textbf{Funktionsbeskrivelser: UserInfo}}\\[0.2cm]
 \textbf{setCups(\&cups: int) : bool}
 \begin{adjustwidth}{1cm}{0pt}

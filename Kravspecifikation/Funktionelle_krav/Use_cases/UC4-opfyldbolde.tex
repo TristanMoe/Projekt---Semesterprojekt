@@ -1,7 +1,7 @@
 \documentclass[Kravspecifikation/Kravspec_Main.tex]{subfiles}
 \begin{document}
 
-\subsection{UC4: Refill balls}
+\subsection{UC4: Refill balls}\label{sec:uc_4_refill_balls}
 
 \protect\hypertarget{t.982baa266913794041029567659e3677b1ccea8f}{}{}\protect\hypertarget{t.0}{}{}
 
@@ -18,7 +18,7 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Mål}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Bolddispenseren har nok \textbf{\textit{Balls}} til at starte et spil}\strut
+{Bolddispenseren har nok \textbf{Balls} til at starte et spil}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -50,14 +50,13 @@ Sekundær: \textbf{Ball}
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Prækondition}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{\textbf{\textit{Spillet er ikke i gang}}.
-Der er under to \textbf{Balls} i bolddispenseren}\strut
+{Der er under to \textbf{Balls} i \textit{\textbf{Ball dispenser}}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Postkondition}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Der er to eller flere \textbf{Balls} i bolddispenseren }\strut
+{\textbf{Spillet er klar}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -66,26 +65,26 @@ Der er under to \textbf{Balls} i bolddispenseren}\strut
 \begin{enumerate}
 \tightlist
 \item
-  {\textbf{Systemet:} tænder den røde led på bolddispenser status led og slukker den grønne (hvis var tændt)}
+  {\textbf{Systemet:} tænder den røde led på \textbf{\textit{Ball dispenser status lights}} og slukker den grønne (hvis var tændt)}
 \item
-  {\textbf{Worker:} Åbner op til bolddispenser}
+  {\textbf{Worker:} Åbner op til \textit{\textbf{Ball dispenser}}}
 \item
   {\textbf{Worker:} tilføjer én \textbf{Ball} af gangen}
-\item \textbf{Systemet:} slukker den røde led på bolddispenser status led. \newline
-  [Ext 1 : Bolddispenser er fyldt helt op]
+\item \textbf{Systemet:} slukker den røde led på \textbf{\textit{Ball dispenser status lights}}, når der er 2 eller flere bolde i \textit{\textbf{Ball dispenser}}. \newline
+  [Ext 1 : \textit{\textbf{Ball dispenser}} er fyldt helt op]
 \item 
-  {\textbf{Worker:} lukker for bolddispenser }
+  {\textbf{Worker:} lukker for \textit{\textbf{Ball dispenser}} }
 \end{enumerate}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Udvidelser eller undtagelser}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{[Ext 1 : Bolddispenser er fyldt helt op]
+{[Ext 1 : \textit{\textbf{Ball dispenser}} er fyldt helt op]
 \begin{enumerate}
 \tightlist
 \item
-  \textbf{Systemet:} tænder den grønne led på bolddispenser status led.
+  \textbf{Systemet:} tænder den grønne led på \textbf{\textit{Ball dispenser status lights}}.
 \item  Use case fortsætter
 \end{enumerate}
 }\strut

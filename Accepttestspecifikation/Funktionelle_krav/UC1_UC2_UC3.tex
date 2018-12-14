@@ -1,0 +1,56 @@
+\documentclass[Accepttestspecifikation/Accepttest_Main.tex]{subfiles}
+
+\begin{document}
+\subsection{UC1, UC2 og UC3} \label{sec:UC1}
+
+Da de tre Use cases UC1, UC2 og UC3, er en forlængelse af hinanden udføres en test for at teste hovedscenariet for alle 3, samt scenariet: \textbf{Active team} rammer den sidste \textbf{Cup}. Undtagelserne for UC1 testes selvstændigt. Undtagelsen \textbf{Active Team} rammer ikke en \textbf{Cup}, testes ikke da systemet ikke er en del af dette scenarie. 
+
+Til disse test benyttes 110ml øl, en hvid \textbf{Ball} med en diameter på 40mm, en \textbf{Ball} tabes fra en højde på 30cm over bordet. Der benyttes \textbf{Cups} med en øvre diameter på $94\si{mm}$ og en nedre diameter på $65\si{mm}$ og en højde på $120mm$. Dette udføres da der er en række ikke-funktionelle krav som kræver at systemet skal fungere med disse parametre.
+
+\begin{longtable}{|L{0.15\textwidth}|L{0.4\textwidth}|L{0.2\textwidth}|L{0.2\textwidth}|}
+\hline
+\textbf{UC under test} & \multicolumn{3}{L{0.8\textwidth}|}{UC1: Start game, UC2: Play turn og U3: End game} \\ \hline
+\textbf{Scenarie} & \multicolumn{3}{L{0.8\textwidth}|}{UC1: Hovedscenarie, UC2: Hovedscenarie og Exc 2: \textbf{Active team} rammer den sidste \textbf{Cup}, UC3: Hovedscenarie} \\ \hline
+\textbf{Prækondition} & \multicolumn{3}{L{0.8\textwidth}|}{Systemet er operationelt og der er udført \textit{\textbf{Start op}}. Der er 2 \textbf{Balls} i bolddispenseren} \\ \hline
+ & \textbf{Handling} & \textbf{Forventet resultat} & Faktisk resultat \\ \hline
+  \multicolumn{4}{|L{0.95\textwidth}|}{UC1: Start game - Hovedscenarie} \\ \hline
+ 1 & Indsæt 5 kr \textbf{Coin} i \textit{\textbf{Ball dispenser}} & Der udstedes 2 \textbf{Balls} og der tændes alle \textbf{\textit{Cup lights}} på begge \textbf{\textit{Playersides}} &  \\ \hline
+ 2 & Placer \textbf{Cups} i hver \textbf{\textit{Playerside}}. Placer en af gangen indtil der er 6 i hver \textbf{\textit{Playerside}}. &  For hver \textbf{Cup} der placeres skifter farven på \textbf{\textit{Cup light}} under denne kop. Når alle kopper er placeret henviser \textbf{\textit{Display}} brugeren til WebPage. & \\ \hline
+ 3 & Tilgå den henviste WebPage og indtast for team 1 følgende oplysninger: username 1: "a1", username 2: "abcdefghijklmn1", teamname: "test name1", slideren for red og blue flyttes til venstre ende, slideren for green flyttes til højre ende. For team 2 følgende oplysninger: username 1: "a2", username 2: "abcdefghijklmn2" og teamname: "test name2", slideren for red og green flyttes til venstre ende, slideren for blue flyttes til højre ende. Der trykkes 'Start'. & & \\ \hline
+ \multicolumn{4}{|L{0.95\textwidth}|}{UC2: Play turn - Hovedscenarie} \\ \hline
+4 & & Alle \textbf{\textit{Cup lights}} for den ene \textbf{\textit{Playerside}} lyser grøn og alle \textbf{\textit{Cup lights}} for den anden \textbf{\textit{Playerside}} lyser blå & \\ \hline
+5 & Tab en \textbf{Ball} i en \textbf{Cup} på den \textit{\textbf{Playerside}} hvor \textbf{\textit{Cup light}} lyser blå & \textbf{\textit{Cup light}} under den ramte \textbf{Cup} blinker mellem grøn og blå & \\ \hline
+6 & Fjern den \textbf{Cup} hvor \textbf{Ball} ramte i. & \textbf{\textit{Cup light}} under den fjernet \textbf{Cup} lyser grøn. \textbf{\textit{Display}} indikere at koppen er blevet fjernet. & \\ \hline
+ \multicolumn{4}{|L{0.95\textwidth}|}{UC2: Play turn - \textbf{Active team} rammer den sidste \textbf{Cup}} \\ \hline
+7 & punkt 5 og 6 gentages indtil der kun mangler en \textbf{Cup}. & & \\ \hline
+ \multicolumn{4}{|L{0.95\textwidth}|}{UC3: End game - Hovedscenarie} \\ \hline
+8 & Den sidste \textbf{Cup} på den samme \textbf{Playerside} som i punkt 5 og 6 & Alle \textbf{\textit{Cup lights}} lyser grøn. \textbf{\textit{Display}} viser at holdet med navn "test name1" har vundet. \\ \hline
+\caption{Accepttestspecifikation for UC1, hovedscenarie}
+\label{tab:UC1_UC2_UC3_hoved}
+\end{longtable}
+
+
+\begin{longtable}{|L{0.15\textwidth}|L{0.4\textwidth}|L{0.2\textwidth}|L{0.2\textwidth}|}
+\hline
+\textbf{UC under test} & \multicolumn{3}{L{0.8\textwidth}|}{UC1: Start game} \\ \hline
+\textbf{Scenarie} & \multicolumn{3}{L{0.8\textwidth}|}{\textbf{Active Team} indsætter en \textbf{Coin} som ikke er 5 kr. i \textit{\textbf{Ball dispenser}}} \\ \hline
+\textbf{Prækondition} & \multicolumn{3}{L{0.8\textwidth}|}{Systemet er operationelt og der er udført \textit{\textbf{Start op}}} \\ \hline
+ & \textbf{Handling} & \textbf{Forventet resultat} & Faktisk resultat \\ \hline
+ 1 & Indsæt en 20 kr \textbf{Coin} i \textit{\textbf{Ball dispenser}} & \textbf{Coin} frigives &  \\ \hline
+
+\caption{Accepttestspecifikation for UC1, \textbf{Active Team} indsætter en \textbf{Coin} som ikke er 5 kr. i \textit{\textbf{Ball dispenser}}}
+\label{tab:UC1_wrong_coin}
+\end{longtable}
+
+\begin{longtable}{|L{0.15\textwidth}|L{0.4\textwidth}|L{0.2\textwidth}|L{0.2\textwidth}|}
+\hline
+\textbf{UC under test} & \multicolumn{3}{L{0.8\textwidth}|}{UC1: Start game} \\ \hline
+\textbf{Scenarie} & \multicolumn{3}{L{0.8\textwidth}|}{Ingen bolde} \\ \hline
+\textbf{Prækondition} & \multicolumn{3}{L{0.8\textwidth}|}{Systemet er operationelt og der er udført \textit{\textbf{Start op}}. Der er ingen bolde i bolddispenseren} \\ \hline
+ & \textbf{Handling} & \textbf{Forventet resultat} & Faktisk resultat \\ \hline
+ 1 & Indsæt en 5 kr \textbf{Coin} i \textit{\textbf{Ball dispenser}} & \textbf{Coin} frigives &  \\ \hline
+
+\caption{Accepttestspecifikation for UC1, ingen bolde}
+\label{tab:UC1_no_balls}
+\end{longtable}
+\end{document}

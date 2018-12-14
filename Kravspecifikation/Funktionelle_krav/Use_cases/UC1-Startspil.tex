@@ -1,7 +1,7 @@
 \documentclass[Kravspecifikation/Kravspec_Main.tex]{subfiles}
 \begin{document}
 
-\subsection{UC1: Start game}
+\subsection{UC1: Start game} \label{sec:uc_1_start_game}
 
 \protect\hypertarget{t.982baa266913794041029567659e3677b1ccea8f}{}{}\protect\hypertarget{t.0}{}{}
 
@@ -48,13 +48,13 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Prækondition}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Systemet er operationelt og rutinen beskrevet under \textit{\textbf{Start op}} er udført.\\ \textbf{\textit{Spillet er ikke i gang}}}\strut
+{Systemet er operationelt og \textbf{\textit{Spillet er klar}}. \\Der er ikke placeret nogen \textbf{Cups} på bordet}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Postkondition}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Spillet er \textit{\textbf{i gang}} og \textbf{\textit{spil status}} er vist på displayet.}\strut
+{\textit{\textbf{Spillet er i gang}} og \textbf{\textit{spil status}} er vist på \textit{\textbf{Display}}.}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -63,22 +63,18 @@
 \begin{enumerate}
 \tightlist
 \item
-  {\textbf{Active Team:} indsætter 5 kr \textbf{Coin} i bolddispenseren \newline [Exc 1: \textbf{Active Team} indsætter en \textbf{Coin} som ikke er 5 kr. i bolddispenseren]}
+  {\textbf{Active Team:} indsætter 5 kr \textbf{Coin} i \textit{\textbf{Ball dispenser}} \newline [Exc 1: \textbf{Active Team} indsætter en \textbf{Coin} som ikke er 5 kr. i \textit{\textbf{Ball dispenser}}]}
 \item
-  {\textbf{Systemet:} udsteder 2 \textbf{Ball}s og tænder kopholder-lys i Player side \newline
+  {\textbf{Systemet:} udsteder 2 \textbf{Ball}s og tænder \textit{\textbf{Cup light}} i \textit{\textbf{Playerside}} (K\ref{req:missing-cup-color}) \newline
   [Exc 2: Ingen bolde]}
 \item
-  {\textbf{Active Team:} placerer kopper i kopholderne i Player side}
-\item {\textbf{Systemet:} skifter farve på kopholder-lys i Player side, når en \textbf{Cup} placeres i en kopholder}
+  {\textbf{Active Team:} placerer \textbf{Cups} i \textit{\textbf{Cupholder}} i \textit{\textbf{Playerside}}}
+\item {\textbf{Systemet:} skifter farve på \textit{\textbf{Cup light}} i \textbf{Playerside}, når en \textbf{Cup} placeres i en \textit{\textbf{Cupholder}} (K\ref{req:placed-cup-color}})
 \item
-  {\textbf{Systemet:} Henviser \textbf{active Team} til WebPage vha. Display og anmoder om spiller oplysninger og hold farve
+  {\textbf{Systemet:} Henviser \textbf{active Team} til WebPage vha. \textit{\textbf{Display}} og anmoder om \textbf{spiller oplysninger}
 }
 \item
-  {\textbf{Active Team:} indtaster brugernavne gennem WebPage}
-\item
-  {\textbf{Active Team:} indtaster hold navne gennem WebPage}
-\item
-  {\textbf{Active Team:} vælger hold farve gennem WebPage}
+  {\textbf{Active Team:} indtaster \textit{\textbf{spiller oplysninger}} for begge hold gennem WebPage}
 \item
   {\textbf{Active Team:} trykker på start knappen på WebPage}
 \end{enumerate}\strut
@@ -87,17 +83,17 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Udvidelser eller undtagelser}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{[Exc 1: \textbf{Active Team} indsætter en \textbf{Coin} som ikke er 5 kr. i bolddispenseren]}
+{[Exc 1: \textbf{Active Team} indsætter en \textbf{Coin} som ikke er 5 kr. i \textit{\textbf{Ball dispenser}}]}
 \begin{enumerate}
 \tightlist
-\item \textbf{Systemet:} frigiver mønten
-\item Use Case afsluttes med postkonditionen:  \textbf{\textit{Spillet er ikke i gang}}
+\item \textbf{Systemet:} frigiver \textbf{Coin}
+\item Use Case afsluttes med postkonditionen:  \textbf{\textit{Spillet er klar}}
 \end{enumerate}
 {[Exc 2: Ingen bolde]}
 \begin{enumerate}
 \tightlist
-\item \textbf{Systemet:} frigiver mønten
-\item Use Case afsluttes med postkonditionen:  \textbf{\textit{Spillet er ikke i gang}}
+\item \textbf{Systemet:} frigiver \textbf{Coin}
+\item Use Case afsluttes med postkonditionen:  \textbf{\textit{Spillet er klar}}
 \end{enumerate}
 {}\strut
 \end{minipage}\tabularnewline

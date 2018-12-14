@@ -1,7 +1,7 @@
 \documentclass[Kravspecifikation/Kravspec_Main.tex]{subfiles}
 \begin{document}
 
-\subsection{UC2: Play turn}
+\subsection{UC2: Play turn}\label{sec:uc_2_play_turn}
 
 \protect\hypertarget{t.982baa266913794041029567659e3677b1ccea8f}{}{}\protect\hypertarget{t.0}{}{}
 
@@ -18,7 +18,7 @@
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Mål}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{\textbf{\textit{Spillets status}} opdateres i UI}\strut
+{\textbf{\textit{Spillets status}} opdateres i \textit{\textbf{UI}}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -49,13 +49,13 @@ Sekundær: \textbf{Opponent Team}, \textbf{Cup}, \textbf{Ball}}\strut
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Prækondition}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Spillet er \textbf{\textit{i gang}}. På det \textbf{Aktive hold} har hver spiller én \textbf{Ball}. Hvert hold har mindst én kop placeret i en kopholder}\strut
+{\textbf{Spillet er i gang}. På \textbf{Active hold} har hver spiller én \textbf{Ball}. Hvert hold har mindst én \textbf{Cup} placeret i en \textit{\textbf{Cupholder}}}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
 {Postkondition}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
-{Der er mindst én \textbf{Cup} tilbage på hver Player side og UI er opdateret *Reference til Ordlist*}\strut
+{Der er mindst én \textbf{Cup} tilbage på hver \textit{\textbf{Playerside}} og \textit{\textbf{UI}} er opdateret}\strut
 \end{minipage}\tabularnewline
 \toprule
 \begin{minipage}[t]{0.47\columnwidth}\raggedright
@@ -73,13 +73,13 @@ Sekundær: \textbf{Opponent Team}, \textbf{Cup}, \textbf{Ball}}\strut
   \newline
   [Exc 2 : \textbf{Active Team} rammer den sidste \textbf{Cup}]}
   \item
-   {\textbf{System:} registrerer, en eller flere \textbf{Cups} er blevet ramt og lysene omkring kopholderen begynder at blinke i det \textbf{Active Teams} farve       }
+   {\textbf{System:} registrerer, en eller flere \textbf{Cups} er blevet ramt og \textit{\textbf{Cup light}}, for de ramte \textbf{Cups}, begynder at blinke med \textbf{Active Teams} og \textbf{Opponent Teams} farver}
 \item
-    {\textbf{Opponent Team:} fjerner den eller de ramte \textbf{Cup(s)} fra kopholder(ne), tager \textbf{Ball(s)} og drikker øllen}
+    {\textbf{Opponent Team:} fjerner den eller de ramte \textbf{Cup(s)} fra \textit{\textbf{Cupholder(s)}}, tager \textbf{Ball(s)} og drikker øllen}
 \item 
-    {\textbf{Systemet:} registrerer fjernelse af \textbf{Cup} fra kopholder(ne) og opdaterer UI}
+    {\textbf{Systemet:} registrerer fjernelse af \textbf{Cup} fra \textit{\textbf{Cupholder(s)}} og opdaterer \textit{\textbf{UI}}}
 \item  
-    {\textbf{Opponent Team:} får \textbf{\textit{turen}} og bliver dermed det \textbf{Active Team}. Det tidligere \textbf{Active Team} er nu \textbf{Opponent Team}. Spillet fortsættes}
+    {\textbf{Opponent Team:} får \textbf{\textit{turen}} og bliver dermed \textbf{Active Team}. Det tidligere \textbf{Active Team} er nu \textbf{Opponent Team}. UC2 gentages}
 \end{enumerate}\strut
 
 \end{minipage}\tabularnewline
@@ -89,8 +89,8 @@ Sekundær: \textbf{Opponent Team}, \textbf{Cup}, \textbf{Ball}}\strut
 \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
 [Exc 1 : \textbf{Active Team} rammer ikke en \textbf{Cup}] 
 \begin{enumerate}
-\item {\textbf{Opponent Team:} får \textbf{\textit{turen}} og bliver dermed det \textbf{Active Team}. Det tidligere \textbf{Active Team} er nu \textbf{Opponent Team}. Spillet fortsættes}
-\item Use case afsluttes
+\item {\textbf{Opponent Team:} får \textbf{\textit{turen}} og bliver dermed \textbf{Active Team}. Det tidligere \textbf{Active Team} er nu \textbf{Opponent Team}. }
+\item UC2 gentages.
 \end{enumerate}
 [Exc 2 : \textbf{Active Team} rammer den sidste \textbf{Cup}]
 \begin{enumerate}

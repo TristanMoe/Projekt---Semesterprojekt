@@ -1,6 +1,6 @@
 \documentclass[Arkitektur/System_main.tex]{subfiles}
 \begin{document}
-\subsubsection{PlayerSideApp}
+\subsubsection{PlayerSideApp} \label{sec:playersideapp_application_model}
 Der er til PlayerSideApp, som skal køre på 'PSoC Player side', som er en del af 'Player side' blokken, udviklet en applikationsmodel. På PSoC'en afvikles C kode, og det er derfor ikke direkte muligt at benytte klasser, men der laves stadig et klassediagram som en del af applikationsmodellen (se figur \ref{fig:CD_PlayerSide}. Klasserne implementeres som forskellige moduler (separate header og implementeringsfiler).
 
 \begin{figure}[H]
@@ -43,46 +43,46 @@ GameController er den centrale klasse for alle use cases. Den sørger for at sen
 \end{adjustwidth}
 
 
-{\large\textbf{Funktionsbeskrivelser: GameController}}\\[0.2cm]
-\textbf{setState(state: GameState) : void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf{Beskrivelse:} Skal sørge for at ændre tilstanden i tilstandsmaskinen. Dette gøres ved at indstille currentState. Skal også sørge for at udføre de ting som er specificeret i \textbf{entry} i tilstandsmaskinen. \\[0.2cm]
-\textbf{Parametre:} state : GameState: tilstanden som der skal skiftes til. \\[0.2cm]
-\textbf{Retur værdi:} ingen \\[0.2cm]
-\textbf{Bivirkninger:} ingen \\[0.2cm]
-\end{adjustwidth}
-
-\textbf{setMyColor(c: Color) : void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf{Beskrivelse:} Skal indstille myColor. \\[0.2cm]
-\textbf{Parametre:} c: Color: Den farve som myColor skal indstilles til. \\[0.2cm]
-\textbf{Retur værdi:} ingen \\[0.2cm]
-\textbf{Bivirkninger:} ingen \\[0.2cm]
-\end{adjustwidth}
-
-\textbf{setOpponentColor(c: Color) : void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf{Beskrivelse:} Skal indstille opponentColor \\[0.2cm]
-\textbf{Parametre:} c: Color: Den farve som opponentColor skal indstilles til.\\[0.2cm]
-\textbf{Retur værdi:} ingen\\[0.2cm]
-\textbf{Bivirkninger:} ingen\\[0.2cm]
-\end{adjustwidth}
-
-\textbf{updateCupStatus(status: uint8\_t) : void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf{Beskrivelse:} Skal sørge for at håndtere alt logikken, der skal ske når der fjernes eller tilføjes en kop. Den skal bl.a. indstille cupStatus attributen, og sende den nye cupStatus videre til RPi, vha. RPi\_IF.\\[0.2cm]
-\textbf{Parametre:} status: uint8\_t: den værdi cupStatus skal indstilles til. Har samme format som cupStatus.\\[0.2cm]
-\textbf{Retur værdi:} ingen\\[0.2cm]
-\textbf{Bivirkninger:} ingen\\[0.2cm]
-\end{adjustwidth}
-
-\textbf{updateHitStatus(status: uint8\_t) : void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf{Beskrivelse:} Skal sørge for at håndtere alt logikken der skal ske når en bold rammer i en kop. Den skal bl.a. indstille hitStatus attributen.\\[0.2cm]
-\textbf{Parametre:} status: uint8\_t: den værdi hitStatus skal indstilles til. Har samme format som hitStatus.\\[0.2cm]
-\textbf{Retur værdi:} ingen\\[0.2cm]
-\textbf{Bivirkninger:} ingen\\[0.2cm]
-\end{adjustwidth}
+    {\large\textbf{Funktionsbeskrivelser: GameController}}\\[0.2cm]
+    \textbf{setState(state: GameState) : void}
+    \begin{adjustwidth}{1cm}{0pt}
+    \textbf{Beskrivelse:} Skal sørge for at ændre tilstanden i tilstandsmaskinen. Dette gøres ved at indstille currentState. Skal også sørge for at udføre de ting som er specificeret i \textbf{entry} i tilstandsmaskinen. \\[0.2cm]
+    \textbf{Parametre:} state : GameState: tilstanden som der skal skiftes til. \\[0.2cm]
+    \textbf{Retur værdi:} ingen \\[0.2cm]
+    \textbf{Bivirkninger:} ingen \\[0.2cm]
+    \end{adjustwidth}
+    
+    \textbf{setMyColor(c: Color) : void}
+    \begin{adjustwidth}{1cm}{0pt}
+    \textbf{Beskrivelse:} Skal indstille myColor. \\[0.2cm]
+    \textbf{Parametre:} c: Color: Den farve som myColor skal indstilles til. \\[0.2cm]
+    \textbf{Retur værdi:} ingen \\[0.2cm]
+    \textbf{Bivirkninger:} ingen \\[0.2cm]
+    \end{adjustwidth}
+    
+    \textbf{setOpponentColor(c: Color) : void}
+    \begin{adjustwidth}{1cm}{0pt}
+    \textbf{Beskrivelse:} Skal indstille opponentColor \\[0.2cm]
+    \textbf{Parametre:} c: Color: Den farve som opponentColor skal indstilles til.\\[0.2cm]
+    \textbf{Retur værdi:} ingen\\[0.2cm]
+    \textbf{Bivirkninger:} ingen\\[0.2cm]
+    \end{adjustwidth}
+    
+    \textbf{updateCupStatus(status: uint8\_t) : void}
+    \begin{adjustwidth}{1cm}{0pt}
+    \textbf{Beskrivelse:} Skal sørge for at håndtere alt logikken, der skal ske når der fjernes eller tilføjes en kop. Den skal bl.a. indstille cupStatus attributen, og sende den nye cupStatus videre til RPi, vha. RPi\_IF.\\[0.2cm]
+    \textbf{Parametre:} status: uint8\_t: den værdi cupStatus skal indstilles til. Har samme format som cupStatus.\\[0.2cm]
+    \textbf{Retur værdi:} ingen\\[0.2cm]
+    \textbf{Bivirkninger:} ingen\\[0.2cm]
+    \end{adjustwidth}
+    
+    \textbf{updateHitStatus(status: uint8\_t) : void}
+    \begin{adjustwidth}{1cm}{0pt}
+    \textbf{Beskrivelse:} Skal sørge for at håndtere alt logikken der skal ske når en bold rammer i en kop. Den skal bl.a. indstille hitStatus attributen.\\[0.2cm]
+    \textbf{Parametre:} status: uint8\_t: den værdi hitStatus skal indstilles til. Har samme format som hitStatus.\\[0.2cm]
+    \textbf{Retur værdi:} ingen\\[0.2cm]
+    \textbf{Bivirkninger:} ingen\\[0.2cm]
+    \end{adjustwidth}
 
 \textbf{updateLight(status: uint8\_t) : void}
 \begin{adjustwidth}{1cm}{0pt}
@@ -111,7 +111,7 @@ Klassen skal modtage kommandoer fra Raspberry pi, og sende data til raspberry pi
 {\large\textbf{Funktionsbeskrivelser: RPi\_IF}}\\[0.2cm]
 \textbf{sendCupStatus(status: uint8\_t) : void}
 \begin{adjustwidth}{1cm}{0pt}
-\textbf{Beskrivelse:} Skal sørge for at sende den nødvendige data som specificeret i protokollen vha. I2C, for at sende den cupStatus som er specificeret i parameteren status
+\textbf{Beskrivelse:} Skal sørge for at sende den nødvendige data som specificeret i protokollen vha. I2C, for at sende den cupStatus som er specificeret i parameteren status .\\[0.2cm]
 \textbf{Parametre:} status: uint8\_t: Den status som skal sendes videre til RPi \\[0.2cm]
 \textbf{Retur værdi:} ingen \\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
@@ -127,7 +127,7 @@ Klasse som skal styre lyset under hver kop.
 {\large\textbf{Funktionsbeskrivelser: CupLight\_IF}}\\[0.2cm]
 \textbf{controlLight(cupIndex: Int, color : Color) : void}
 \begin{adjustwidth}{1cm}{0pt}
-\textbf{Beskrivelse:} Skal indstille farven på den CupLight med index'et cupIndex til farven color.
+\textbf{Beskrivelse:} Skal indstille farven på den CupLight med index'et cupIndex til farven color. \\[0.2cm]
 \textbf{Parametre:}  cupIndex: Int: Den CupLight hvis lys skal styres. Dette index har samme nummerering som det bit numrene som er specificeret i protokollen\\color: Color: Den farve som den givne CupLight skal have \\[0.2cm]
 \textbf{Retur værdi:} ingen \\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]

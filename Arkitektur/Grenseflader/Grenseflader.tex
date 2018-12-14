@@ -1,11 +1,11 @@
 \documentclass[Arkitektur/System_main.tex]{subfiles}
 
 \begin{document}
-\section{Grænseflader / Protokoller}
+\section{Grænseflader / Protokoller} \label{sec:protocols}
 I dette afsnit forklares de forskellige grænseflade mellem delsystemerne, samt hvilke brugerdefineret protokoller de bruger. Systemet gør generelt brug af I2C protokollen, hvor RPi'en er 'Masteren' og PSoC enhederne er 'slaves'. 
 
 
-\subsection{Kommunikation mellem RPi og PSoC enheder}
+\subsection{Kommunikation mellem RPi og PSoC enheder} \label{sec:RPi_PSoC_com}
 
 
 Systemet gør brug af I2C-protokollen i forhold til kommunikationen mellem RPi, Playerside og BallDispenser. Kommunikationen mellem enhederne starter enten med at RPi'en (MASTER) ønsker at sende noget til Playerside eller BallDispenser (SLAVES) eller hvis en af slaverne sender et interrupt. Interrupts er nødvendigt, da PSoC enhederne er afhængig af RPi'en SCL - dette er grundprincippet for I2C. 
@@ -18,7 +18,7 @@ Systemet gør brug af I2C-protokollen i forhold til kommunikationen mellem RPi, 
 \end{figure}
 
 \textbf{Interrupts}
-\\Mellem RPi'en og de andre enheder eksistere end interruptlinje, som er aktiv lav. Hvis et af delsystemerne, fx en Playerside registrere en fjernelse af kop, sendes et interrupt til RPi ved at "holde" interruptlinjen lavt. Da alle enheder er på samme interruptlinje, anmoder RPi'en hver enhed om 1 byte af data.
+\\Mellem RPi'en og de andre enheder eksistere en interruptlinje, som er aktiv lav. Hvis et af delsystemerne, fx en Playerside registrere en fjernelse af kop, sendes et interrupt til RPi ved at "holde" interruptlinjen lavt. Da alle enheder er på samme interruptlinje, anmoder RPi'en hver enhed om 1 byte af data.
 
 
 \begin{table}[H]
@@ -58,7 +58,7 @@ BallDispenser & 0x12 & 0010010 \\ \hline
 \end{tabular}
 \end{table}
 
-\subsubsection{Grænseflade mellem RPi og Playerside}
+\subsubsection{Grænseflade mellem RPi og Playerside} \label{sec:RPi_Playerside_com}
 %Kort introduktion...
 
 \textbf{RPi til Playerside}
@@ -122,7 +122,7 @@ Til forskel for de andre kommandoer i protokollen, indeholder denne en kommandot
     \label{fig:teamColor}
 \end{figure}
 
-\subsubsection{Grænseflade mellem RPi og BallDispenser}
+\subsubsection{Grænseflade mellem RPi og BallDispenser} \label{sec:RPi_BallDispenser_com}
 Ligesom for Playerside, så kontrollerer RPi'en hvilke stadie BallDispenseren er i. BallDispenseren sender events tilbage til RPi'en: Ingen bolde og Møntindkast. 
 
 \textbf{RPi til BallDispenser}

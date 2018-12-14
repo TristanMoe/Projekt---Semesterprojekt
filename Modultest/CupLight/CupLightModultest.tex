@@ -1,42 +1,9 @@
 \documentclass[Modultest/Modultest_main.tex]{subfiles}
 \begin{document}
 
-\lstdefinestyle{customc}{
-    breaklines=true,
-    language=C,
-    basicstyle=\small\sffamily,
-    numbers=left,
-    numberstyle=\tiny\color{gray},
-    frame=tb,
-    columns=fullflexible,
-    showstringspaces=false,
-    keywordstyle=\bfseries\color{green!40!black},
-    commentstyle=\itshape\color{purple!40!black},
-    identifierstyle=\color{blue},
-    stringstyle=\color{orange},
-}
-
-\lstset{escapechar=@,style=customc}
-
-\section{CupLight Modultest}
-\begin{table}[H]
-\centering
-\resizebox{.7\textwidth}{!}{%
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{Ver.} & \textbf{Dato} & \textbf{Initialer} & \textbf{Beskrivelse} \\ \hline
- 0.1  &10/11/2018 &MG  &Modultest af ShiftRegPWM\\ \hline
- 0.2  &13/11/2018 &MG &Modultest af CupLight interface \\ \hline
- 0.3 &20/11/2018  &MG  &Tilføjelse af ISR længde, nye PWM målinger  \\ \hline
-\end{tabular}%
-}
-\caption{Versions Historik}
-\label{process_version}
-\end{table}
-
 Dette afsnit omhandler Modultest af alt, der har med lys og lysstyring at gøre. I de følgende underafsnit vil der laves modultest for software modulet, og et samlet modultest, der anvender CupLight\_IF til at styre noget hardware.
 \subsection{Modultest af ShiftRegPWM}
-\\Startes der ud med at lave en modultest af ShiftRegPWM software modulet, så kunne denne i princippet testes på to måder. Der kan kigges på kommandoerne, der bliver sendt fra PSoC og disse kan efterfølgende dekrypteres. Den anden lidt enklere løsning er at forbinde de pins, der er specificeret til modulet, til et 74HC595 register og måle PWM signalet på pins. Den enklere løsning blev valgt, da er mere logisk og nemmere at forstå og fortolke. 
+Startes der ud med at lave en modultest af ShiftRegPWM software modulet, så kunne denne i princippet testes på to måder. Der kan kigges på kommandoerne, der bliver sendt fra PSoC og disse kan efterfølgende dekrypteres. Den anden lidt enklere løsning er at forbinde de pins, der er specificeret til modulet, til et 74HC595 register og måle PWM signalet på pins. Den enklere løsning blev valgt, da den er mere logisk og nemmere at forstå og fortolke. 
 \subsection{Test opstilling for ShiftRegPWM}
 Som teststub/testbench blev der anvendt et program, der bruger UART-komponent på PSoC'en, så forskellige tests kan foretages real time uden for meget modificering af kode. Koden til dette kan ses i listing \ref{lst:ShiftRegPWM_Test}
 
@@ -247,15 +214,18 @@ I tabelen herunder ses alle målinger samlet, hvor den procentvise difference og
 0                & 0                & 0               \\ \hline
 19.6             & 19.8             & 1.01            \\ \hline
 39.2             & 38.8             & 0               \\ \hline
-58.8             & 58.7             & 0,17            \\ \hline
+58.8             & 58.7             & 1.02            \\ \hline
 78.4             & 78.4             & 0               \\ \hline
 98.0             & 98.0             & 0               \\ \hline
 \end{tabular}%
 \end{table}
 
-Af tabellen kan man altså se at modulet i meget høj grad, virker som forventet i det værdierne der tilskrives registeret, rent faktisk danner et PWM-signal med den forventede duty-cycle, hvor der kun er en afvigelse på <2\%. 
+Af tabellen kan man altså se at modulet i meget høj grad, virker som forventet i det værdierne der tilskrives registeret, rent faktisk danner et PWM-signal med den forventede duty-cycle, hvor der kun er en afvigelse på <2\%.\\
+Den måling med størst afvigelse testes flere gange ved at genstarte PSoC, sætte PWM-signalet og måle det. Der blev lavet 10 målinger.
 
-\\Der laves også en beregning af rise time for PWM-signalet.  Beregningen blev foretaget med et pwm-signal på 50\% dc.  Først laves der en måling på output pin af 74HC595, som det kan ses af figur \ref{cuplight_rise}.
+
+
+Der laves også en beregning af rise time for PWM-signalet.  Beregningen blev foretaget med et pwm-signal på 50\% dc.  Først laves der en måling på output pin af 74HC595, som det kan ses af figur \ref{cuplight_rise}.
 
 \begin{figure}[H]
     \centering
@@ -298,7 +268,7 @@ Køres koden i listing  \ref{lst:isr_length_code} fås følgende figur \ref{fig:
 Af figur \ref{fig:cuplight_isr_length} ses det, at der som forventet at interrupt service rutinene kaldes mange gange i sekundet. Af figuren ses det at der perioden eller tiden mellem hvert interrupt er 27.3us. Dette vil sige at der interruptes med en frekvens på $F=\frac{1}{27.3us}=36630Hz$. Af denne periode, varer interrupt rutinen $t=11.7us$. Det giver altså en duty cycle på $\%dc=\frac{11.7us}{27.3us}\cdot 100\%=43\%$. Det kan altså sige, at selvom denne interrupt service rutine, måske ikke varer særlig lang tid, så tager den stadig en stor del af time-slices. 
 
 \subsection{CupLight\_IF modul test}
-Efter af have testet, at ShiftRegPWM modulet leverede et tilfredsstillende PWM-signal, så er det nu muligt at teste og anvende interfacet CupLight\_IF til at styre lys. 
+Efter af have testet, at ShiftRegPWM modulet leverede et tilfredsstillende PWM-signal, så er det nu muligt at teste og anvende interfacet CupLight\_IF til at styre lys. Af kravspecifikationen under ikke-funktionelle krav \fullref{kravspec:sec:ikke_funktionelle_krav} ses det, at lyset skal kunne lyse med 10 forskellige farver. Dette skal selvfølgelig testes heri.
 \subsection{Test opstilling for ShiftRegPWM}
 Til at teste CupLight\_IF blev, der igen anvendt et testprogram, der principielt minder ufatteligt meget om det forrige. Det anvendte testprogram kan ses i listing \ref{lst:CupLight_Test}.
 
@@ -351,17 +321,20 @@ void handleByteReceived(uint8_t byteReceived)
     {
         case 'q' :
         {
-            controlLight(0,(color_t){255,0,0});
+            globalRed = 255;
+            controlLight(LEDTOTEST,(color_t){globalRed,globalGreen,globalBlue});
         }
         break;
         case 'w' :
         {
-            controlLight(1,(color_t){0,255,0});
+            globalGreen = 255;
+            controlLight(LEDTOTEST,(color_t){globalRed,globalGreen,globalBlue});
         }
         break;
         case 'e' :
         {
-            controlLight(2,(color_t){0,0,255});
+            globalBlue = 255;
+            controlLight(LEDTOTEST,(color_t){globalRed,globalGreen,globalBlue});
         }
         break;
         case 'a' :
@@ -394,7 +367,7 @@ void handleByteReceived(uint8_t byteReceived)
 
 Den største forskel i dette forskel er anvendelsen af typen $color_t$ til at styre farven, og i stedet for at sætte en pin, så sættes et helt lys (RGB-led). Der anvendes også 3 globale variable, der bruges til stepvis at styre lyset.
 
-\\Den fysiske opstilling til testen, er en forsimplet version af den skematiske fra Hardware designet for CupLight. Det vil altså sige, at der kun styres en LED til en start. Selvfølgelig er det ikke optimalt, at der kun styres en LED, når der er 5 i en kopholder, men der blev brugt de ressourcer, der var til rådighed. Opstillingen ses i figur \ref{fig:cupLight_test}
+Den fysiske opstilling til testen, er en forsimplet version af den skematiske fra Hardware designet for CupLight. Det vil altså sige, at der kun styres en LED til en start. Selvfølgelig er det ikke optimalt, at der kun styres en LED, når der er 5 i en kopholder, men der blev brugt de ressourcer, der var til rådighed. Opstillingen ses i figur \ref{fig:cupLight_test}
 
 \begin{figure}[H]
     \centering
@@ -462,8 +435,9 @@ Af figur \ref{fig:cuplight_red_test1},\ref{fig:cuplight_green_test2} og \ref{fig
     \caption{Test af blågrøn-farve}
     \label{fig:bluegreen_led}
 \end{figure}
+Af figurene \ref{fig:yellow_led}, \ref{fig:cyan_led}, \ref{fig:purple_led}, \ref{fig:orange_led}, \ref{fig:bluegreen_led} kan det ses at de fleste farver rammer rimelig plet. Det kan også ses at det er den gule farve, der er dårligst i det, der er et grønligt skær. Det ses også at det altså er muligt at blande et bredt udvalg af farver. Flere farver blev testet på denne måde, bla. \textit{Hvid}, \textit{Gulgrøn} osv. Mange af farverne er selvfølgelig svære at definere, men det var muligt at se forskel, når der hoppes i steps af fem.\\\\
 
-Af figurene \ref{fig:yellow_led}, \ref{fig:cyan_led}, \ref{fig:purple_led}, \ref{fig:orange_led}, \ref{fig:bluegreen_led} kan det ses at de fleste farver rammer rimelig plet. Det kan også ses at det er den gule farve, der er dårligst i det, der er et grønligt skær. Det ses også at det altså er muligt at blande et bredt udvalg af farver. 
+Modultesten for hele CupLight-modulet må siges at være lykkedes, da det både er muligt at styre mange PWM-signaler og derved også styre lys til mere end 10 forskellige farver. Skulle testene forbedres, så kunne der laves tests med flere lys forbundet til controller-kredsløbet. Derudover kunne der laves flere målinger for at bestemme konfidensniveauet af PWM-signalerne, men dette ville også kræve det var specificeret af kravene.
 
 
 \end{document}

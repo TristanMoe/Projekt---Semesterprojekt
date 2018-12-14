@@ -8,10 +8,10 @@ Definitionslisten er lavet som et 'look up' værktøj, der kan bruges gennem hel
         \large{Begreb} & \large{Definition}\\
         \hline
         \textit{\textbf{Start op}} & \underline{System rutine}:
-        Systemet går fra et slukket tilstand hvor displayskærm, lys og bolddispenser er slukket, til et tændt tilstand hvor nævnte moduler tænder. Det defineres, at systemet er færdig med sit start op rutine, når displayskærmen viser en "klar til spil" besked, og bolddispenserens grøn eller rød LED er tændt.\\
+        Systemet går fra et slukket tilstand hvor displayskærm, lys og bolddispenser er slukket, til et tændt tilstand hvor nævnte moduler tænder. Det defineres, at systemet er færdig med sit start op rutine, når displayskærmen viser en "klar til spil" besked, og bolddispenserens grøn eller rød LED samt kopholder-lys er tændt.\\
         \hline
         \textit{\textbf{Slukke}} & \underline{System rutine}:
-        Systemet går fra et tændt tilstand hvor displayskærm, lys og bolddispenser er tændt, til et slukket tilstand hvor nævnte moduler slukker. Det defineres, at systemet er færdig med at slukke, når displayskærmen er slukket og begge LED'er fra borddispenser er slukket\\
+        Systemet går fra et tændt tilstand hvor displayskærm, lys og bolddispenser er tændt, til et slukket tilstand hvor nævnte moduler slukker. Det defineres, at systemet er færdig med at slukke, når displayskærmen er slukket og begge LED'er fra bolddispenser samt kopholder-lys er slukket\\
         \hline
         \textit{\textbf{Spillet er i gang}} & \underline{System-Bruger interaktion}:
         Et spil er i gang, når både systemet og brugerne er klar til at interagere med hinanden. Det vil sige, at \textit{\textbf{Spiller oplysninger}} er tastet ind via hjemmeside, betalt for bolde, stillet kopper på bordet og trykket på start knappen i hjemmesiden.\\
@@ -19,14 +19,14 @@ Definitionslisten er lavet som et 'look up' værktøj, der kan bruges gennem hel
         \textit{\textbf{Spillet er slut}} & \underline{System-Bruger interaktion}:
         Et spil er slut når et af holdene er tvunget til at fjerne deres sidste kop fra bordet.\\        
         \hline
-        \textit{\textbf{Spillet er ikke i gang}} & \underline{System-Bruger interaktion}:
-        Et \textbf{\textit{spil er ikke i gang}}, når ikke \textit{\textbf{Spillet er i gang}}. Der er en forskellen mellem \textbf{\textit{spillet er slut}} og \textbf{\textit{spillet er ikke i gang}}. Først når systemet har annonceret en vinder, og resten som er beskrevet i UC3, er \textit{\textbf{spillet ikke i gang}}. Desuden  er \textbf{\textit{spillet ikke i gang}} efter \textbf{\textit{start op}}\\
-        \hline
-        \textit{\textbf{Spil status}} & \underline{System definition}:
-        Oplysninger om bordets tilstand. Dvs. hvor mange kopper der er tilbage og holdenes navn. \\
+        \textit{\textbf{Spillet er klar}} & \underline{System-Bruger interaktion}:
+        Et \textbf{\textit{spil er klar}}, når \textbf{\textit{start op}} af afviklet, der er to eller flere bolde og når hverken \textbf{spillet er i gang} eller \textbf{spillet slut}.\\
         \hline
         \textit{\textbf{Spiller oplysninger}} & \underline{System definition}:
-        Oplysninger om spillerne og holdenes navne, samt farver. \\
+        Oplysninger om spillerne og holdenes navne, samt farver.\\
+        \hline
+        \textit{\textbf{Spil status}} & \underline{System definition}:
+        Oplysninger om bordets tilstand. Dvs. hvor mange kopper der er tilbage samt spiller oplysninger.\\
         \hline
         \textit{\textbf{Score}} & \underline{System-Bruger interaktion}:
         At kaste en bold og ramme i en af kopperne på bordet. At score medfører fjernelsen af den ramte kop. Det hold hvis kop blev ramt fjerner koppen. \\
@@ -47,7 +47,7 @@ Definitionslisten er lavet som et 'look up' værktøj, der kan bruges gennem hel
         Det hold der efter \textbf{spillet er slut} stadig har flere kopper tilage på sin side.\\
         \hline
         \textit{\textbf{UI}} & \underline{System definition}:
-        Alle de elementer fra systemet som benyttes til at kommunikere med brugeren; lys under og rundt om kopholderne, skærmdisplay på bordet, webpage og bolddispenserens LED'er.\\
+        Alle de elementer fra systemet som benyttes til at kommunikere med brugeren; lys under og rundt om kopholderne, display på bordet, webpage og bolddispenserens LED'er.\\
         \hline
         \textit{\textbf{Game Events}} & \underline{Bruger interaktion}:
         De udefra kommende events ind i systemet, der trigger et Event på PSoC-playerside. Det er f.eks. en Kop flyttes i forhold til en kop holder, eller en bold rammer i en kop\\
