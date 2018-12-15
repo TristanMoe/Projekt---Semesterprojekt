@@ -69,20 +69,7 @@ void GameController::dispatcher(unsigned long messageID, Message * msg)
 \end{enumerate}
 
 \subsubsection{Resultater}
-Figur \ref{fig:Integration_1} viser hjemmesidens interface i browseren og resultatet af testen er vist med et terminal output i figur \ref{fig:Integration_2}. Det fremgår at holdnavne, brugernavne og holdfarver er sat som forventet.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{Integrationstest/WebPageogRPi/graphics/integrationstest1_web_game.png}
-    \caption{Integrationstest af WebPage og RPi - hjemmeside vist i browser}
-    \label{fig:Integration_1}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{Integrationstest/WebPageogRPi/graphics/integrationstest2_web_game.png}
-    \caption{Integrationstest af WebPage og RPi - output vist i terminal}
-    \label{fig:Integration_2}
-\end{figure}
+Figur \ref{fig:Integration_3} viser hjemmesidens interface i browseren og resultatet af testen er vist med et terminal output. Det fremgår at holdnavne, brugernavne og holdfarver er sat som forventet.
 
 \begin{figure}[H]
     \centering
@@ -91,7 +78,7 @@ Figur \ref{fig:Integration_1} viser hjemmesidens interface i browseren og result
     \label{fig:Integration_3}
 \end{figure}
 
-\section{Reflektion}
+\section{Refleksion}
 Der opstod flere komplikationer under testen. De var dog alle af mindre karakter, og blev løst løbende. F.eks. var der uforudsete problemer med at konvertere rgb værdierne fra strings til uint8\_t og at udskrive disse i terminalen. De var imidlertid hurtigt løst og selve kommunikationen mellem WebPage og GameController viste sig at fungere som forventet. Som beskrevet i afsnittet 'Server' under Softwaredesign for boundary-klassen WebPage er kommunikationen bevidst gjort envejs. Dette designvalg kom os muligvis til gode under integrationstesten, da det har sænket kompleksiteten og elimineret visse fejlkilder. Når der trykkes 'Start' i client og data sendes, forbliver WebSocket forbindelsen åben. Der kunne således testes ved at sende gentagende beskeder, med varierende hold- og brugernavne samt farvevalg. Dette forløb efter hensigten og stemte overens med terminal outputs. 
 
 \section{Konklusion}

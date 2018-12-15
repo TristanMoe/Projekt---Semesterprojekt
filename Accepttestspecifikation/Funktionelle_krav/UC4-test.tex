@@ -9,11 +9,11 @@ Til disse test benyttes en hvid \textbf{Ball} med en diameter på 40mm. Dette ud
 \textbf{Scenarie} & \multicolumn{3}{L{0.8\textwidth}|}{Hovedscenarie} \\ \hline
 \textbf{Prækondition} & \multicolumn{3}{L{0.8\textwidth}|}{Systemet er operationelt og der er udført \textit{\textbf{Start op}}. Der er ingen bolde i bolddispenseren} \\ \hline
  & \textbf{Handling} & \textbf{Forventet resultat} & Faktisk resultat \\ \hline
- 1 & & Den røde led på \textbf{\textit{Ball dispenser status lights} tænder} &  \\ \hline
- 2 & Åben op til \textbf{\textit{Ball dispenser}} & Ingen ændring & \\ \hline
- 3 & Tilføj én \textbf{Ball} til \textbf{\textit{Ball dispenser}} & Ingen ændring &\\ \hline
- 4 & Tilføj én \textbf{Ball} til \textbf{\textit{Ball dispenser}} & Den røde led på \textbf{\textit{Ball dispenser status lights} slukker} &\\ \hline
-5 & Luk for \textit{\textbf{Ball dispenser}} & Ingen ændring & \\ \hline
+ 1 & & Den røde led på \textbf{\textit{Ball dispenser status lights}} tænder & Den røde led på \textbf{\textit{Ball dispenser status lights}} tænder \\ \hline
+ 2 & Åben op til \textbf{\textit{Ball dispenser}} & Ingen ændring & Ingen ændring\\ \hline
+ 3 & Tilføj én \textbf{Ball} til \textbf{\textit{Ball dispenser}} & Ingen ændring & Ingen ændring\\ \hline
+ 4 & Tilføj én \textbf{Ball} til \textbf{\textit{Ball dispenser}} & Den røde led på \textbf{\textit{Ball dispenser status lights} slukker} & Ingen ændring\\ \hline
+5 & Luk for \textit{\textbf{Ball dispenser}} & Ingen ændring & Ingen ændring \\ \hline
 \caption{Accepttestspecifikation for UC4, Hovedscenarie}
 \label{tab:UC4_hoved}
 \end{longtable}
@@ -25,12 +25,12 @@ Til disse test benyttes en hvid \textbf{Ball} med en diameter på 40mm. Dette ud
 \textbf{Prækondition} & \multicolumn{3}{L{0.8\textwidth}|}{Systemet er operationelt og der er udført \textit{\textbf{Start op}}. Der er ingen bolde i bolddispenseren} \\ \hline
  & \textbf{Handling} & \textbf{Forventet resultat} & Faktisk resultat \\ \hline
  1 & & Den røde led på \textbf{\textit{Ball dispenser status lights} tænder} &  \\ \hline
- 2 & Åben op til \textit{\textbf{Ball dispenser}} & Ingen ændring & \\ \hline
- 3 & Tilføj én \textbf{Ball} til \textbf{\textit{Ball dispenser}} & Ingen ændring &\\ \hline
- 4 & Tilføj én \textbf{Ball} til \textbf{\textit{Ball dispenser}} & Den røde led på \textbf{\textit{Ball dispenser status lights} slukker} &\\ \hline
- 5 & Tilføj en \textbf{Ball} af gangen indtil der kun kan tilføjes én \textbf{Ball} mere i \textbf{\textit{Ball dispenser}}. & Ingen ændring &\\ \hline
- 6 & Tilføj én \textbf{Ball} til \textbf{\textit{Ball dispenser}} & Den grønne led på \textbf{\textit{Ball dispenser status lights} slukker} & \\ \hline
- 7 & Luk for \textit{\textbf{Ball dispenser}} & Ingen ændring & \\ \hline
+ 2 & Åben op til \textit{\textbf{Ball dispenser}} & Ingen ændring &  rød led blinker kortvarigt. Ender med at forblive tændt\\ \hline
+ 3 & Tilføj én \textbf{Ball} til \textbf{\textit{Ball dispenser}} & Ingen ændring & Ingen ændring \\ \hline
+ 4 & Tilføj én \textbf{Ball} til \textbf{\textit{Ball dispenser}} & Den røde led på \textbf{\textit{Ball dispenser status lights} slukker} & Ingen ændring\\ \hline
+ 5 & Tilføj en \textbf{Ball} af gangen indtil der kun kan tilføjes én \textbf{Ball} mere i \textbf{\textit{Ball dispenser}}. & Ingen ændring & Ingen ændring\\ \hline
+ 6 & Tilføj én \textbf{Ball} til \textbf{\textit{Ball dispenser}} & Den grønne led på \textbf{\textit{Ball dispenser status lights} slukker} & Ingen ændring\\ \hline
+ 7 & Luk for \textit{\textbf{Ball dispenser}} & Ingen ændring & Grøn led tænder og rød slukker. \\ \hline
 \caption{Accepttestspecifikation for UC4, Ext 1: \textbf{\textit{Ball dispenser}} er fyldt op }
 \label{tab:UC4_fill_up}
 \end{longtable}

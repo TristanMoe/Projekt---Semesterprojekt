@@ -1,8 +1,32 @@
 \documentclass[Rapport/Rapport_main.tex]{subfiles}
 \begin{document}
 \subsection{Software Arkitektur}
+
+\subsubsection{PlayerSideApp}
+I det følgende afsnit beskrives softwarearkitekturen for PlayerSideApp. Denne applikation skal køre på en PSoC og skal derfor udvikles i C, men der laves stadig en  applikationsmodel opbygget som klasser, som implementeres som separate moduler (separate header- og implementeringsfiler). Der er til applikationsmodellen udviklet et klassediagram, en tilstandsmaskine og to sekvensdiagrammer. Alle disse samt detaljeret beskrivelse af diagrammer, klasser, funktioner og attributer kan ses i dokumentet \textbf{Arkitektur} afsnit \fullref{arch:sec:playersideapp_application_model}. Den vigtige del af denne applikationsmodel er klassediagrammet og tilstandsmaskinen. Klassediagrammet kan ses på figur \ref{fig:CD_PlayerSide}. Klasserne er bestemt ud fra de hardware blokke som PSoC Player side er forbundet til. Der er ikke en klasse til Cup Holder Controller blokken, da denne blok kun er et mellemled til Cup Holder, som igen bare er et mellemled til Cup Light og Cup Sensor. Der er derfor til Cup light blokken, lavet en klasse CupLight\_IF (IF står for interface). Denne klasse har ansvar for at styre alle Cup Lights. Derudover er der klassen CupSensor\_IF som har til ansvar at håndtere alle Cup Sensors. Derudover er der klassen RPi\_IF klasse som har til ansvar for at styre kommunikation til og fra RPi blokken. Der er en domain klasse Color, som bruges til indeholde informationer om forskellige farver, der skal bruges, denne fremkover som en analyse af kravspecifikationen. Fra kravspecifikationen er de tre Use Cases UC1, UC2 og UC3 relevante for PlayerSideApp. Til hver af disse burde der at være en controllerklasse, men da de tre Use Cases er en forlængelse af hinanden er der kun én controllerklasse kaldet GameController. Dette er ikke nødvendigvis den bedste navngivning, da der på RPiApp også er en klasse kaldet GameController, dette problem blev dog først identificeret for sent til at det kunne ændres. GameController klassen har til ansvar at styre Cup Lights og sende data til RPi. Cup lights skal styres på baggrund af hvilke kopper der er placeret og hvilke der er ramt, dette sker på baggrund af hvilken tilstand og hvilke farver (myColor og opponentColor) den har modtaget fra RPi. Derudover skal den også sende information om hvilke kopper der placeret til RPi. Der er også en blok GameState som beskriver de forskellige tilstande applikationen kan have. Dette er ikke en real klasse, og den skal implementeres som en enum. 
+
+\begin{figure}[H]
+    \centering
+    \centering
+    \makebox[\textwidth][c]{%
+        \includegraphics[width=1.2\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/PlayerSide/graphics/classDiagram.png}
+    }
+    \caption{Klassediagram for playerSideApp}
+    \label{fig:CD_PlayerSide}
+\end{figure}
+
+Som tidligere beskrevet modtager GameController information fra RPi om hvilken tilstand player side skal være i. Det er derfor relevant at udvikle en tilstandsmaskien, som ses på figur \ref{fig:playerSide_SM}. Som det ses på diagrammet skifter tilstandsmaskinen tilstand, når der kaldes metoden setState. Denne metode kaldes af RPi\_IF klassen når der modtages en ny tilstand. I tilstandene STARTING og PLAYING, som svare til UC1 og UC2, skal lyset styres på baggrund af hvilke kopper der er placeret, og i PLAYING hvilke kopper som er ramt. Dette gøre som en del af Controller metoden som tjekker attributerne cupStatus og hitStatus. Lyset styres vha. controlLight funktionen i CupLight\_IF klassen. Disse attributer opdateres ved at CupSensor\_IF klassen kalder updateCupStatus og updateHitStatus. Dette kan ses som en del af sekvensdiagrammerne for UC1 og UC2. I tilstandene IDLE, WON og LOST skal lyset kun styres ved entry af tilstandene. Dette gøres vha. controlAllLights funktionen i CupLight\_IF klassen.      
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/PlayerSide/graphics/state.png}
+    \caption{Tilstandmaskine for playerSideApp}
+    \label{fig:playerSide_SM}
+\end{figure}
+
+
 \subsubsection{RPiApp}
-I det følgende afsnit beskrives softwarearkitekturen for RPiApp. Den fulde dokumentation for arkiteturen kan ses i afsnit "XX" i bilaget "Systemarkitektur" \\
+I det følgende afsnit beskrives softwarearkitekturen for RPiApp. Den fulde dokumentation for arkiteturen kan ses i bilaget \textbf{Arkitektur} \fullref{arch:sec:rpiapp_application_model} \\
 Softwareapplikationen består af forskellige sprog, men generelt er objektorienteret C++ benyttet. I forlængelse af dette, er der lavet en applikationsmdel til at beskrive strukturen og forløbet for applikationens objekt-orienteret softwaresystem. I de næste afsnit ses klasse-, sevkens og tilstandsdiagrammer for use case 1-4. \\\\
 \textbf{Klassediagram for UC1 til UC4}\\
 Traditionelt ville man udarbejde et klassediagram for hvert use case for systemet, men gennemstrømningen for systemet (Use cases) er en forlængelse af hinanden, overvejende use case 1 til 3. Figur \ref{fig:CD_RPI_RAP} viser klassediagrammet for UC1 til UC4
@@ -35,15 +59,21 @@ I forhold til spillets gang sender GameController information til delsystemerne 
 \end{figure}
 Det kan ses på sekvensdiagrammet for UC1, at når funktionen readBallDispenser() eller readPlayerside() kaldes sover processen. Read og write operationerne i User Space er tilknyttet en Kernal Space driver. Device driveren er linket mellem det integrede hardware i Rasberry Pi W Zero og User Space applikationen - driveren beskrives kort i det næste afsnit. 
 
-\subsubsection{i2c_interruptDriver}
+\subsubsection{i2c\_interruptDriver}
+I2c\_interruptDriver er den driver, som bruges på RPI'en. Den sørger for at sende beskeder og læse fra de forskellige PSoC's i systemet. På figur \ref{fig:driver_sekvensdiagram} ses et sekvens diagram, der beskriver det samspil, der er mellem userspace, kernelspace samt PSoC enhederne i systemet. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Rapport/Arkitektur/graphics/driver_sekvensdiagram.png}
+    \caption{Her ses sekvensdiagram for driver, hvor samspillet mellem userspace, kernelspace og PSoC's(i2c slaver) vises.}
+    \label{fig:driver_sekvensdiagram}
+\end{figure}
 
 
 
-\subsubsection{PlayersideApp}
 
 
 \subsubsection{BallDispenserApp}
-I dette avsnittet presenteres software arkitekturen for BallDispenser, for den fulle dokumentasonen refereres det til avsnitt 'XX' i Systemarkitektur bilaget. Applikasjonen er skrevet i C for å kunne kjøres på en PSoC. Under vil klasse, sekvens og tilstands diagrammene til UC1 og UC4 bli presentert.\\\\
+I dette avsnittet presenteres software arkitekturen for BallDispenser, for den fulle dokumentasonen refereres der til \textbf{Systemarkitektur} \fullref{arch:sec:balldispenser_application_model}. Applikasjonen er skrevet i C for å kunne kjøres på en PSoC. Under vil klasse, sekvens og tilstands diagrammene til UC1 og UC4 bli presentert.\\\\
 
 \textbf{Sekvensdiagram for UC1}\\
 \begin{figure}[H]

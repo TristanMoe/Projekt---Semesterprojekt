@@ -15,8 +15,10 @@ Der er til PlayerSideApp, som skal køre på 'PSoC Player side', som er en del a
 
 
 {\large\textbf{Tilstandsmaskine for playerSideApp}}\\
-Programmet bygges op omkring en tilstandsmaksine, se figur \ref{fig:playerSide_SM}. Dette er den vigtigste del af denne applikationsmodel. Denne tilstandsmaskine er med udgangspunkt i GameController klassen. hvis der kaldes en metode i en anden klasse noteres dette med '.' operatoren. De steder hvor der ikke benyttes '.' operatoren er der tale om en metode i GameController klasse. Tilstandene styres af RPi vha. metoden setState(). Det fremgår af figuren at tilstandsmaskinen kun kan skifte til fx tilstanden LOST hvis den er i tilstanden PLAYING. Dette er ikke sandt. tilstandsmaskinen kan skifte til hvilket som helst tilstand bestemt af parameteren til setState() metoden. Alle disse tilstandsændringer er ikke medtaget i diagrammet for overskuelighedens skyld. Det som ses på diagrammet, er de ændringer der vil ske under normale omstændigheder. Afhængig af hvilken tilstand applikationen er i, skal der udføres forskellige ting. Der er de fem tilstande: IDLE, STARTING, PLAYING, LOST og WON. IDLE er tilstanden hvor der ikke er nogen der bruger systemet. Her skal der slukkes for alt lys. Dette gøres ved \textbf{entry} for tilstanden. LOST og WON er tilstandene hvor der er fundet en vinder, og den givne side har enten vundet eller tabt. I disse tilstande skal alle kopper lyse med en farve. Når man vinder skal alle kopper lyse med sin farve (myColor), og når man taber skal de lyse med modstanderholdets farve (opponentColor). Dette udføres ved \textbf{entry} for tilstandene. STARTING er tilstanden hvor spillet opsættes (svare til UC1). Ved tilstanden STARTING skal lyset under hver kop være styret af om der er en kop eller ej. Hvis der er en kop skal den lyse med en farve (placedCupColor) og hvis der ikke er en kop skal den lyse med en anden (missingCupColor). Dette udføres til dels ved \textbf{do} for tilstanden. Her kaldes metoden controlLights(), som skal sørge for styre lyset. Derudover skal cupStatus opdateres, dette gøres i \textbf{entry} og hver gang der fjernes eller tilføjes en kop (se figur \ref{fig:playerSide_STARTING_SD}). Der sendes information om hvilke kopper der er placeret på bordet (status) til RPi når der sker en ændring (se figur \ref{fig:playerSide_STARTING_SD}), men det sendes også ved \textbf{entry}.
+Programmet bygges op omkring en tilstandsmaksine, se figur \ref{fig:playerSide_SM}. Dette er den vigtigste del af denne applikationsmodel. Denne tilstandsmaskine er med udgangspunkt i GameController klassen. hvis der kaldes en metode i en anden klasse noteres dette med '.' operatoren. De steder hvor der ikke benyttes '.' operatoren er der tale om en metode i GameController klassen. Tilstandene styres af RPi vha. metoden setState(). Det fremgår af figuren at tilstandsmaskinen kun kan skifte til fx tilstanden LOST hvis den er i tilstanden PLAYING. Dette er ikke sandt. Tilstandsmaskinen kan skifte til hvilket som helst tilstand bestemt af parameteren til setState() metoden. Alle disse tilstandsændringer er ikke medtaget i diagrammet for overskuelighedens skyld. Det som ses på diagrammet, er de ændringer der vil ske under normale omstændigheder. Afhængig af hvilken tilstand applikationen er i, skal der udføres forskellige ting. Der er de fem tilstande: IDLE, STARTING, PLAYING, LOST og WON. IDLE er tilstanden hvor der ikke er nogen der bruger systemet. Her skal der slukkes for alt lys. Dette gøres ved \textbf{entry} for tilstanden. LOST og WON er tilstandene hvor der er fundet en vinder, og den givne side har enten vundet eller tabt. I disse tilstande skal alle kopper lyse med en farve. Når man vinder skal alle kopper lyse med sin farve (myColor), og når man taber skal de lyse med modstanderholdets farve (opponentColor). Dette udføres ved \textbf{entry} for tilstandene. STARTING er tilstanden hvor spillet opsættes (svare til UC1). Ved tilstanden STARTING skal lyset under hver kop være styret af om der er en kop eller ej. Hvis der er en kop skal den lyse med en farve (placedCupColor) og hvis der ikke er en kop skal den lyse med en anden (missingCupColor). Dette udføres til dels ved \textbf{do} for tilstanden. Her kaldes metoden Controller(), som skal sørge for styre lyset. Derudover skal cupStatus opdateres, dette gøres i \textbf{entry} og hver gang der fjernes eller tilføjes en kop (se figur \ref{fig:playerSide_STARTING_SD}). Der sendes information om hvilke kopper der er placeret på bordet (status) til RPi når der sker en ændring (se figur \ref{fig:playerSide_STARTING_SD}), men det sendes også ved \textbf{entry}.
 PLAYING er tilstande hvor spillet er i gang (svare til UC2). I tilstanden PLAYING skal der stort set ske det samme som i tilstanden STARTING, det er bare nogle andre farver der skal bruges. Derudover skal der nu også håndteres at en bold rammer i en kop. Dette ses i \ref{fig:playerSide_PLAYING_SD}.
+
+Funktionen Controller kaldes hele tiden i hvert tilstand. Den har til opgave at styre lyset på baggrund af det data som den har modtages fra CupSensor\_IF klassen. Den skal også kalde metoden RPI\_IF\_handleData i RPi\_IF klassen, dette er for RPi\_IF får mulighed for at tjekke om der er modtaget nyt data, og herefter kalde de nødvendige metoder hvis dette er tilfældet. Controller funktionen skal også starte/stoppe en timer som skal bruges til at blinke med lyset når en bold rammer i. Denne timer kalder funktionen interruptBlink hvergang lyset skal skifte tilstand. 
 
 \begin{figure}[H]
     \centering
@@ -27,7 +29,7 @@ PLAYING er tilstande hvor spillet er i gang (svare til UC2). I tilstanden PLAYIN
 
 
 {\large\textbf{Controller:  GameController}}\\
-GameController er den centrale klasse for alle use cases. Den sørger for at sende og modtage data gennem klassen I2C. Alt modtaget data bliver evalueret i GameController og sendt videre i overensstemmelse med protokollen og use case flow. Klassen varetager alt logikken og de flest beslutninger i for player side. 
+GameController er den centrale klasse for alle use cases. Den sørger for at sende og modtage data gennem klassen RPi\_IF. Alt modtaget data bliver evalueret i GameController og sendt videre i overensstemmelse med protokollen og use case flow. Klassen varetager alt logikken og de flest beslutninger for player side. 
 
 {\large\textbf{Attributbeskrivelser: GameController}}
 \begin{adjustwidth}{1cm}{0pt}
@@ -37,8 +39,8 @@ GameController er den centrale klasse for alle use cases. Den sørger for at sen
 \textbf{myColor:} Dette er farven på det hold som har deres kopper på den Player side som PSoC'en er en del af.\\[0.2cm]
 \textbf{opponentColor:} Dette er farven på det hold som har deres kopper på den MODSATTE Player side end den som PSoC'en er en del af.\\[0.2cm]
 \textbf{currentState:} Dette er systemets nuværende tilstand.\\[0.2cm]
-\textbf{cupStatus:} Denne attribut repræsentere hvilke kopholdere som indeholder en kop. De 6 mindst betydende bits repræsenterer om der er en kop eller ej. Hvis et bit er 1 betyder det at der er en kop. Koppernes placering på bordet og deres bit nummer er map'et på samme måde som beskrevet i protokollen. \\[0.2cm] 
-\textbf{hitStatus:} Denne attribut repræsentere hvilke kopholdere som indeholder en kop hvor en bold er ramt i. De 6 mindst betydende bits repræsenterer om en bold er ramt i en kop eller ej. 1 betyder at der er ramt en bold i koppen. Koppernes placering på bordet og deres bit nummer er map'et på samme måde som beskrevet i protokollen. \\[0.2cm]
+\textbf{cupStatus:} Denne attribut repræsentere hvilke kopholdere, hvor en kopholder er placeret på den. De 6 mindst betydende bits repræsenterer, om der er en kop eller ej. Hvis et bit er 1 betyder det at der er en kop. Koppernes placering på bordet og deres bit nummer er map'et på samme måde, som beskrevet i protokollen. \\[0.2cm] 
+\textbf{hitStatus:} Denne attribut repræsentere hvilke kopholdere, som indeholder en kop hvor en bold er ramt i. De 6 mindst betydende bits repræsenterer om en bold er ramt i en kop eller ej. 1 betyder at der er ramt en bold i koppen. Koppernes placering på bordet og deres bit nummer er map'et på samme måde som beskrevet i protokollen. \\[0.2cm]
 
 \end{adjustwidth}
 
@@ -84,26 +86,33 @@ GameController er den centrale klasse for alle use cases. Den sørger for at sen
     \textbf{Bivirkninger:} ingen\\[0.2cm]
     \end{adjustwidth}
 
-\textbf{updateLight(status: uint8\_t) : void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf{Beskrivelse:} Hjælpefunktion som bruges til at styre flere CupLights på en gang. Den skal styre lyset for hver CupLight afhængig af parameteren status som er formateret på samme måde som cupStatus. Hvis den givne kops bit er 1 skal farven til denne kop sættes til onColor, ellers skal den sættes til offColor. Til at styre disse farver kalder den controlLight() funktionen i CupLight\_IF klassen\\[0.2cm]
-\textbf{Parametre:} status: uint8\_t: den status som styre hvilke CupLights skal indstilles til onColor og hvilke der skal indstilles til offColor.\\
-onColor: Color: den farve som CupLight skal indstilles til hvis dets bit i status er 1\\
-offColor: Color: den farve som CupLight skal indstilles til hvis dets bit i status er 0\\[0.2cm]
-\textbf{Retur værdi:} ingen\\[0.2cm]
-\textbf{Bivirkninger:} ingen\\[0.2cm]
-\end{adjustwidth}
+
 
 \textbf{controlLights() : void}
 \begin{adjustwidth}{1cm}{0pt}
-\textbf{Beskrivelse:} Hjælpefunktion som bruges til at styre de forskellige CupLights. Skal afhængig af currentState, cupStatus og hitStatus skal den styre lyset. Hvis currentState er STARTING skal hver CupLight styres til at lyse med enten missingCupColor eller placedCupColor afhængig af cupStatus. Hvis currentState er PLAYING, skal hver CupLight styres til at lyse med enten myColor eller opponentColor afhængig af cupStatus og hitStatus. Hvis en kop er ramt (angivet vha. hitStatus) skal funktionen sørge for at blinke med CupLight til den kop. Funktionen må IKKE være blokerende. Der kan derfor ikke benyttes et delay til at blinke med lyset. \\[0.2cm]
+\textbf{Beskrivelse:} Hjælpefunktion som bruges til at styre de forskellige CupLights. Den skal afhængig af currentState og CupStatus styre lyset. Hvis currentState er STARTING skal hver CupLight styres til at lyse med enten missingCupColor eller placedCupColor afhængig af cupStatus. Hvis currentState er PLAYING, skal hver CupLight styres til at lyse med enten myColor eller opponentColor afhængig af cupStatus.  \\[0.2cm]
 \textbf{Parametre:} ingen\\[0.2cm]
 \textbf{Retur værdi:} ingen\\[0.2cm]
 \textbf{Bivirkninger:} ingen\\[0.2cm]
 \end{adjustwidth}
 
+\textbf{Controller() : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:}Det første der gøres er at kalde RPI\_IF\_handledata fra RPI\_IF. Udover dette vil denne funktion eksekveres i de tilfælde currentState er STARTING eller PLAYING. Når systemet er i en af disse tilstande, så vil en ændring i CupStatus ændrer tilstanden af lysene ved at kalde controlLights med CupStatus. Hvis systemet er i PLAYING, så vil blinke funktionen også kontrolleres her. Er systemet ikke i nogle af disse tilstande vil blink stoppes.
+\\[0.2cm]
+\textbf{Parametre:} ingen\\[0.2cm]
+\textbf{Retur værdi:} ingen\\[0.2cm]
+\textbf{Bivirkninger:} ingen\\[0.2cm]
+\end{adjustwidth}
 
-
+\textbf{interruptBlink() : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Denne funktion bliver kaldt hver gang en timer overflower. Funktionen skal toggle farven for de kopper som er blevet ramt. Til dette skal attributten hitStatus benyttes. De to farver der skal toggles imellem er myColor og opponentColor.
+\\[0.2cm]
+\textbf{Parametre:} ingen\\[0.2cm]
+\textbf{Retur værdi:} ingen\\[0.2cm]
+\textbf{Bivirkninger:} ingen\\[0.2cm]
+\end{adjustwidth}
 
 {\large\textbf{Boundary:  RPi\_IF}}\\
 Klassen skal modtage kommandoer fra Raspberry pi, og sende data til raspberry pi. Der modtages hovedsageligt data om hvilken tilstand systemet er i og der sendes hovedsageligt koppernes status (om de er der eller ej)
@@ -113,6 +122,16 @@ Klassen skal modtage kommandoer fra Raspberry pi, og sende data til raspberry pi
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Skal sørge for at sende den nødvendige data som specificeret i protokollen vha. I2C, for at sende den cupStatus som er specificeret i parameteren status .\\[0.2cm]
 \textbf{Parametre:} status: uint8\_t: Den status som skal sendes videre til RPi \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+\textbf{RPI\_IF\_handledata() : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:}
+Denne metode skal sørge for modtagelsen af beskeder sendt over I2C til PSoC Player side. Den skal bruge funktionerne setState, setMyColor og setOpponentColor i GameController klassen alt efter om en besked omkring farveændring eller ændring af state  modtages fra RPI'en.
+\\[0.2cm]
+\textbf{Parametre:} ingen \\[0.2cm]
 \textbf{Retur værdi:} ingen \\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}

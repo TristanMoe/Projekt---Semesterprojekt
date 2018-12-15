@@ -1,0 +1,355 @@
+\documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
+\begin{document}
+\section{Klasse-, Metode- og Enumerationsbeskrivelse for RPiApp}
+Nedenfor ses de vigtigste elementer fra de forskellige klasser. Ikke alle operationer og funktioner er beskrevet, da enkelte er forholdsvis trivielle, fx get- og setmetoder. 
+\subsection{GameController}
+{\large\textbf{Constructors : GameController}}\\[0.2cm]
+%Default Parametrized Contructor
+\textbf{GameController(MsgQueue * ps1\_w, MsgQueue * ps2\_w, MsgQueue * bd\_w, MsgQueue * GameController)}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Initialisere associationen mellem delsystemerne \textit{PlayerSide1}, \textit{Playerside2} og \textit{Balldispenser}. Det er ikke direkte association, da en pointer gives til deres private MsgQueue instans. Sætter sin egen globale erklæret MsgQueue.\\[0.2cm]
+\textbf{Parametre:}
+\begin{enumerate}
+    \item \lstinline{MsgQueue * ps1_w}: Pointer til den Playerside1's MsgQueue, som GameController skal skrive states til.
+    \item \lstinline{MsgQueue * ps2_w}: Pointer til den Playerside2's MsgQueue, som GameController skal sende states til.
+    \item \lstinline{MsgQueue * bd_w}: Pointer til BallDispenser's MsgQueue, som GameController skal låse og låse op for.
+    \item \lstinline{MsgQueue* GameController}: GameController MsgQueue, til trådsikker opbevaring af beskeder til GameController. 
+\end{enumerate}
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+%Default Destructor
+\textbf{~GameController()}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Default Destructor.\\[0.2cm]
+\textbf{Parametre:} ingen \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+{\large\textbf{Metodebeskrivelser: GameController}}\\[0.2cm]
+\textbf{run(): void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Event-loop for tråden, modtager en besked, dispatcher den og sletter den. Sætter GameController i \lstinline{SYSTEM_STATE::IDLE} ved opstart.\\[0.2cm]
+\textbf{Parametre:}ingen \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} Uendeligt loop, der handler beskeder der modtages fra \textit{Playerside1},\textit{Playerside2}, \textit{Balldispenser} og \textit{Webserver}\\[0.2cm]
+\end{adjustwidth}
+
+\textbf{getTeam1(): UserInfo\&}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:}  Get-metode for \textsc{UserInfo} om team1.\\[0.2cm]
+\textbf{Parametre:}ingen \\[0.2cm]
+\textbf{Retur værdi:}
+\lstinline{UserInfo\&}: Bruger information omkring team1.
+\\[0.2cm]
+\textbf{Bivirkninger:} ingen\\[0.2cm]
+\end{adjustwidth}
+
+%getTeam2
+\textbf{getTeam2(): UserInfo\&}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:}  Get-metode for \textsc{UserInfo} om team2.\\[0.2cm]
+\textbf{Parametre:}ingen \\[0.2cm]
+\textbf{Retur værdi:} \lstinline{UserInfo\&}: Bruger information omkring team2.
+\\[0.2cm]
+\textbf{Bivirkninger:} ingen\\[0.2cm]
+\end{adjustwidth}
+
+%dipatcherGameMessage
+\textbf{dispatcherGameMessage(unsigned long msgID, Message * msg): void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:}  Dispatcher beskeder, der modtages i event-loopet, ud til deres handlers.\\[0.2cm]
+\textbf{Parametre:}
+\begin{itemize}
+    \item \lstinline{unsigned long msgID}: ID'en på beskeden for at associere den med en besked nedarvning.
+    \item \lstinline{Message * msg}: Beskeden der er modtaget i eventloopet.
+\end{itemize}
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen\\[0.2cm]
+\end{adjustwidth}
+
+%HandleSystemStart
+\textbf{handleSystemStart() : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Sender beskeder til \textit{Playerside1} og  \textit{Playerside2} om at systemet er i \lstinline{SYSTEM_STATE::STARTING} og at \textit{Balldispenser} skal være i state \lstinline{BallDispenser::OFF}\\[0.2cm]
+\textbf{Parametre:} status: ingen \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} Playerside1 og Playerside2 skifter states til \lstinline{SYSTEM_STATE::STARTING} og Balldispenser skifter til state \lstinline{BallDispenser::OFF}.  \\[0.2cm]
+\end{adjustwidth}
+
+%HandleSystemPlaying
+\textbf{handleSystemPlaying() : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Sender beskeder om at Systemet er i state \lstinline{SYSTEM_STATE::PLAYING} til Playerside1 og Playerside2, samt henholdsvis holdets og modstanderens farve.\\[0.2cm]
+\textbf{Parametre:}: ingen \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:}  Playerside1 og Playerside2 skifter states til \lstinline{SYSTEM_STATE::PLAYING} og farverne ændres i forhold til holdfarve. \\[0.2cm]
+\end{adjustwidth}
+
+%HandleSystemEndgame
+\textbf{handleSystemEndgame(EndGameCfm * msg) : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Sender en besked til hver Playerside om holdet har tabt (\lstinline{SYSTEM_STATE::LOST}) eller holdet har vundet (\lstinline{SYSTEM_STATE::WON}). Metoden låser også op for Balldispenser ved at sende \lstinline{BallDispenser::ON}. Efter 20 sekunder sender systemet \lstinline{SYSTEM_STATE::IDLE} til sig selv. \\[0.2cm]
+\textbf{Parametre:}: \lstinline{EndGameCfm * msg} besked der indeholder, hvilket hold der har vundet. \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} Sætter Playerside1 i enten state \lstinline{SYSTEM_STATE::WON} eller \lstinline{SYSTEM_STATE::LOST}. Sætter Playerside2 i den modsatte state. Sætter Balldispenser i state\lstinline{BallDispenser::ON}. Sætter GameControlleren i state \lstinline{SYSTEM_STATE::IDLE}. \\[0.2cm]
+\end{adjustwidth}
+
+%HandleSystemService
+\textbf{handleSystemService() : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Sender beskeder til \textit{Balldispenser} om den skal være i state \lstinline{BallDispenser::OFF}\\[0.2cm]
+\textbf{Parametre:} ingen \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} Balldispenser skifter til state \lstinline{BallDispenser::OFF}.  \\[0.2cm]
+\end{adjustwidth}
+
+%HandlePlayersideResponse
+\textbf{handlePlayersideResponse(PlayersideResponse * msg) : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Sætter cups i forhold til, hvilken playerside beskeden er fra. Opdatere WebPageServer, hvis alle kopper er sat og state er \lstinline{GAME_STATE::STARTING}. Hvis et hold ikke har flere kopper tilbage, sendes en besked i forhold til, hvem der har tabt.  \\[0.2cm]
+\textbf{Parametre:} \lstinline{PlayersideResponse * msg} Besked der indeholder hvilke kopper er læst. \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} GameController skifter til state \lstinline{SYSTEM_STATE::ENDGAME}, hvis der ikke er flere kopper tilbage.  \\[0.2cm]
+\end{adjustwidth}
+
+
+%void handleIdleRequest();
+\textbf{handleIdleRequest() : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Sætter stadiet til \lstinline{GAME_STATE::IDLE} og sender stadiet \lstinline{SYSTEM_STATE::IDLE} til begge Playersides og \lstinline{BallDispenser::DISPENSE_ON} til BallDispenser. \\[0.2cm]
+\textbf{Parametre:} ingen \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} Playersides skirfter til \lstinline{SYSTEM_STATE::IDLE} og BallDispenser til \lstinline{BallDispenser::ON}.  \\[0.2cm]
+\end{adjustwidth}
+
+%void handleBallDispenserResponse(BallDispenserResponse * msg);
+\textbf{handleBallDispenserResponse(BallDispenserResponse * msg) : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Behandler alt data sendt fra BallDispenserRead gennem et nedarvet Message objekt. \\[0.2cm]
+\textbf{Parametre:} BallDispenserResponse * msg, besked som indeholder hvilke signal, som er sendt fra BallDispenser enheden \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen  \\[0.2cm]
+\end{adjustwidth}
+
+%void handleWebPageResponse(WebPageResponse * msg);
+\textbf{handleWebPageResponse(WebPageResponse * msg}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Behandler alt data sendt fra WebPage gennem et nedarvet Message objekt - specifikt to UserInfo objekter, som indeholder den data, brugeren har indtastet\\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen  \\[0.2cm]
+\end{adjustwidth}
+
+{\large\textbf{Attributbeskrivelser: GameController}}
+\textbf{team1\_: UserInfo } 
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} UserInfo instans, som repræsentere alle information omkring hold 1, deres Playerside status, navne osv.. \\[0.2cm]
+\end{adjustwidth}
+
+\textbf{team2\_: UserInfo } 
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} UserInfo instans, som repræsentere alle information omkring hold 2, deres Playerside status, navne osv.. \\[0.2cm]
+\end{adjustwidth}
+
+{\large\textbf{Enumerationsbeskrivelse: GameController}}\\[0.2cm]
+%GameControllerState
+\textbf{GameControllerState}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Indeholder de forskellige states af spillet, der er relevante for GameController 
+\textbf{Enumerations:}
+\begin{itemize}
+    \item GAME\_STATE\_IDLE,
+	\item GAME\_STATE\_STARTING,
+	\item GAME\_STATE\_PLAYING,
+	\item GAME\_STATE\_ENDGAME,
+	\item GAME\_STATE\_SERVICE,
+\end{itemize}
+\end{adjustwidth}
+
+\subsection{I2C}
+{\large\textbf{Constructors : PlayersideRead}}\\[0.2cm]
+\textbf{I2C()}
+\begin{adjustwidth}{1cm}{0pt}
+\textit{Beskrivelse:} default constructor
+\textbf{Parametre:} ingen
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+{\large\textbf{Metodebeskrivelser: PlayersideRead}}\\[0.2cm]
+%int readI2C() 
+\textbf{readI2C(): int}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Læser fra filen via filepointeren - filepointeren initialeres først i constructoren for de nedarvede klasser. Gemmer det som er læst i den private datamember, readBuffer\_.\\[0.2cm]
+\textbf{Parametre:}ingen \\[0.2cm]
+\textbf{Retur værdi:} Antal bytes læst \\[0.2cm]
+\textbf{Bivirkninger:} Får processen til at 'sove'\\[0.2cm]
+\end{adjustwidth}
+
+%writeI2C(const char * command, int length)
+\textbf{writeI2C(const char * command, int length) : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} \\[0.2cm]
+\textbf{Parametre:} 
+\begin{itemize}
+    \item const char * command, den kommando som ønskes at sendes (Prædefineret i MsgProtocol klassen).
+    \item int length, længde af den besked som skal synes (Antal bytes) 
+\end{itemize}
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+{\large\textbf{Attributbeskrivelser: I2C}}
+\textbf{filePointer\_ : int} 
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} En 'pointer' til den fil, som opereres på - giver tilgang til filoperationerne, read, write, open, release i Kernal Space.\\[0.2cm]
+\end{adjustwidth}
+
+\textbf{readBuffer\_ : char}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} En buffer til at opbevare den seneste læste besked fra read-operationen\\[0.2cm]
+\end{adjustwidth}
+
+\textbf{writeBuffer\_ : char}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} En buffer til at opbevare den seneste læste besked fra write-operationen\\[0.2cm]
+\end{adjustwidth}
+
+\subsection{PlayersideRead}
+{\large\textbf{Constructors : PlayersideRead}}\\[0.2cm]
+\textbf{PlayersideRead(const char * filename, MsgQueue * GameControllerQueue, int playerside)}
+\begin{adjustwidth}{1cm}{0pt}
+\textit{Beskrivelse:} Initialisere associationen mellem GameControllers MsgQueue og PlayersideRead, samt tager filenavnet på den prædefineret node "/dev/playerside1" eller "/dev/playerside2", så den kan få adgang til dets filoperationer. Det erklæres også hvilke playerside instansen tilhører. \\[0.2cm]
+\textbf{Parametre:} 
+\begin{enumerate}
+    \item \lstinline{const char * filename}: Pointer til prædefineret filnavn. 
+    \item \lstinline{MsgQueue * GameControllerQueue}: Pointer til GameControllers MsgQueue. 
+    \item \lstinline{int playerside}: Erklæring af hvilke playerside-enheden som kommunikeres med. 
+\end{enumerate}
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+{\large\textbf{Metodebeskrivelser: PlayersideRead}}\\[0.2cm]
+%Virtual void translateMessage()
+\textbf{translateMessage(): void}
+\begin{adjustwidth}{1cm}{0pt}
+\textit{Beskrivelse:} Behandler data som modtages fra i2c\_interrupDriver'en - indirekte Playerside-enheden.\\[0.2cm]
+\textbf{Parametre:}ingen \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} \\[0.2cm]
+\end{adjustwidth}
+
+\subsection{PlayersideWrite}
+{\large\textbf{Constructors : PlayersideWrite}}\\[0.2cm]
+\textbf{PlayersideWrite(const char * filename, int playerside)}
+\begin{adjustwidth}{1cm}{0pt}
+\textit{Beskrivelse:} Tager filenavnet på den prædefineret node "/dev/playerside1" eller "/dev/playerside2", så den kan få adgang til dets filoperationer. Det erklæres også hvilke playerside instansen tilhører. \\[0.2cm]
+\textbf{Parametre:}
+\begin{enumerate}
+    \item \lstinline{const char * filename}: Pointer til prædefineret filnavn. 
+    \item \lstinline{int playerside}: Erklæring af hvilke playerside-enheden som kommunikeres med. 
+\end{enumerate}
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+{\large\textbf{Metodebeskrivelser: PlayersideWrite}}\\[0.2cm]
+\textbf{dispatchGameControllerRequests(unsigned long id, Message * msg) : void)}
+\begin{adjustwidth}{1cm}{0pt}
+\textit{Beskrivelse:} Dispatcher beskeder, der modtages i event-loopet, ud til deres handlers. Der modtages kun beskeder fra GameController\\[0.2cm]
+\textbf{Parametre:}
+\begin{itemize}
+    \item \lstinline{unsigned long msgID}: ID'en på beskeden for at associere den med en besked nedarvning.
+    \item \lstinline{Message * msg}: Beskeden der er modtaget i eventloopet.
+\end{itemize}
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+\textbf{handeIdleRequest() : void}
+\begin{adjustwidth}{1cm}{0pt}
+\textit{Beskrivelse:} Sender kommandoen Playerside.IDLE som er prædefineret i MsgProtocol - den nedarvede writeI2C-metode bruges til dette. Der er tilhørende handlers for de andre stadier, som sendes til Playerside.\\[0.2cm]
+\textbf{Parametre:} ingen \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
+
+\textbf{handleStartingRequest() : void}
+\textit{Beskrivelse:} Sender kommandoen Playerside.IDLE som er prædefineret i MsgProtocol - den nedarvede writeI2C-metode bruges til dette. Der er tilhørende handlers for de andre stadier, som sendes til Playerside. Der sendes også farvekoderne MyColor og OpponentColor. \\[0.2cm]
+\textbf{Parametre:} ingen \\[0.2cm]
+\textbf{Retur værdi:} ingen \\[0.2cm]
+\textbf{Bivirkninger:} ingen \\[0.2cm]
+
+\subsection{MsgProtocol}
+{\large\textbf{Enumerationsbeskrivelse og Structs: MsgProtocol}}\\[0.2cm]
+
+\textbf{struct PlayersideMsg}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Indeholder prædefineret kommando for Playerside beskeder \\[0.2cm]
+\textbf{Data items}
+\begin{itemize}
+    \item const char IDLE = 0b00001010;
+    \item const char STARTING = 0b00001011;
+    \item const char PLAYING = 0b00001100;
+    \item const char LOST = 0b00001101;
+    \item const char WON = 0b00001110;
+\end{itemize}
+\end{adjustwidth}
+
+\textbf{struct BallDispenserMsg}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} Indeholder prædefineret kommando for BallDispenser beskeder \\[0.2cm]
+\textbf{Data items}
+\begin{itemize}
+    \item const char COIN\_INSERTED = 0b00011110;
+    \item const char EMPTY = 0b00011111;
+    \item const char NOT\_EMPTY = 0b00100000;
+\end{itemize}
+\end{adjustwidth}
+
+\textbf{BallDispenser}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} MsgID'er på beskeder for at associere den med en besked nedarvning. \\[0.2cm]
+\textbf{Enumerations:}
+\begin{itemize}
+    \item NEW\_INFO = 121
+    \item ON = 119
+    \item OFF = 120
+\end{itemize}
+\end{adjustwidth}
+
+\textbf{DisplayShow}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} MsgID'er på beskeder for at associere den med en besked nedarvning. \\[0.2cm]
+\textbf{Enumerations:}
+\begin{itemize}
+    \item \_IDLE = 103
+    \item \_PLACE\_CUPS = 104
+    \item \_INFO = 105
+    \item \_GAME\_STATUS = 106
+	\item \_ENDGAME = 107
+	\item \_SERVICE = 108
+	\item \_CUPS\_UPDATED = 118
+\end{itemize}
+\end{adjustwidth}
+
+\textbf{SYSTEM\_STATE}
+\begin{adjustwidth}{1cm}{0pt}
+\textbf{Beskrivelse:} MsgID'er på beskeder for at associere den med en besked nedarvning. \\[0.2cm]
+\textbf{Enumerations:}
+\begin{itemize}
+    \item IDLE = 109
+	\item STARTING = 110
+	\item PLAYING = 111
+	\item LOST = 112
+	\item WON = 113
+	\item ENDGAME = 114
+	\item SERVICE = 115
+\end{itemize}
+\end{adjustwidth}
+\end{document}
+
+

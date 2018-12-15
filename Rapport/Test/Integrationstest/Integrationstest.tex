@@ -21,7 +21,6 @@ Den 7. December 2018 foretog Tristan, Nikolaj og Martin integrationstest mellem 
 i2c kommunikationen blev tilsluttet mellem Playerside PSoC enheden og RPi'en, samt Analog Discovery til at måle i2c kommunikation (Bits sendt mv.). \\
 Kommunkationen var en succes, men der opstod enkelte problemer med flere adgange til i2c-bussen. Dette blev fikset ved at tilføje et 'wait' proces, når en enhed tilgår bussen. \\ 
 \textbf{BallDispenser og RPi - GameStart \& Service}
-%Software crash mellem to motorer 
 
 \textbf{Interrupts - Playerside}
 En af overvejelserne der var før og under integrationstesten for player side, både HW og SW, var at de forskellige delsystemer alle brugte interrupts og de dermed kunne påvirke hinanden negativt når de integreres. Dette viste sig også at være tilfældet. Det blev løst ved at ændre på prioriteten af interruptsne. De interrupts der tager kortest tid og er mest kritiske for at systemet virker har en høj prioritet og andre har lavere. Derfor prioriteres interrupts ascocieret med I2C højest og interrupts ascocieret med at blinke lys lavest. Interrupts for Cup Light indstilles til have højere prioritet end for Cup Sensor, da disse interrupts er meget kortere end dem for Cup Sensor \\

@@ -1,7 +1,7 @@
 \documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
 \begin{document}
 
-\section{CupLight Software Implementering}
+\section{CupLight Software Implementering}\label{sec:cuplight_sw_impl}
 Implementeringen af CupLight\_IF er lavet i IDE'et PSoC-creator 4.2, hvor interfacet er skrevet i sproget C og kompileret med ARM GCC Generic Version: 4.2.0.641. Da sproget er C, kan der ikke laves rigtige klasser, og der er heller ikke valgt en objekt orienteret løsning med struct og funktionspointers, da interfacet er rimelig småt. I stedet er det implementeret ved moduler bestående af header- og source-filer.
 \subsection{ShiftPWM}
 Det første step til implementeringen af software, er at implementere det, der genererer PWM-signalet på den ønskede pin på PSoC. 
@@ -9,17 +9,17 @@ Det første step til implementeringen af software, er at implementere det, der g
 Til implementeringen af dette blev der hentet en del inspiration fra et blog indlæg lavet af Timo Denk \footnote{https://timodenk.com/blog/shiftregister-pwm-library/}. Især den datastruktur og den modificerende algoritme derpå,  han har udviklet til sit library, blev brugt som inspiration til at skrive ShiftRegPWM modulet. 
 \\Modulet ShiftRegPWM indeholder 4 metoder, en interrupt-handler og en datastruktur. Startes der ud med datastrukturen, så har den  til formål at holde styr på sekvensen af bits, der skal skiftes ind i 74HC595, for at det ønskede PWM signal opnås på en ønskede pin. Data strukturen ses i listing \ref{lst:ShiftRegPWM_DataStruct}.
 
-\begin{lstlisting}[caption={Datastruktur for ShiftRegPWM}, label={lst:ShiftRegPWM_DataStruct}]
+\begin{lstlisting}[caption={Datastruktur for ShiftRegPWM}, label={lst:ShiftRegPWM_DataStruct},
+style=customc]
 volatile uint8_t shiftRegData[RESOLUTION*SHIFT_REGISTERS] = {0};
 \end{lstlisting}
 
-Det ses også her at det er muligt at definere(i #defines), hvor stor en opløsning man vil have PWM-signalet, samt hvor mange ShiftRegisters, der er daisy chained. 
+Det ses også her at det er muligt at definere(i \#defines), hvor stor en opløsning man vil have PWM-signalet, samt hvor mange ShiftRegisters, der er daisy chained. 
 \\Som de fleste andre ting, der laves i PSoC, så har dette modul også en init-funktion, der skal initialisere, de "komponenter", der er på designet \ref{fig:CupLight_ShiftPWM_PSoC_Design}. Disse komponenter er et SPI-master komponent, der står for at skifte bits ind i 74HC595'en, en Timer, der har til ansvar at interrupte, hver gang ShiftRegisteret skal opdateres og til sidst en UART, der fungere som stub og debugging til modulet.
 \\Hvis der startes ud med en beskrivelse af timeren, så har den som sagt til ansvar at lave et interrupt, der skal opdatere pins. Derfor hører interrupt service rutinen sammen med en funktion kaldet update. Implementeringen af disse kan ses i listing \ref{lst:ISR_Update_impl}.
 
 
-\begin{lstlisting}[caption={ISR & Update}, label={lst:ISR_Update_impl}]
-
+\begin{lstlisting}[caption={ISR & Update}, label={lst:ISR_Update_impl}, style=customc]
 CY_ISR(updater_handler)
 {
     update();
@@ -47,11 +47,11 @@ void toggleLatchShiftReg()
 \end{lstlisting}
 
 Da update funktionen nærmest er selve interrupt service rutinen, så gennemgås denne. Denne funktion tager for antallet af Shift Registers og skifter det data, der svarer til de nuværende pin værdier for at skabe det ønskede PWM-signal. Når dette er skiftet ind i registeret så latches signalet, altså de indskiftede bytes bliver sat på output pins af Shift Registerne.\\
-Herefter inkrementeres den globale variable, der holder styr på, hvor langt man er i datastrukturen, og hvis den overskrider opløsningen så nulstilles den.
+Herefter inkrementeres den globale variable, der holder styr på, hvor langt man er i datastrukturen, og hvis den overskrider opløsningen så nulstilles den. \\
+Nu er det så relevant at kigge på, hvordan en pin sættes til en bestemt PWM værdi, hvilket gøres med setPin funktionen, der kan ses i listing \ref{lst:setPin_impl}
 
-\\Nu er det så relevant at kigge på, hvordan en pin sættes til en bestemt PWM værdi, hvilket gøres med setPin funktionen, der kan ses i listing \ref{lst:setPin_impl}
-
-\begin{lstlisting}[caption={Implementeringen af setPin}, label={lst:setPin_impl}]
+\begin{lstlisting}[caption={Implementeringen af setPin}, label={lst:setPin_impl},
+style=customc]
 
 void setPin(uint8_t pin, uint8_t value)
 {
@@ -84,7 +84,8 @@ I dette afsnit beskrives implementeringen af det interface, der skal anvendes ti
 
 Funktionen \textit{controlLight} tager som parameter et nummer og en farve. Det vil altså sige at denne funktion, skal kunne styre farven på en specifik kop holder. Denne funktion implementeres gennem kald til ShiftPWM modulet, for at styre det ønskede lys. Implementering af funktionen ses i listing \ref{lst:controlLight_impl}.
 
-\begin{lstlisting}[caption={Implementeringen af controlLight}, label={lst:controlLight_impl}]
+\begin{lstlisting}[caption={Implementeringen af controlLight}, label={lst:controlLight_impl},
+style=customc]
 void controlLight(uint8_t nr, color_t color)
 {
     uint8_t shiftRegPos = 3*nr;
@@ -98,7 +99,8 @@ Det ses af funktionen, at interfacet begynder at bruge at anvede Hardware implem
 
 Funktionen \textit{controlAllLights} tager kun en farve som parameter, og implementeringen af denne er ret lige til, da det kun er en for-løkke der itererer henover antallet af lys, og kalder \textit{controlLight} med den indikere farve. Det smarte ved denne implementering er, at hvis \textit{controlLight} opdateres så bæres den opdatering automatisk over i \textit{controlAllLights}.  Implementeringen kan ses i listing \ref{lst:controlAllLights_impl}
 
-\begin{lstlisting}[caption={Implementeringen af controlAllLights}, label={lst:controlAllLights_impl}]
+\begin{lstlisting}[caption={Implementeringen af controlAllLights}, label={lst:controlAllLights_impl},
+style=customc]
 void controlAllLights(color_t color)
 {
     for (uint8_t i = 0; i < NUMLEDS; i++){

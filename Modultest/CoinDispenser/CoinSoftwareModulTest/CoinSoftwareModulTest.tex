@@ -1,0 +1,42 @@
+\documentclass[Modultest/Modultest_main.tex]{subfiles}
+\begin{document}
+\section{CoinDispenser Hardware Modultest}
+
+\subsection{Test af CoinSlide}
+I denne seksjonen vil modul testen for CoinDetector softwaren bli beskrevet. Softwaren består av coinDispenser og motorController.\\
+
+\\
+
+\textbf{Krav som skal bli testet:}
+\begin{enumerate}
+    \item Systemet skal kun acceptere en danskfemkrone som betaling. Diameter på 28.5mm +/- 0.5mm og tykkelse på 2.00 +/- 0.1mm
+    \item Systemet skal frigive \textbf{Coins} med en diameter på 28.0 mm og under og tykkelse på 2.35 mm og under
+    \item Det skal detekteres mindst 98 ud af 100 gange at der indsættes en 5 krone i bolddispenser.
+    \item I en periode på 1 time må der højest være 1 falskdetektering af indsættelse af en dansk 5 krone i bolddispenser
+\end{enumerate}
+
+\\
+Testen ble utført ved å slippe mynter ned på detector platen til coinDispenser med UART tilsluttet for følge med på dispensorens kode og endre dens state. Det va ikke nødvendig med custom test kode siden componenten viker selv om den ikke er koblet til systemet.\\
+Systemet ble satt med strømmen sluttet til i 2 dager. \\
+\\
+
+\subsection{Resultater}
+\begin{table}[H]
+\Large
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+
+\textbf{State} & \textbf{Forsøk} & \textbf{Feil} \\ \hline
+Enabled         & 200             & 0             \\ \hline
+Disabled         & 200             & 0             \\ \hline
+
+\end{tabular}
+\end{table}
+\\
+Etter to dager var det ikke forekommet noen feil da resultatet ble avlest med uarten. 
+\subsection{Refleksion}
+
+Som vi kan se har systemet viker uten noen problemer og er klar til integrasjon med ballDispenceren. 
+
+\end{document}

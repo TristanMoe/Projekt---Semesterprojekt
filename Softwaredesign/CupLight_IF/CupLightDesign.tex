@@ -1,7 +1,7 @@
 \documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
 \begin{document}
-\section{CupLight\_IF Software Design}
-Til at kontrollere lyset under kopperne, skal der bruges et interface, der kan anvendes fra PlayerSideController-klassen. Dette kapitel vil præsentere nogle af de design valg, der er lavet vedrørende det interface, samt en sammenligning mellem de forskellige teknologier, der præsenteres. De forskellige designs er lavet ud fra Hardware Designs, der kan ses i \fullref{hardwaredesign:sec:cuplight_hw_design}
+\section{CupLight\_IF Software Design} \label{sec:cuplight_sw_design}
+Til at kontrollere lyset under kopperne, skal der bruges et interface, der kan anvendes fra PlayerSideController-klassen. Dette kapitel vil præsentere nogle af de design valg, der er lavet vedrørende det interface, samt en sammenligning mellem de forskellige teknologier, der præsenteres. De forskellige designs er lavet ud fra Hardware Designs, der kan ses i \fullref{hardwaredesign:sec:cuplight_hw_design}.
 \subsection{CupLight\_IF Software Design ved multiplexing}
 Da pointen ved at bruge en RGB-led er, at der kan styres farven af led'en så skal der laves  et modul \textit{rgb\_led}, som har til formål at stå for at håndtere farverne i en RGB-led. Som sagt kan farven på en RGB-led styres ved at bruge PWM på benene, så derfor skal den kunne styre 3 pwm generatorer i PSoC creator. Tilhørende til dette modul laves en typedef struktur kaldet \textit{color\_t}, der er en definition af hvad farverne indeholder. Farverne der er i den valgte RGB-led er som navnet hentyder, rød,grøn og blå. Farverne hertil kan kun have værdier mellem 0 og 255, hvilket der bør tages hånd om når en farve tildeles en værdi.
 \\ PWM-generatorne kan i sig selv styre en enkelt LED, og bør derfor passende testes for dette. I princippet kan den også styre flere LED'er, men dette er ikke relevant i dette system, da alle LED'er vil have samme farve.
@@ -32,7 +32,16 @@ Til at sende de rigtige bits kan anvendes en global datastruktur, men den har en
 I dete afsnit diskuteres hvorvidt multiplexing eller ShiftPWM anvendes for det pågældende projekt.\\
 Starter vi ud med at kigge på \textbf{Multiplexing} så er der nogle klare fordele, så som mindre memory brug og det er nemmere at implementere. Derudover vil den ikke bruge lige så store timeslices, som ved ShiftPwm. Men det har også nogle ulemper, så som at der er meget af fintuning af timing for lyset og at lyset bliver mindre kraftigt. Fintuningen af timingen kan komme til at have alvorlige konsekvenser for lyset, da det er meget følsom overfor, de andre moduler på PSoC playerside.
 \\Ved \textbf{ShiftPWM} udnyttes der derimod pins på PSoC'en vanvittigt effektiv idet, der kan styre et nærmest vilkårligt antal LED'er (Der er en øvre grænse for, hvor mange shiftregisters der kan daisy chaines og fungere). Derudover vil lysene også være kraftigere og med flere farver, hvor tradeoff er det memory, der skal anvendes til at holde styr på sekvensen af pins, der skal opdateres.
-\\Den endelig konklusion er, at det ShiftPWM anvendes, da det bare har for mange fordele i forhold til ulemper i sammenligning med Multiplexing. Da koden er simplere og mere intuitiv, og det samme er hardwaren. Det andet der taler for ShiftPWM er antallet af mulige farver, hvilket opfylder kravene i bilag \fullref{kravspec:sec:ikke_funktionelle_krav} omkring antallet af farver.
+\\Den endelig konklusion er, at det ShiftPWM anvendes, da det bare har for mange fordele i forhold til ulemper i sammenligning med Multiplexing. Da koden er simplere og mere intuitiv, og det samme er hardwaren. Det andet der taler for ShiftPWM er antallet af mulige farver, hvilket opfylder kravene i bilag \fullref{kravspec:sec:ikke_funktionelle_krav} omkring antallet af farver.\\
+Nu hvor der er taget et valg omkring teknologi, så kan der laves et klasse diagram for modulet. Denne ses i figur \ref{fig:cd_cuplight}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Softwaredesign/CupLight_IF/graphics/CD_CupLight.png}
+    \caption{Klassediagram for CupLight modulet}
+    \label{fig:cd_cuplight}
+\end{figure}
+Ud fra dette klasse diagram, kan der startes en implementering af modulet.
 
 
 

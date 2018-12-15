@@ -6,6 +6,7 @@
                 commentstyle=\color{green}\ttfamily,
                 morecomment=[l][\color{magenta}]{\#},
                 showstringspaces=false,
+                breaklines=true,
                 emph={std, cout, endl, pthread_t},
                 emphstyle={\color{purple}}
 }
@@ -152,6 +153,191 @@ PlayersideRead::PlayersideRead(const char * filename, MsgQueue * GameControllerQ
 \end{lstlisting}
 
 \subsection{WebPage}
+
+\subsubsection{Client}
+\begin{lstlisting}[language=HTML, caption={WebPage interface layout}, label=list:webpage_interface]
+<!DOCTYPE html>
+  <html>
+  <meta charset="utf-8" />
+  <head>
+  <title>Beer Pong Game</title>
+  <style type="text/css">
+  #wrap {
+    width: 805px;
+    height:575px;
+  }
+
+  .left{
+    width:400px;
+    height:200px;
+    float:left;
+  }
+  
+  #display1{
+    width: 28%;
+    height: 100px;
+    background: #ff0000;
+    transition: background 100ms;
+    margin-top: 30px;
+    border: 1px solid #000;
+  }
+  
+  //similar for .right and #display2
+  ...
+  
+<body>
+<h1>Beer Pong</h1>
+<div id="wrap">
+  <div class="left">
+  <h3>Team 1</h3>
+  <p> Enter username 1: </p>
+  <input type="text" id="username1" name="username1" maxlength="15"/>
+  <p> Enter username 2: </p>
+  <input type="text" id="username2" name="username2" maxlength="15"/>
+  <p> Enter teamname: </p>
+  <input type="text" id="teamname1" name="teamname1" maxlength="15"/>
+  <br />
+  <p> Enter team color: </p>
+  <div class="picker1">
+  Red <input type="range" min="0" max="255" step="1" id="red1" value="255">
+  Green <input type="range" min="0" max="255" step="1" id="green1" value="0">
+  Blue <input type="range" min="0" max="255" step="1" id="blue1" value="0">
+  <div id="display1"></div>
+</div></div>
+ 
+//Similar for team2 
+
+<button type="button" onclick="acquireInfo()">Start</button>
+\end{lstlisting}
+
+\begin{lstlisting}[language=JavaScript, caption={WebPage event handlers}, label=list:webpage_handlers]
+
+<script language="javascript" type="text/javascript">
+
+var wsUri = "ws://10.9.8.2:3000/";
+
+function init(){
+    output = document.getElementById("output");
+    testWebSocket();
+}
+
+function testWebSocket(){
+    websocket = new WebSocket(wsUri);
+    websocket.onopen = function(evt){onOpen(evt)};
+    websocket.onclose = function(evt){onClose(evt)};
+    websocket.onmessage = function(evt){onMessage(evt)};
+    websocket.onerror = function(evt){onError(evt)};
+}
+
+function onOpen(evt){
+    writeToScreen("CONNECTED");
+}
+
+function onClose(evt){
+    writeToScreen("DISCONNECTED");
+}
+
+function onMessage(evt){
+    writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+}
+
+function onError(evt){
+    writeToScreen('<span style="color: red;">ERROR:</span>');
+}
+
+function doSend(message){
+    writeToScreen("SENT: UserInfo");
+    websocket.send(message);
+}
+
+// Displaying team colors
+var input1 = document.querySelectorAll('input[type="range"]');
+for(var i = 0; i<input1.length; i++) {
+    input1[i].addEventListener("input", function(){
+    red1 = document.getElementById("red1").value,
+    green1 = document.getElementById("green1").value,
+    blue1 = document.getElementById("blue1").value;
+
+    var display1 = document.getElementById("display1");
+    display1.style.background = "rgb(" + red1 + ", " + green1 + ", " + blue1 + ")";
+    });
+}
+...
+//Similar for team2
+
+window.addEventListener("load", init, false);
+
+function acquireInfo(){
+    username1 = document.getElementById("username1").value;
+    username2 = document.getElementById("username2").value;
+    ...
+    blue2 = document.getElementById("blue2").value;
+
+    gameInformation = username1+'-'+username2+'-'+teamname1+'-'+red1+'-'+green1+'-'+blue1+'-'+username3+'-'+username4+'-'+teamname2+'-'+red2+'-'+green2+'-'+blue2+'#';
+    doSend(gameInformation);
+}
+</script>
+\end{lstlisting}
+
+\subsubsection{Server}
+\begin{lstlisting}[caption={Initering af WebSocket}, label=list:WSInit]
+void WebPage::WSInit()
+{
+	h.onMessage([&](uWS::WebSocket<uWS::SERVER> *ws, char *message, size_t length, uWS::OpCode opCode) {
+
+	// Splitting string and storing substrings in vector
+	ostringstream buffer;
+	for (int i = 0; message[i] != '#'; i++)
+	buffer << message[i];
+
+	string gameInformation = buffer.str();
+
+	char delimiter = '-';
+	vector<string> tokens;
+
+	istringstream str(gameInformation);
+	for (string substring; getline(str, substring, delimiter); tokens.push_back(substring));
+
+	//Setting team2
+	team2_.setBlue(tokens.back());
+	tokens.pop_back();
+	team2_.setGreen(tokens.back());
+	tokens.pop_back();
+	team2_.setRed(tokens.back());
+	tokens.pop_back();
+	team2_.setTeam(tokens.back());
+	tokens.pop_back();
+	team2_.setUser2(tokens.back());
+	tokens.pop_back();
+	team2_.setUser1(tokens.back());
+	tokens.pop_back();
+
+     ...
+        
+     //Similar for team1
+        
+	// Sending to GameController class
+	GameControllerMsgQueue_->send(ID_INFO_READY, new WebPageResponse(team1_, team2_));
+
+	// Sending back to client
+	ws->send(message, length, opCode);
+});}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Run() funktion for WebPage}, label=list:webpage_run]
+void WebPage::run()
+{
+	WSInit();
+	while(true)
+	{
+	    if (h.listen(3000)) {
+			h.run();
+		}
+	}
+}
+\end{lstlisting}
+
+
 
 \subsection{Display}
 

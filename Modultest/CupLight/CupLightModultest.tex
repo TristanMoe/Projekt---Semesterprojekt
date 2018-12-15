@@ -1,9 +1,10 @@
 \documentclass[Modultest/Modultest_main.tex]{subfiles}
 \begin{document}
-
+\section{CupLight Modultest}\label{sec:cuplight_test}
 Dette afsnit omhandler Modultest af alt, der har med lys og lysstyring at gøre. I de følgende underafsnit vil der laves modultest for software modulet, og et samlet modultest, der anvender CupLight\_IF til at styre noget hardware.
+
 \subsection{Modultest af ShiftRegPWM}
-Startes der ud med at lave en modultest af ShiftRegPWM software modulet, så kunne denne i princippet testes på to måder. Der kan kigges på kommandoerne, der bliver sendt fra PSoC og disse kan efterfølgende dekrypteres. Den anden lidt enklere løsning er at forbinde de pins, der er specificeret til modulet, til et 74HC595 register og måle PWM signalet på pins. Den enklere løsning blev valgt, da den er mere logisk og nemmere at forstå og fortolke. 
+Startes der ud med at lave en modultest af ShiftRegPWM software modulet, så kunne denne i princippet testes på to måder. Der kan kigges på kommandoerne, der bliver sendt fra PSoC og disse kan efterfølgende dekrypteres. Den anden lidt enklere løsning er at forbinde de pins, der er specificeret til modulet, til et 74HC595 register og måle PWM signalet på pins. Den enklere løsning blev valgt, da den er mere logisk og nemmere at forstå og fortolke. Samtidig testes HW også for CupLight Controller, hvilket giver mening når modulerne er så tæt forbundne.
 \subsection{Test opstilling for ShiftRegPWM}
 Som teststub/testbench blev der anvendt et program, der bruger UART-komponent på PSoC'en, så forskellige tests kan foretages real time uden for meget modificering af kode. Koden til dette kan ses i listing \ref{lst:ShiftRegPWM_Test}
 

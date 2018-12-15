@@ -1,6 +1,6 @@
 \documentclass[HardwareDesign/HardwareDesign_main.tex]{subfiles}
 \begin{document}
-\section{Cup Holder}
+\section{Cup Holder}\label{sec:cupholder_hw_design}
 I dette afsnit beskreves design og implementeting af Cup Holder.
 
 \subsection{Design}
@@ -53,8 +53,38 @@ strømmen er derfor $i = 2.8pF \cdot 230\si{\frac{MV}{s}} = 644\si{\mu A}$. I v�
 Begge støjsignaler vil opstå som spike idet det digitale signal skifter. Dette vil være spikes på lidt over 22ns. Dette tænkes ikke at det vil påvirke CupSensor signalet så meget, da i designet for Cup Sensor er implementeret et båndpasfilter i form at en ADC med indbygget mixer-funktionalitet og lavpasfilter. Båndpasfilteret har en centerfrekvens på 10kHz og en båndbredde på under 4kHz Frekvensindholdet for et så kort et spike, er meget høj og det bliver derfor dæmpet meget.
 
 \subsection{Implementering}
+Der blev først udviklet én printplade som blev produceret af ASE, denne version kan ses på figur \ref{fig:CupHolderRev1}. Denne version blev verificeret og der blev bestilt 12 printplader. Dette var ikke muligt at få produceret af ASE, derfor for blev den produceret i Kina (leverandør ikke oplyst af ASE), se figur \ref{fig:CupHolderRev2}. Her var det muligt at benytte gennemplatering, derfor blev der lavet en lidt anderledes version (REV 2). Begge versioner benytter afstandsstykker, som bruges til at printpladen kan stå på en flad overflade, og så der på toppen kan være en plastikplade. Det observeres at der på den REV 2 ikke er monteres 5 RGB LED'er. Detter var af økonomiske oversager det det vil koste lidt under 500kr for LED'erne og da lyset ikke har anden opgave end lir. Derfor loddes kun en på, det anses som værende tilfredsstillende kun at have en LED på REV 2 når der blev monteret 5 på den første version.
 
+\begin{figure}[H]
+\centering
+\makebox[\textwidth][c]{%
+\begin{subfigure}{.539\textwidth}
+  \centering
+        \includegraphics[width=1\linewidth]{HardwareDesign/CupHolder/graphics/bund_rev_1.jpg}
+\end{subfigure}%
+\begin{subfigure}{.561\textwidth}
+  \centering
+    \includegraphics[width=1\linewidth]{HardwareDesign/CupHolder/graphics/top_rev_1.jpg}
+\end{subfigure}
+}
+\caption{Den første version af Cup Holder printplade, som blev produceret af ASE, hvor der ikke er gennemplatering, soldermaske og silkscreen. På venstre figur ses bunden af printpladen. På højre side figur ses toppen af printpladen.}
+\label{fig:CupHolderRev1}
+\end{figure}
 
-
+\begin{figure}[H]
+\centering
+\makebox[\textwidth][c]{%
+\begin{subfigure}{.53\textwidth}
+  \centering
+        \includegraphics[width=1\linewidth]{HardwareDesign/CupHolder/graphics/bund_rev_2.jpg}
+\end{subfigure}%
+\begin{subfigure}{.57\textwidth}
+  \centering
+    \includegraphics[width=1\linewidth]{HardwareDesign/CupHolder/graphics/top_rev_2.jpg}
+\end{subfigure}
+}
+\caption{Den anden version af Cup Holder printplade (REV 2), som blev produceret i Kina, hvor der er gennemplatering, soldermaske og silkscreen. På venstre figur ses bunden af printpladen. På højre side figur ses toppen af printpladen.}
+\label{fig:CupHolderRev2}
+\end{figure}
 
 \end{document}

@@ -52,8 +52,8 @@ Testen udføres på følgende vis:
     \item Indtast holdoplysninger og tryk 'Start'
     \item Undersøg og dokumenter data sendt og modtaget
 \end{enumerate}
-Der foretages en stikprøve på n=50, dvs. punkterne 5 og 6 gentages 50 gange, mens navne og farver varieres. Herefter sammenlignes resultatet med med \textbf{K4.11}.
-Hjemmesidens vist i browseren Firefox er vist i figur \ref{fig:webpage_modultest_1} mens det resulterende terminal output kan ses i figur \ref{fig:webpage_modultest_2}.
+Der foretages en stikprøve på n=50, dvs. punkterne 5 og 6 gentages 50 gange, mens navne og farver varieres. Herefter sammenlignes resultatet med kravene.
+Hjemmesiden er vist i browseren Firefox er i figur \ref{fig:webpage_modultest_1} mens det resulterende terminal output kan ses i figur \ref{fig:webpage_modultest_2}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{Modultest/WebPage/graphics/modultest_1.png}
@@ -68,6 +68,13 @@ Hjemmesidens vist i browseren Firefox er vist i figur \ref{fig:webpage_modultest
 \end{figure}
 
 \subsection{Resultater}
+Resultatet af modultesten fremgår af tabel \ref{tab:webpage_data_1}. En fejl vil i dette tilfælde ske på én af tre følgende måder:
+\begin{itemize}
+    \item Data sendes ikke fra client men modtages af serveren (falsk positiv)
+    \item Data sendes fra client med modtages ikke af serveren (falsk negativ)
+    \item Data sendes fra client og modtages af serveren, men data er ikke korrekt
+\end{itemize}
+Som det ses nedenfor er data sendt og modtaget korrekt alle 50 gange. 
 \begin{table}[H]
     \centering
     \begin{tabular}{|L{0.15\textwidth}|L{0.15\textwidth}|L{0.2\textwidth}|}
@@ -80,5 +87,6 @@ Hjemmesidens vist i browseren Firefox er vist i figur \ref{fig:webpage_modultest
 \end{table}
 
 \subsection{Konklusion}
+Kravene i tabel \ref{tab:krav_web} kræver visuel inspektion af hjemmesiden i figur \ref{fig:webpage_modultest_1}. Alt teksten er engelsk, så krav \textbf{K2.12} kan siges at være opfyldt. Det er desuden muligt at indtaste holdnavne og brugernavne, og disse kan ikke overskride en længde på 15 karakterer. Kravene \textbf{K2.13} og \textbf{K2.14} kan betragtes som værende opfyldt. Der er implementeret en løsning med tre track bars til at vælge farver. Der kan dermed vælges mellem 256 $\cdot$ 256 $\cdot$ 256 = 16.777.216 farver. Kravene \textbf{K2.15} og \textbf{K2.16} er derfor også opfyldt. \textbf{K4.11} kan dog først siges at være opfyldt efter en succesfuld accepttest, hvor WebPage er integreret med \textit{\textbf{display}} og \textit{\textbf{Cup lights}}.
 
 \end{document}

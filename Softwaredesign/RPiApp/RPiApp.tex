@@ -102,10 +102,10 @@ void dispatcher(unsigned long MsgID, Message * msg)
 \subsection{Oversigt}
 Dette afsnit beskrev kort det overordnede design af kommunikationen mellem klasserne. Det vigtigste element for denne kommunikation er, at boundary klasserne ikke skal kunne få systemet til at afvige fra standarden (Use cases etc.). GameController klassen skal styre systemet og modtage beskeder gennem dets beskedkø. Alle beskeder afvikles sekventielt og er låst i form af mutexer. Dette er essentielt for systemet, da der ofte behandles delt data. 
 
-\section{Opdateret klassediagram for RPi}
+\subsection{Opdateret klassediagram for RPi}
 Da applikationen er designet ud fra event driven arkitektur, er der tilføjet flere klasser og metoder til systemet. I de følgende afsnit kan ses flere opdaterede klassediagrammer, hvor fundamentet er taget fra applikationsmodellen for RPiApp. Det er ikke noget overordnet klassediagram for systemet, da det ikke gav noget overskueligt billede af klassernes sammenhæng. \\\\
 Systemet designes ud fra figur \ref{fig:dispatch}, og dette indebærer at de fleste funktionsnavne fra applikationsmodellen skifter navn til \textbf{handle[functionname]}. Dette er som sagt baseret på event driven arkitektur, og programmet skal 'handle' de forskellige beskeder modtaget fra boundary klasseren - fx "handleSystemIdle".  
-\section{GameController - Controller}
+\subsection{GameController - Controller}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{Softwaredesign/RPiApp/graphic_RPi/GC.png}
@@ -144,11 +144,11 @@ GameController modtager alt information fra de forskellige boundary klasse:
     \item \textbf{BallDispenser}: Møntinsættelse og bolddispenser status (Tom eller ikke tom)
 \end{enumerate}
 
-\section{I2C}
+\subsection{I2C}
 I2C klassen er baseklassen for alt i2c-kommunikation. Ligeledes de andre klasser er den designet ud fra en objekt orienteret struktur, men den gør også brug af elementer fra C. I2C-klassen skal indeholder metoder, således det går det muligt at få tilgang til i2c-bussen og resourcer sendt vha. den - reelt set er det driveren, som håndtere alt information sendt og modtager via i2c-bussen, det er således i2c-klassens ansvar at kommunikere med driveren implementeret i kernal space. Her bruges filoperationer til at anvende kernal space interfacet. Til håndteringen af data og open/read/write-operationer bruges biblioteket "fcntl.h"\footnote{Open source library, gør det muligt at opererer på filer i Linux: http://pubs.opengroup.org/onlinepubs/000095399/basedefs/fcntl.h.html} \\\\
 Klassen skal kun indeholde read og write operationenerne, det er den nedarvet klasses ansvar at få adgang til den specifikke fil (Alle filer er prædefineret). fx Playerside1 filen oprettes som "/dev/playerside1". Boundary klasserne "Playerside" og "BallDispenser"  gør brug af i2c kommunikationen og skal derfor nedarve fra denne klasse. Hvis flere metoder deles mellem klasserne, gøres de virtuelle og implementeres i de nedarvede klasser. 
 
-\section{Playerside - Boundary}
+\subsection{Playerside - Boundary}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{Softwaredesign/RPiApp/graphic_RPi/PS.png}
@@ -182,7 +182,7 @@ Hver Playerside skal have en read og en write tråd, dvs der skal oprettes et Pl
 \begin{lstlisting}
     PlayersideWrite ps1_w("/dev/playerside1");
 \end{lstlisting}
-\section{Messages (Brugerdefineret beskeder)}
+\subsection{Messages (Brugerdefineret beskeder)}
 Da de forskellige klasser bruger MsgQueue-systemet til at kommunikere med hinanden, kræver det, at man har mulighed for at definere, hvad beskeden skal indeholde af data. Dette gøres ved at lave en nedarvet klasse af 'Message', som indeholder den data, som skal sendes til en beskedkø. Alle beskeder som sendes bliver dynamisk allokeret og modtager sletter beskeden, efter den er afviklet (Lidt a la 'shoot and forget'). Når beskeden skal afvikles i handleren bruges static\_cast til at konvertere til den korrekte typebesked (som set i listing \ref{lst:Game_Disp}). Da static\_cast bruger er det ekstremt vigtigt, at ikke at allokere en forkert beskedtype af Message. Hvis denne besked behandles forkert vil det med garanti resulterer i segmentation fault. Her bruges det medsendte 'MsgID' til at tilkendegive beskedens type. \\\\
 Eksempel på Dynamisk allokeret brugerdefineret besked
 \begin{lstlisting}
@@ -194,11 +194,11 @@ public:
     ...
 }
 \end{lstlisting}
-\section{MsgProtocol.h}
+\subsection{MsgProtocol.h}
 Domæneklassen MsgProtocol indeholder alle MsgID'er, som de forskellige klasser gør brug af (Her bruges 'enumeration' til at lave beskedid'erne). Alle boundary klasserne kender til denne klasse. Det ville være et bedre design valg at lave en domæne klasse for hvert klasse, som gør brug af MsgQueue systemet, da klasserne ikke behøver at kende til hinandens MsgId'er. Men da systemet allerede er ved at blive stort og abstrakt, samles alle 'enum' MsgId'erne og 'unsigned char' protokolbeskedere. \\\\
 Det skal defineres tydeligt, hvilke klasses MsgId eller protokolbesked som behandles.
 
-\section{BallDispenser - Boundary}
+\subsection{BallDispenser - Boundary}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{Softwaredesign/RPiApp/graphic_RPi/BD.png}
@@ -207,7 +207,7 @@ Det skal defineres tydeligt, hvilke klasses MsgId eller protokolbesked som behan
 \end{figure}
 Boundary klassen BallDispenser er grænsefladen mellem BallDispenser-enheden og RPi. Ligeledes for Playerside klassen, skal klassen opdeles til to klasser, da write og read operationerne kræver to tråd: BallDispenserRead og BallDispenserWrite. Som det kan ses på figur \ref{cd_BD}, har klassen samme struktur som PlayersideWrite og PlayersideRead. BallDispenserRead og -Write henter informationer omkring MsgId'er og protokolbeskder for MsgProtocol domænet. 
 
-\section{UserInfo - Domæne}
+\subsection{UserInfo - Domæne}
 UserInfo er systemets database for brugeren; Holdnavn, spillernavne, antal kopper tilbage, holdfarve og modtstanderfarve. Der oprettes to instanser i GameController, som bruges til de logiske operationer i systemet - når det registeres at en kop er blevet fjernet for hold 1 (Playerside1), gemmes denne information i den instans svarene til hold 1. GameController bruger her instanserne til fx at checke om alle kopper er blevet placeret. \\
 Instanserne initialiseres med default argumenter for brugeroplysningerne, da de først gives ved interaktion med WebPage klassen. Instanserne passeres dynamisk mellem klasserne GameController og WebPage. For at sikre at resourcerne bliver allokeret og frigivet korrekt, så anvendes 'rule of three' (destructor, copy constructor, copy assignment operator). 
 
@@ -285,14 +285,5 @@ Det er forsøgt at give et overblik over modulet WebPage med et sekvensdiagram i
     \caption{Sekvensdiagram for WebPage}
     \label{fig:WebPage_sd}
 \end{figure}
-
-%%Skal måske med i design 
-%Intro
-
-%Arkitektur
-
-%Klassebeskrivelser for GameController, Playerside, BallDispenser, WebPage? 
-
-%Enumerationsbeskrivelser for MsgProtocol
 
 \end{document}
