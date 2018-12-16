@@ -1,10 +1,10 @@
 \documentclass[HardwareDesign/HardwareDesign_main.tex]{subfiles}
 \begin{document}
 \section{Cup Sensor} \label{sec:CupSensor}
-I dette afsnit beskrives udviklingen af en sensor (Cup Sensor blokken) der kan registrere når en kop placeres på en bestemt placering på bordet der udvikles i dette projekt. Sensoren skal hvis muligt også detektere når en bold rammer i koppen (er 
+I dette afsnit beskrives udviklingen af en sensor, Cup Sensor. Der designes både delen der skal være på i Cup Sensor blokken, Cup Holder Controller og på PSoC. Sensoren skal registrere når en kop placeres på en bestemt placering på bordet der udvikles i dette projekt. Sensoren skal hvis muligt også detektere når en bold rammer i koppen (er 
 'should' i MoSCoW analysen). Dette kan gøres på flere forskellige måder som undersøges i det følgende underafsnit. Derudover skal der laves noget hardware der gør det muligt at få data fra 6 sensorer 'samtidig' (en del af Cup Holder Controller blokken)
 
-\subsection{Teknologiundersøgelse}
+\subsection{Teknologiundersøgelse} \label{sec:CupSensorTekUnder}
 For at detektere en kop der er placeret, skal koppen med øl påvirke nogle fysiske egenskaber for en sensor, som dermed kan detekteres. Der overvejes forskellige egenskaber som kan detekteres, som kan ses i listen nedenfor. De forskellige punkter gennemgås detaljeret bagefter.
 \begin{enumerate}
     \item \label{itm:cupSensor_weight} Kraft.
@@ -24,7 +24,7 @@ En kop med øl, vil have en anden dielektrikum end luften. Derfor kan der laves 
 Der er, som beskrevet, nogle metoder hvor der er åbenlyse ulempe som vælges fra med det samme. Der vælges to metoder som undersøges nærmere: lys reflektion og dielektrikum. Disse metoder undersøges til sådan en grad så det er muligt at træffe et valg mellem de to metoder (eller fravælge dem begge og finde en ny metode). Teknologiundersøgelserne bliver hermed brugt til en form for 'proof of concept'.  
 
 \subsubsection{Kapacitiv sensor}
-Til at måle en ændring i dielektricitetskonstanten, benyttes en kapacitiv sensor. Fra den første EFYS øvelse, blev det vist at man kan male den frie kapacitet af en metalplade. Den kapacitet som måles er kapaciteten mellem pladen og en sfærisk overflade uendelig langt væk. I realiteten er det bare en stel forbindelse som er tilstrækkelig nok væk. Når der placeres en kop med øl vil der være en større dielektricitetskonstant som dermed øger den frie kapacitet. Det kan betragtes som at pladens areal nu forøges til arealet af overfladen af væsken. Der overvejes også en metode hvor der benyttes to plader, hvor der måles kapaciteten mellem de to plader se figur \ref{fig:two_plates_cap}.
+Til at måle en ændring i dielektricitetskonstanten, benyttes en kapacitiv sensor. Fra den første EFYS øvelse, blev det vist at man kan male den frie kapacitet af en metalplade. Den kapacitet som måles er kapaciteten mellem pladen og en sfærisk overflade uendelig langt væk. I realiteten er det bare en stel forbindelse som er tilstrækkelig nok væk. Når der placeres en kop med øl vil der være en større dielektricitetskonstant som dermed øger den frie kapacitet. Det kan betragtes som at pladens areal nu forøges til arealet af overfladen af væsken. Der overvejes også en metode hvor der benyttes to plader, hvor der måles kapaciteten mellem de to plader.
 
 Til at måle kapaciteten af en så relativ lille kondensator kan der benyttes CapSense på PSoC'en. Her skal der ikke benyttes noget ekstra hardware end det der allerede er i PSoC'en (selve microcontrolleren) samt en kondensator som Cypress kalder $C_{MOD}$ med værdien 2.2nF for en PSoC 5LP \autocite[115]{AN64846}. Den er allerede på udviklingskittet på ben P15[4] \autocite[2]{PSoCKitSchematics}. Til CapSense er der knyttet en del automatisk signal behandling. En funktionallitet der er i CapSense er at den benytter hvad de kalder en 'baseline'\autocite[18]{AN64846}. Denne baseline er den læste værdi når der ikke er en kop, eller andre ting der skal måles med CapSense. Nyttesignalet beregnes ud fra baseline så signalet er 0 (eller tæt på) når der ikke er en kop. Denne baseline kan ændre sig som omgivelserne ændre sig, fx temperaturændring. Der benyttes et lavpasfilter til at opdatere baseline, så længe den holder sig inden for en given 'noise threshold', ellers betragtes det som et nyttesignal.
 
@@ -96,7 +96,7 @@ På figur \ref{fig:cap_test_place_and_drop_110} ses det at der kommer en ændrin
 På figur \ref{fig:cap_test_place_and_remove_220} og figur \ref{fig:cap_test_place_and_drop_220} ses nogenlunde den samme for rådataen (øverste halvdel), udover at den procentvise ændring når bolden rammer i er mindre. Men det observeres også at signalet beregnet ud fra baseline (nederste halvdel af figurerne) er for stort, da det kun er 8 bit. Hvis der skal arbejdes videre med denne metode er det derfor vigtigt at få kalibreret og indstillet CapSense rigtigt.
 
 \subsubsection{Optisk sensor}
-Til at lave en optisk sensor benyttes en IR LED samt en eller flere fotodioder som er sensitive over for IR lys. Der benyttes kredsløbet som ses på \ref{fig:optic_test_diagram}. Operationsforstærkeren fungerer som en strømforstærker, som forstærker strømmen fra fotodioden og laver den om til en spænding. Spændingen ved AmpOut måles vha. Analog Discovery 2. Der er i denne undersøgelse en IR LED (SFH485\autocite{SFH485}) i centrum af koppen og og to fotodioder (SFH203FA\autocite{SFH203FA}) i siderne som det ses på figur \ref{fig:optic_opstilling}. 
+Til at lave en optisk sensor benyttes en IR LED samt en eller flere fotodioder som er sensitive over for IR lys. Der benyttes kredsløbet som ses på \ref{fig:optic_test_diagram}. Operationsforstærkeren fungerer som en strømforstærker, som forstærker strømmen fra fotodioden og laver den om til en spænding. Spændingen ved AmpOut måles vha. Digilent Analog Discovery 2\autocite{AnalogDiscovery2}. Der er i denne undersøgelse en IR LED (SFH485\autocite{SFH485}) i centrum af koppen og og to fotodioder (SFH203FA\autocite{SFH203FA}) i siderne som det ses på figur \ref{fig:optic_opstilling}. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{HardwareDesign/CupSensor/graphics/OpticTest/diagram.PNG}
@@ -171,6 +171,7 @@ Som en del af undersøgelsen af hvordan CapSense virker, blev deres signalbehand
 I denne teknologiundersøgelse er der undersøgt specielt to forskellige teknologier, kapacitiv sensor og optisk sensor. Der blev valgt den optiske sensor, som er undersøgt nok til et 'proof of concept', der gør at der i den videre udvikling kan bevares en meget godt tiltro at teknologien vil virke. Men den skal stadig videreudvikles.
 
 \iffalse
+{
 \subsection{Nærmere undersøgelse}
 \subsubsection{Maksimal mulig strøm fra en fotodiode (uden AC coupling)} \label{sec:CupSensorCurrentTest}
 {
@@ -216,6 +217,7 @@ Resultaterne vises på tabel \ref{tab:CupSensorCurrentTest}
 \label{tab:CupSensorCurrentTest}
 \end{table}
 }
+}
 \fi
 
 
@@ -224,12 +226,21 @@ Til at detektere lys bruges der som tidligere beskrevet en fotodiode som skal de
 Det er valgt at benytte fotodioden SFH203FA som er mest sensitiv overfor infrarødt lys (900 nm)\autocite[2]{SFH203FA} og passer meget godt til lyset som kommer fra LED'en SFH485 (880nm)\autocite[3]{SFH485}. Det er valgt at benytte infrarødt lys, da der i normale omgivelser vil være større forstyrelser i det synlige område, fx fra kunstig belysning. De valgte komponenter er valgt da de passer godt til hinanden samt at det er dem, som der er tilrådighed. 
 Da der altid vil være forstyrelser fra andre kilder er det valgt at LED'en skal blinke med en given frekvens og der kun måles signaler fra fotodioden ved denne frekvens. Til dette vil der benyttes en mixer, som vil blive forklaret senere. 
 
-\subsubsection{Fotodiode beskrivelse}
-Først beskrives virkemåden af en fotodiode. En fotodiode fungerer som det ses på figur \ref{fig:photodiode_operation}. En fotodiode har den karakteristiske spænding-strøm forhold som en normal diode. Dette forhold ændres når fotodioden belyses. Her rykkes hele grafen ned, alt efter lysintensiteten. Der begynder altså at løbe en strøm i spærreretningen. Hvis spændingen over dioden holdes konstant vil strømmen der løber i spæreretningen afhænge af lysintensiteten. 
+Opstillingen der vil benyttes kan ses på figur \ref{fig:lightPath}. I teknologiundersøgelsen (afsnit \fullref{sec:CupSensorTekUnderDiskussion}) blev det bestemt at der skal benyttes 4 fotodioder. Disse er placeret rund om den infrarøde led. Afstanden mellem centrum på IR LED og en fotodiode skal være 4 modulafstande (10.16mm). På figur \ref{fig:lightPath} er der påtegnet hvordan det forventes lyset bevæger sig. Lyset fra IR LED udsendes hovedsagligt op ad. Ved $20^\circ$ i forhold til lodret, udsendes der kun 50\% af lysintensiteten i forhold til den maksimale (som er op ad)\autocite[3, 8]{SFH485}. For fotodioden gælder der det samme. ved $20^\circ$ detekteres der 50\% så meget som hvis lyset kom oppe fra. af lyset\autocite[2,6]{SFH203FA}. Det kan frygtes at lyset bevæger sig direkte fra IR LED til fotodiode. Men ved en vinkel på $90^\circ$ detekteres der kun omkring 5\% så meget som ved lodret\autocite[6]{SFH203FA} og der udsendes kun omkring 2\%\autocite[8]{SFH485}. Kombineres disse to har det ikke den store indflydelse. Det samme gælder det lys som reflekteres på plastikpladen. Det der er i en lille nok vinkel til at have en markant lysstyrke vil, som det ses på figur \ref{fig:lightPath}, ikke ramme fotodioderne. Derimod vil lys som reflekteres på øloverflade, eller bold overflade, være i stand til at ramme fotodioden, som det ses på \ref{fig:lightPath}. Dog vil ikke alt lyset blive reflekteret. Disse beskrivelser er dog kun den måde det antages at lyset bevæger sig på.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{HardwareDesign/CupSensor/graphics/lightPath.png}
+    \caption{Her ses hvordan opstillingen af sensoren skal være. Både fra siden og fra toppen. Der benyttes én IR LED, og fire fotodioder. Der er derudover tegnet Cup med øl og gennemsigtig plastikplade på skitsen. Der er også påtegnet hvordan det tænkes lyset vil bevæge sig}
+    \label{fig:lightPaht}
+\end{figure}
+
+\subsubsection{Fotodiode beskrivelse} \label{sec:photodiode_description}
+Der vil nu beskrives virkemåden af fotodioder som er valgt til at detektere lys. En fotodiode fungerer som det ses på figur \ref{fig:photodiode_operation}. En fotodiode har den karakteristiske spænding-strøm forhold som en normal diode. Dette forhold ændres når fotodioden belyses. Her rykkes hele grafen ned, alt efter lysintensiteten. Der begynder altså at løbe en strøm i spærreretningen. Hvis spændingen over dioden holdes konstant vil strømmen der løber i spæreretningen afhænge af lysintensiteten. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{HardwareDesign/CupSensor/graphics/Photodiode_operation.png}
-    \caption{Funktionalitet for en fotodiode}
+    \caption{Funktionalitet for en fotodiode \autocite{photodiodeWikipedia}}
     \label{fig:photodiode_operation}
 \end{figure}
 
@@ -238,11 +249,11 @@ Til at benytte en fotodiode, ønskes en simpel model for en fotodiode. En model 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{HardwareDesign/CupSensor/graphics/photodiodeModel.png}
-    \caption{Model for fotodiode}
+    \caption{Model for fotodiode\autocite{photodiodesTI}}
     \label{fig:photodiodeModel}
 \end{figure}
 
-Det har ikke være muligt at finde tilstrækkelig oplysninger i databladet for den benyttede fotodiode til at benytte denne model. Fx er $R_D$ ikke angivet nogen steder. Det antages derfor at R\_D er så stor at den ikke har nogen betydning. Der benyttes i stedet en mere simpel model bestående kun af en strømkilde og en kondensator. som det ses på figur \ref{fig:photodiodeModelSimple}.
+Det har ikke være muligt at finde tilstrækkelig oplysninger i databladet\autocite{SFH203FA} for den benyttede fotodiode til at benytte denne model. Fx er $R_D$ ikke angivet nogen steder. Det antages derfor at R\_D er så stor at den ikke har nogen betydning. Der benyttes i stedet en mere simpel model bestående kun af en strømkilde og en kondensator. som det ses på figur \ref{fig:photodiodeModelSimple}.
 
 \begin{figure}[H]
     \centering
@@ -251,17 +262,24 @@ Det har ikke være muligt at finde tilstrækkelig oplysninger i databladet for d
     \label{fig:photodiodeModelSimple}
 \end{figure}
 
-\subsubsection{AC kobling}
-Strømmen ønskes at laves om til en spænding. Men kun AC komponent af signalet, da LED'en blinker vil nyttesignalet være et AC signal. Der benyttes standard kredsløbet fra øvelse 6 i MSE. Dette kan ses på figur \ref{fig:photodiodeCircuit}. DC komponenten af signalet filtreres væk vha. RC ledet. Den resterende AC strøm laves om til en spænding vha. en TIA. På \ref{fig:photodiodeCircuit} ses at der er en modstand R, som bl.a. sørger for at der hele tiden er påtrykt en spænding i spæreretningen. Dette er en af ændringerne i forhold til kredsløbet fra teknologiundersøgelsen. Spændingen i spæreretningen sørger for at formindske kondensatoren $C_D$ i \ref{fig:photodiodeModelSimple}. Det at kondensatoren formindskes kan ses ud fra databladet for SFH485 (se \ref{fig:C_D_graph}). Det ses at $C_0$ (i vores model $C_D$) bliver mindre jo større $V_R$ er. $V_R$ er 'reverse voltage' og altså spændingen i spæreretningen. Ved at tilføje modstanden R, sørges der for at $V_R$ altid er positiv. Dermed er $C_0 = C_D \approx 3.5\si{pF}$ ved $V_R=5\si{V}$. Det ønskes at sænke kapacitansen for $C_D$ da dette vil øge båndbredden for dioden da kondensatoren ikke skal påføres så stor en ladning. Derudover påvirker en kondensator på indgangen af en operationforstærker også stabiliteten af denne operationsforstærker.
-
+\subsubsection{AC kobling} \label{sec:CupSensorACCoupling}
+Strømmen ønskes at laves om til en spænding. Men kun AC komponent af signalet, da LED'en blinker vil nyttesignalet være et AC signal. Der benyttes standard kredsløbet fra øvelse 6 i MSE\autocite{MSE_EXC_6}. Dette kan ses på figur \ref{fig:photodiodeCircuit}. Der benyttes ind til videre komponentværdierne som forslåes i øvelsesvejledningen.   DC komponenten af signalet filtreres væk vha. RC ledet. Den resterende AC strøm konverteres ligesom i teknologiundersøgelsen om til en spænding vha. en TIA. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth,trim={0.6in 5.1in 6.0in 0.55in},clip, page=1]{HardwareDesign/CupSensor/graphics/Superposition.pdf}
     \caption{Diagram for fotodiode kredsløb}
     \label{fig:photodiodeCircuit}
 \end{figure}
+På \ref{fig:photodiodeCircuit} ses at der er en modstand R, som bl.a. sørger for at der hele tiden er påtrykt en spænding i spæreretningen. Dette er en af ændringerne i forhold til kredsløbet fra teknologiundersøgelsen. Spændingen i spæreretningen sørger for at formindske kondensatoren $C_D$ på figur \ref{fig:photodiodeModelSimple}. Det at kondensatoren formindskes kan ses ud fra databladet for SFH485 (se figur \ref{fig:CD-graph}).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{HardwareDesign/CupSensor/graphics/CapacitancePhotodiode.PNG}
+    \caption{Graf der viser fotodiodens kapacitet som funktion af spændingen i spæreretningen. Fra databladet for SFH203FA\autocite[6]{SFH203FA}}
+    \label{fig:CD-graph}
+\end{figure}
+Det ses at $C_0$ (i vores model $C_D$) bliver mindre jo større $V_R$ er. $V_R$ er 'reverse voltage' og altså spændingen i spæreretningen. Ved at tilføje modstanden R, sørges der for at $V_R$ altid er positiv. Dermed er $C_0 = C_D \approx 3.5\si{pF}$ ved $V_R=5\si{V}$. Det ønskes at sænke kapacitansen for $C_D$ da dette vil øge båndbredden for dioden da kondensatoren ikke skal påføres så stor en ladning. Derudover påvirker en kondensator på indgangen af en operationforstærker også stabiliteten af denne operationsforstærker.
 
-Kredsløbet fungerer på sådan en måde at det offset der vil være fra fotodioden, grundet mørkestrømmen (dark current) og lys fra omgivelserne, bliver filtreret fra vha. AC kobling kondensatoren $C_{coupling}$. Dette vil nu forklares vha. superposition. Men først laves en model for kredsløbet, i denne model indgår både modellen for dioden og en model for TIA benyttes, som er en strømstyret spændingskilde. Denne model kan ses på figur \ref{fig:photodiodeCircuitModel}. 
+Kredsløbet fungerer på sådan en måde at det offset der vil være fra fotodioden, grundet mørkestrømmen (dark current) og lys fra omgivelserne, bliver filtreret fra vha. AC kobling kondensatoren $C_{coupling}$. Dette vil forklares vha. superposition. Men først laves en model for kredsløbet, i denne model indgår både modellen for dioden og en model for TIA benyttes, som er en strømstyret spændingskilde. Denne model kan ses på figur \ref{fig:photodiodeCircuitModel}. 
 Da der er negativ feedback på operationsforstærkeren vil det svare til at den ikke-inverterende indgang har samme spænding som den inverterende indgang. Dette er også medtaget på modellen. Derudover er forstærkningen for den strømstyret spændingsforsyning $-R_{feedback}$. Det ses på diagrammet at strømmen som styre spændingen er strømmen igennem $C_{coupling}$. Denne strøm noteres $I_{coupling}$ og spændingen på den strømstyret spændingkilde er derfor$-R_{feedback} I_{coupling}$.
 
 \begin{figure}[H]
@@ -337,36 +355,9 @@ $$V_{out} = I_D R_{feedback} \frac{s}{\frac{1}{R C_{coupling}} + s} + V_{ref}$$
 Dette er tildels hvad der ønskes, da LED'en blinker skal der kun detekteres AC komponenten fra fotodioden. Men det ønskes kun at detektere den del af signalet som har samme frekvens som LED'en blinker med. Til dette skal der laves et båndpas filter.
 
 \subsubsection{Mixer}
-Til at lave et båndpas filter er det valgt at benytte en mixer hvor lokaloscillatoren (LO) er den samme oscillator som styrer LED'en, dvs. samme frekvens og fase. En del af det endelige hardware design på PSoC'en kan ses på \ref{fig:final_PSoC_design_input_part}. Der er på denne figur kun medtaget den del som håndtere input, og altså ikke styringen af LED'en. Dog skal det siges at udgangen fra LED\_clock styrer om LED'en er tændt eller slukket.
+Til at lave et båndpas filter er det valgt at benytte en mixer hvor lokaloscillatoren (LO) er den samme oscillator som styrer LED'en, dvs. samme frekvens og fase. 
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{HardwareDesign/CupSensor/graphics/Final_PSoC_Design_Input_part.PNG}
-    \caption{Endelig hardware design på PSoC. (Kun input delen er vist). Udgangen fra AC koblingen forbindes til photodiodesIn}
-    \label{fig:final_PSoC_design_input_part}
-\end{figure}
-
-En ting der kan ses på diagrammet er, at der ikke er nogen mixer. Dette er fordi ADC'en har en indbygget funktion som kan få den til at have funktionaliteten af en mixer \autoref[3]{ADC-DelSig-datasheet}. Det er valgt da det formindsker antallet af nødvendige komponenter. ADC'ens mixer funktionalitet aktiveres ved at vælge "Enable modulator input" i konfigurationen af ADC'en. Når denne er valgt, har ADC'en inputtet 'mi'. Når dette input er højt, inverteres polariteten modulatoren i delta sigma ADC'en. På denne måde fungere ADC'en som en mixer, udover at en normal mixer vil invertere inputtet når LO er lav, derfor er der tilføjet en inverter mellem LED\_clock og 'mi' inputtet.
-
-Når der benyttes samme clock til at styre LED og til LO, er udgangen fra mixeren et DC niveau, når der ikke er støjsignaler tilstede. Men for at dette DC niveau ikke er nul. Er det vigtigt at signalet til mixeren og LO har samme fase. Det undersøges nu derfor om dette er tilfældet.
-
-Det undersøges om lysets forsinkelse vil have en betydelig indflydelse på fasen af signalet fra fotodioden. Tidsforsinkelsen for lyset vil være 
-$$t_d = \frac{l}{v_l}$$
-hvor $t_d$ er tidsforsinkelse, $l$ er afstanden lyset bevæger sig og $v_l$ er hastigheden af lyset. Hvis det antages at hele den afstand, som lyset bevæger sig foregår i øl, som antages at være vand, er lysets hastighed $v_p = \frac{c}{n_{vand}}$, hvor $c$ er lysets hastighed i vakuum og $n_{vand}$ er brydningsindekset for vand.
-Dermed er tidsforsinkelsen
-$$t_d = n_{vand}\frac{l}{c}$$
-fasen er dermed
-$$\phi_{lys} = -2 \pi f_{LED\_clock} n_{vand}\frac{l}{c}$$, hvor $\phi_{lys}$ er fasen grundet lysets forsinkelse og $f_{LED\_clock}$ er frekvensen LED'en blinker med. Ved indsættelse af værdierne $n_{vand}=1.33$ \autocite{brydningsindex}, $f_{LED\_clock} = 10kHz$ og $l=1m$, som er meget længere end hvad det reelt vil være, fås fasen til 
-$$\phi_{lys} = -0.032 \si{^{\circ}}$$
-
-Det undersøges om AC koblingen vil have en betydelig indflydelse på fasen. I et tideligere afsnit blev nedenstående udtryk bestemt
-$$V_{out\_I\_D} = I_D R_{feedback} \frac{s}{\frac{1}{R C_{coupling}} + s}$$
-Ved indsætningen af værdier for $R=10k\Omega$, $C_{coupling} = 0.1 \si{\mu F}$ og $s=j2\pi f_{LED\_clock} = j2\pi 10 \si{kHz}$ fås det at fasen er 
-$$\phi_{ac\_kobling} = 0.912\si{^{\circ}}$$
-
-Det kan konkluderes at der stort set ikke er nogen faseforskel. Den lille faseforskel der er, vil forårsage at DC niveauet vil være en lille smule mindre, men den vil være tæt på den maksimale mulige. 
-
-Formålet med at bruge en mixer er at lave et båndpasfilter. For dette er tilfældet skal der på udgangen af mixeren være et lavpasfilter. Dette er også inkluderet i ADC'en som et sinc 4 filter \autocite[35]{ADC_DelSig_datasheet}. Filteret virker som et lavpasfilter som vil have vil have uendelig stor dæmpning ved samplefrekvensen og alle dens harmoniske overtoner. Samplefrekvensen indstilles til 2500 samples/s. I kombination med mixeren vil det virke som et båndpas filter.  
+Når der benyttes samme clock til at styre LED og til LO, er udgangen fra mixeren et DC niveau, når der ikke er støjsignaler tilstede. Herefter skal der benyttes et lavpasfilter som sammen med mixeren vil fungere som et båndpasfilter.
 
 \newpage
 \subsection{Håndtering af flere sensorer}
@@ -417,23 +408,157 @@ Den simple metode med multiplexing (6 udgange og 6 indgange) vil være relativ n
 
 Til sidst er der de to metoder med multiplexing hvor der kun benyttes en indgang. Disse metoder benytte færre ben end den simple multiplexing metode. Der bruges 7 ben frem for 12. Samme antal ben som der vil bruges med metoden med flere kanaler. Derfor vælges en af disse metoder (en af multiplexing metoderne med kun en indgang). Forskellen mellem de to metoder er hovedsageligt at den ene metode bygger på antagelsen om at lys udsendt fra én sensor, ikke vil påvirke fotodioderne på de andre sensorer. Derfor vælges det at arbejde videre med den metode hvor det antages at denne antagelse er gyldig, og hvis det viser sig at den ikke er, kan det overvejes at skifte til den anden metode.
 \newpage
-\subsection{Signal conditioning}
+\subsection{Endeligt design} \label{sec:CupSensorFinalDesign}
+Ud fra de tidligere afsnit er der udviklet udviklet et system. Hele designet fremgår på tre diagrammer. Diagrammer kan ses på figur \ref{fig:CupSensorDesign}, \ref{fig:CupSensorCupHolderControllerPart} og \ref{fig:CupSensorPSoCDesign}.
 
-\subsubsection{Maksimal mulig signalstyrke}
+På figur \ref{fig:CupSensorDesign} er der en IR LED, som styres af en transistor. Der til LED'en en formodstand som er delt op i to for at kunne afsætte nok effekt. Der er fire fotodioder. De er alle i parallel. De er i parallel da fotodioderne fungerer som strømkilder, og strømmene fra hver fotodiode adderes derfor sammen, som løber i sensorOutput.
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth][c]{%
+        \includegraphics[width=1\columnwidth,trim={0.6in 1.8in 2.6in 0.25in},clip, page=1]{HardwareDesign/CupSensor/graphics/FinalDesign/CupSensor.pdf}
+    }
+    \caption{Design af Cup Sensor blokken}
+    \label{fig:CupSensorDesign}
+\end{figure}
+
+På figur \ref{fig:CupSensorCupHolderControllerPart} er delen som skal modtage signal fra alle Cup Sensors ind til sensors. Det er alle forbundet til hinanden så der tilsammen er 4x6=24 fotodioder i parallel. 
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth][c]{%
+        \includegraphics[width=0.7\columnwidth,trim={1.3in 3in 3.8in 0.5in},clip, page=1]{HardwareDesign/CupSensor/graphics/FinalDesign/CupSensorPart-CupHolderController.pdf}
+    }
+    \caption{Den del af Cup Holder Controller som sørger for at modtage signalet fra alle sensorer og filtrere DC fra.}
+    \label{fig:CupSensorCupHolderControllerPart}
+\end{figure}
+
+På figur \ref{fig:CupSensorPSoCDesign} ses hardwaren komponenterne som der er på PSoC'en. Der er en TIA som konvertere strømmen sensorsOutput på figur \ref{fig:CupSensorCupHolderControllerPart} om til en spænding. Herefter er der en ADC som konvertere spændingen som samtidig har Mixer funktionalitet og filterfunktionalitet, som beskrives senere. Derefter er der en DMA som sørger for at flytte dataen fra ADC'en til hukommelsen i softwaren. Der er en demultiplexer som bruges til at styre hvilken Cup sensor der sendes et signal til at styre IR LED på Cup Sensor. Signalet der styres er et 10kHz firkant signal. Demultiplexeren styres af control registret Control\_Reg\_Led. Der er desuden en VDAC som bruges til at debugge systemet. Alle disse blokke er en del af en custom component \autocite{PSoCHowToCreateCustomComponents}.  i PSoC Creator 
+\begin{figure}[H]
+    \centering
+    \makebox[\textwidth][c]{%
+        \includegraphics[width=1\columnwidth,trim={0.5in 4.1in 4.5in 0.8in},clip, page=1]{HardwareDesign/CupSensor/graphics/FinalDesign/PSoC-design.pdf}
+    }
+    \caption{PSoC design. 'photodiodesIn' forbindes til 'sensorsOutput' på figur \ref{fig:CupSensorCupHolderControllerPart}}
+    \label{fig:CupSensorPSoCDesign}
+\end{figure}
+
+På figur \ref{fig:CupSensorComponentInTopDesign} ses custom komponent i brug i top design. Det eneste der udføres her er at forbinde de forskellige porte til fysiske porte på PSoC'en.   
+\begin{figure}[H]
+    \centering
+    \includegraphics{}
+    \caption{Den udviklede PSoC Custom komponent i brug i Top design}
+    \label{fig:CupSensorComponentInTopDesign}
+\end{figure}
+
+\subsubsection{Valg af transistor}
+Der skal benyttes en transistor til at styre LED1 på figur \ref{fig:CupSensorDesign}. LED1 kan håndtere en DC strøm på 100mA\autocite[7]{SFH485}. Den kan håndtere strømme på højere strømme ved en lav dutycycle og høj frekvens. Det er dog valgt at 100mA må være tilstrækkelig. Der blev som en del af teknologiundersøgelse benyttes 100mA, der der blev benyttes DC strømme. Det viste sig at være meget tilstrækkelig, det kan dog muligvis forbedre sensoren at øge strømmen, men det vælges ikke at gøre. 
+Der skal derfor vælges en transistor som kan håndterer en strøm på 100mA. Det kan BC547 \autocite[2]{BC547}.
+
+\subsubsection{Beregning af modstande}
+De tre modstande på R2, R3 og R4 figur \ref{fig:CupSensorDesign} beregnes i dette afsnit. Basemodstanden R2 bestemmes nu. Transistoren skal gå i mætning og når transistoren er i mætning (conditions $I_C = 100\si{mA}, I_B = 5\si{mA}$) er $V_{BE}(sat)=900mV$\autocite[2]{BC547}. Da irCtrl er 5V logik er spændingen over modstanden derfor $V_{R2} = 5\si{V}-V_{BE}(sat)$
+Værdien af modstanden skal derfor være $R2 = \frac{V_{R2}}{I_B}$. $I_B$ er ifølge de tidligere oplyste conditions $I_B = 5\si{mA}$.
+$$R2=\frac{5\si{V} - 0.9\si{V}}{5\si{mA}} = 820\si{\Omega}$$
+
+Formodstanden til LED1 bestemmes nu. Der løber en strøm på 100mA. Ifølge databladet for LED1, er spændingen over den $V_{LED1} = 1.5\si{V}$. Spændingen over transistoren er typisk $V_{CE}(sat) = 0.25\si{V}$. For modstanden til LED1 skal derfor være 
+$$R_{LED} = \frac{V_{DD} - V_{LED1} - V_{CE}(sat)}{I_{LED}} = \frac{5\si{V}- 1.5\si{V} - 0.25\si{V}}{100\si{mA}} = 32.5\si{mA}$$
+Der vil i modstanden blive afsat en effekt på $$I_{LED}^2 \cdot R_{LED} = \left(100\si{mA}\right)^2 \cdot 32.5\si{\Omega} = 325\si{mW}$$
+De modstande der er tilrådighed kan kun afsætte $250\si{mW}$. Derfor vælges der at dele den modstanden op i to modstande på $16\si{\Omega}$.
+
+\subsubsection{Mixer i ADC'en}
+En ting der kan ses på diagrammet på figur \ref{CupSensorPSoCDesign} er, at der ikke er nogen mixer. Dette er fordi ADC'en har en indbygget funktion som kan få den til at have funktionaliteten af en mixer \autocite[3]{ADC-DelSig-datasheet}. Det er valgt da det formindsker antallet af nødvendige komponenter. ADC'ens mixer funktionalitet aktiveres ved at vælge "Enable modulator input" i konfigurationen af ADC'en. Når denne er valgt, har ADC'en inputtet 'mi'. Når dette input er højt, inverteres polariteten modulatoren i delta sigma ADC'en. På denne måde fungere ADC'en som en mixer, udover at en normal mixer vil invertere inputtet når LO er lav, derfor er der tilføjet en inverter mellem LED\_clock og 'mi' inputtet.
+
+Formålet med at bruge en mixer er at lave et båndpasfilter. For at dette er tilfældet skal der på udgangen af mixeren være et lavpasfilter. Dette er også inkluderet i ADC'en som et sinc4 filter \autocite[35]{ADC_DelSig_datasheet}. Filteret virker som et lavpasfilter som vil have vil have uendelig stor dæmpning ved samplefrekvensen og alle dens harmoniske overtoner. Samplefrekvensen indstilles til 2500 samples/s. I kombination med mixeren vil det virke som et båndpas filter.  
+
+\subsubsection{Fase forskydning}
+Som tidligere beskrevet vil der på udgangen af en mixer være et DC niveau når det samme clocksignal bruges til styre lyset og lokaloscillatoren (LO) for mixeren. Men hvis de ikke er i fase kan man risikere at DC niveauet er nul. For at dette ikke sker, er det vigtigt at signalet til mixeren og LO har samme fase, eller tæ på samme fase. Det undersøges nu derfor om dette er tilfældet.
+
+Det undersøges om lysets forsinkelse vil have en betydelig indflydelse på fasen af signalet fra fotodioden. Tidsforsinkelsen for lyset vil være 
+$$t_d = \frac{l}{v_l}$$
+hvor $t_d$ er tidsforsinkelse, $l$ er afstanden lyset bevæger sig og $v_l$ er hastigheden af lyset. Hvis det antages at hele den afstand, som lyset bevæger sig foregår i øl, som antages at være vand, er lysets hastighed $v_p = \frac{c}{n_{vand}}$, hvor $c$ er lysets hastighed i vakuum og $n_{vand}$ er brydningsindekset for vand.
+Dermed er tidsforsinkelsen
+$$t_d = n_{vand}\frac{l}{c}$$
+fasen er dermed
+$$\phi_{lys} = -2 \pi f_{LED\_clock} n_{vand}\frac{l}{c}$$, hvor $\phi_{lys}$ er fasen grundet lysets forsinkelse og $f_{LED\_clock}$ er frekvensen LED'en blinker med. Ved indsættelse af værdierne $n_{vand}=1.33$ \autocite{brydningsindex}, $f_{LED\_clock} = 10kHz$ og $l=1m$, som er meget længere end hvad det reelt vil være, fås fasen til 
+$$\phi_{lys} = -0.032 \si{^{\circ}}$$
+
+Det undersøges om AC koblingen vil have en betydelig indflydelse på fasen. I afsnit \fullref{sec:CupSensorACCoupling} blev nedenstående udtryk bestemt
+$$V_{out\_I\_D} = I_D R_{feedback} \frac{s}{\frac{1}{R C_{coupling}} + s}$$
+Dette udtryk gælder kun for når $C_D << C_{coupling}$ (hvor $C_D$ er kapaciteten af fotodioden og $C_{coupling}$ er C1) på figur \ref{fig:CupSensorCupHolderControllerPart}). Når der er 24 fotodioder i parallel, er $C_{D_{total}} = 24C_D =  24\cdot 3.5\si{pF} = 84\si{pF}$ Dette er når der er en spænding i spæreretningen. Da der kan løbe en relativ DC strøm i fotodioderne, som resultat af fx sollys, spændingen i værste tilfælde være 0V og så vil $C_D \approx 11\si{pF}$ og ud fra dette vil $C_{D_total} = 264\si{pF}$. I værste tilfælde vil $\frac{C_{coupling}}{C_{D_{total}}} = \frac{0.1\si{\mu F}}{264\si{pF}} \approx 378$. Så udtrykket kan stadig bruges, da $C_{D_{total}} << C_{coupling}$
+Ved indsætningen af værdier for $R=10k\Omega$, $C_{coupling} = 0.1 \si{\mu F}$ og $s=j2\pi f_{LED\_clock} = j2\pi 10 \si{kHz}$ fås det at fasen er 
+$$\phi_{ac\_kobling} = 0.912\si{^{\circ}}$$
+Det kan konkluderes at der stort set ikke er nogen faseforskel. Den lille faseforskel der er, vil forårsage at DC niveauet vil være en lille smule mindre, men den vil være tæt på den maksimale mulige. 
+
+\subsubsection{Signal conditioning}
+
+\paragraph{Maksimal mulig signalstyrke}
 {
-For at bestemme TIA'ens forstærkning måles signalet fra TIA'en ved forskellige testscenarier. Signalet måles med den højeste feedbackmodstand på TIA'en uden at forstærkeren går i mætning. Fx går forstærkeren i mætning på figur \ref{fig:TIA_saturation}. På figuren ses også cursorere der hvor der måles værdier. Der måles den positive peak-værdi i slutningen af målingen af den givne sensor. og der måles den negative peak-værdi i slutningen af målingen. Begge er i fohold til TIA'ens referencespænding på ca. 2.3V. Måleobjekterne flyttes rundt og rystes evt. for at frembringe den størst mulige værdi.
+For at bestemme TIA'ens forstærkning måles signalet fra TIA'en ved forskellige testscenarier. Signalet måles med den højeste feedbackmodstand på TIA'en uden at forstærkeren går i mætning. Fx går forstærkeren i mætning på figur \ref{fig:TIA_saturation}. På figuren ses også cursorere der hvor der måles værdier. Der måles den positive peak-værdi i slutningen af målingen af den givne sensor. og der måles den negative peak-værdi i slutningen af målingen. Begge er i forhold til TIA'ens referencespænding på ca. 2.3V. Måleobjekterne flyttes rundt og rystes evt. for at frembringe den størst mulige værdi. Der testes med 110ml øl og med i alle tilfælde gik TIA'en ikke i mætning når feedbakmodstanden er $80\si{k\Omega}$ Men den var tæt på det, så der kan ikke benyttes et større feedbackmodstand. Der vælges derfor at feedbackmodstanden er $80\si{k\Omega}$.
 
-IKKE FÆRDIG
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{HardwareDesign/CupSensor/graphics/TIA_saturation.png}
+    \caption{Eksempel på en måling hvor TIA'en er gået i mætning.}
+    \label{fig:TIA_saturation}
+\end{figure}
+\paragraph{Udnyttelse af ADC'en område}
+Som det ses på \ref{fig:TIA_saturation} så går TIA'en i mætning i starten af læsningen af en sensor. Så selvom den ikke går i mætning i slutningen skal der være en relativ lav forstærkning for at det undgås at den går i mætning i starten. Den maksimale peak-peak værdi (i slustningen af en måling) er målt til kun $2172\si{mV}$. Dette er ikke helt optimalt da hele ADC'ens område er 0V til 5V. ADC'en skal have et område fra 0V til 5V, da det ses på \ref{fig:TIA_saturation}, at spændingen kan komme højere om end den endelige peak-peak værdi. Derudover skal ADC'en have et differentiabel input da signalet er et AC signal med reference til 2.5V (eller deromkring). Men udgangen er grundet mixerfunktionaliteten kun et positivt DC signal, så det maksimale der kan måles er kun $\frac{2172\si{mV}}{2} = 1086\si{mV}$ Det samlede område af ADC'en der benyttes er derfor kun $\frac{1086\si{mV}}{5\si{V}} = 22\%$. Dette er ikke ikke helt omtimalt, da der ikke skal måles fx. en mængde af øl som der er i koppen, men kun tre tilstande: ikke en kop, en kop og ramt, derfor er det ikke så stort et problem.
 }
 
-DENNE DEL PASSER IKKE LÆNGERE TIL RESTEN AF DESIGN DOKUMENTET IGNORER DETTE AFSNIT TIL REVIEW
-En del af signal condtioning er at hele ADC'ens spændingsområde benyttes. I afsnit \ref{sec:CupSensorErfaringer} blev det konkluderet at den maksimale strøm fra en fotodiode i normale omstændigheder er $25\si{\mu A}$  og for fire fotodioder $100\si{\mu A}$. Dette skal forstærkes op til den maksimale udgang på TIA'en (ca $4.6\si{V}$). Det vil sige at feedbackmodstanden på TIA'en skal være $\frac{4.6\si{V}}{100\si{\mu A}} = 46\si{k\Omega}$. Dermed vælges den nærmeste mulige værdi som er under $46\si{k\Omega}$, dermed $40\si{k\Omega}$. Dette vil betyde at den højeste spænding på udgangen af TIA'en vil være $40\si{k\Omega} \times 100\si{\mu A} = 4\si{V}$.
+\subsubsection{Stabilitet}
 
-Et 'sideresultat' fra afsnit \textbf{\ref{sec:CupSensorCurrentTest}} er at der med en akrylplade helt tæt på LED og fotodiode er en 'offset' strøm på ca. $0.6\si{mu A}$, når der er fire fotodioder vil det være samlet $2.4\si{mu A}$. Dette vil forårsage en udgangsspænding på $96\si{mV}$. Dette 'offset' kan muligvis fjernes ved at ændre på ADC'ens range eller vha. en operationsforstærker. 'Offset'et anses for at være for lille til at dette er nødvendigt.
+Da fotodioderne har en kondensator og de er på indgangen af en operationsforsærker er det vigtig at bestemme om systemet er stabilt. Der er en kondensator C1 (også omtalt $C_{coupling}$) i serie med kondensatorne i fotodioderne. Den samlede kapacitet for de 24 fotodioder blev tidligere bestemt til at være $C_{C_{total}} = 264\si{pF}$. Da $C_{C_{total}} << C1$, kan C1 ignoreres. Kapaciteten på indgangen er derfor $$C_{C_{total}} = 264\si{pF}$$. 
+Kredsløb 4 i øvesle 4 i MSE, benytter et tilsvarende kredsløb som det kan ses på figur \ref{fig:MSE_4_kreds_4}
 
-Dvs. at udgangen på TIA'en vil være i intervallet $[96\si{mV};4\si{V}]$. Hvis ADC'ens input range sættes til "Vssa to Vdda" som er ca. $0\si{V}$ til $4.7\si{V}$ når PSoC'en forsynes med USB. Dette vil betyde at ca. $83\%$ af ADC'en input range benyttes. Dette er selvfølgelig ikke helt optimalt, men det er tilfredsstillende.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{HardwareDesign/CupSensor/graphics/MSE_EXC_4_opg_4.png}
+    \caption{Kredsløb 4 fra øvelse 4 i MSE}
+    \label{fig:MSE_4_kreds_4}
+\end{figure}
+
+I MSE øvelsen blev det bestemt at systemet er stabilt, i dette tilfælde kritisk dæmpet, når $$C_p=\frac{1}{4\cdot \omega_G \cdot R} - \frac{1}{2}\left( 1 - \frac{1}{2}\omega_G R C_f \right)C_f$$
+hvor $\omega_G$ er vinkelfrekvensen for GBW. I tilfældet med sensor kredsløbet kan det overføres til
+$$C_p = \frac{1}{4\cdot 2\pi 1\si{MHz} \cdot 80\si{k\Omega}} - \frac{1}{2}\left( 1 - \frac{1}{2} 2\pi 1\si{MHz} \cdot 80\si{k\Omega} 4.6\si{pF} \right)4.6\si{pF} = 0.856\si{pF}$$
+Systemet er derfor underdæmpet.
+
+\subsubsection{Støj}
+Der er ingen støjspecifikationer for TIA'en så der medtages kun modstandene og fotodiode i beregningerne. 
+Først beregnes støjtæthederne på for modstandene.
+For modstanden R1
+$$i_{nR1} = \sqrt{\frac{4kT}{R_1}} = \sqrt{
+\frac{
+4\cdot 1.381 \cdot 10^{-23} \cdot \si{
+    \frac{V^2}{Hz \cdot \Omega \cdot K}
+    }
+\cdot 300 \si{K}}{10\si{k\Omega}} } = 1.3 \si{\frac{pA}{\sqrt{Hz}}}$$
+
+For TIA'ens feedback modstand
+$$e_{nRf} = \sqrt{4kR_fT} = \sqrt{4\cdot 1.381 \cdot 10^{-23} \cdot  \si{\frac{V^2}{\si{Hz \cdot \Omega \cdot K}}} \cdot 80\si{k\Omega} \cdot 300 \si{K}} = 36.4 \si{\frac{nV}{\sqrt{Hz}}}$$
+
+Herefter beregnes støjtæthederne på udgangen af TIA'en
+$$e_{noR1} = i_{nR1} \cdot R_f =1.3 \si{\frac{pA}{\sqrt{Hz}}} \cdot 80\si{k\Omega} = 102 \si{\frac{nV}{\sqrt{Hz}}}$$
+$$e_{noRf} = e_{nRf} = 36.4 \si{\frac{nV}{\sqrt{Hz}}}$$
+
+Støjen fra fotodioden antages at være udelukkende shotnoise.
+$$i_n = \sqrt{2qI_0}$$
+$q = 1.6\cdot 10^{-19} \si{C}$
+Det måles at 4 fotodioder udendørs generere en spænding over R1 på $466\si{mV}$. Dette vil for 6 sensorer være $2.8\si{V}$ hvilket svarer til en strøm på $I_0 = \frac{2.8\si{V}}{10\si{k\Omega}} = 280\si{\mu A}$
+$$i_n = \sqrt{2 \cdot 1.6\cdot 10^{-19} \si{C} \cdot 280\si{\mu A}} = 9.5 \si{\frac{pA}{\sqrt{Hz}}}$$
+$$e_{iout} = R_f \cdot i_n = 80\si{k\Omega} \cdot 9.5 \si{\frac{pA}{\sqrt{Hz}}} = 757 \si{\frac{nV}{\sqrt{Hz}}}$$
+ 
+$$e_{ntot} = \sqrt{e_{nR1}^2 + e_{nRf}^2 + e_{iout}^2} = 765\si{\frac{nV}{\sqrt{Hz}}}$$
 
 
+$$E_{ntot} = e_{ntot}\cdot \sqrt{BW_n} = 765\si{\frac{nV}{\sqrt{Hz}}}\cdot \sqrt{4\si{kHz}\cdot 2 \cdot \frac{\pi}{2\cdot4}} = 43 \si{\mu V}$$
+\subsubsection{Offset}
+Det er tidligere blevet vist at et offset i fotodioden ikke vil have nogen indflydelse grundet RC ledet. 
+$I_{bias}$ og $I_{ioff}$ er ikke specificeret for TIA'en, men $V_{ioff} = 10mV$ 
+$$|V_{TIA\_off}|= 10\si{mV}$$
+$$|V_{ADC\_off}| = 0.2\si{mV}$$
+I værste tilfælde vil det totale offset være:
+$$|V_{tot\_off}| = |V_{TIA\_off}|+|V_{ADC}| = 10.2$$
 
+Dette er ikke så meget relativt til et maksimalt signal på over 1000mV
 
+\subsection{Konklusion}
+Der kan på baggrund af analysen konkluderes at der er designet en tilstrækkelig god sensor. 
 \end{document}

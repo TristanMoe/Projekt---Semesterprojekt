@@ -1,7 +1,7 @@
 \documentclass[Modultest/Modultest_main.tex]{subfiles}
 
 \begin{document}
-\section{i2c\_interruptDriver}
+\section{i2c\_interruptDriver}\label{sec:I2C_interruptDriver_modultest_bilag}
 I dette afsnit testes i2c\_interruptDriver. Testen blev foretaget efter at modultesten for boundary klassen RPI\_IF på playerside var lavet. For at se denne test refereres til dennes modultest \ref{sec:RPIIFmodultestbilag}VIRKER IKKE. Grunden til at denne klasse skulle bruges til denne test var, at for at kunne teste i2c kommunikationen var driveren nød til at have noget at sende til via i2c, og da denne klasse allerede var testet kunne den ligeså godt bruges til dette formål. Analog discovery og programmet waveforms blev også brugt. Her bruges analog discovery til at måle må kommunikationen altså SCL og SDA linjerne. I waveform kunne vi ved hjælp af logic analyzer og protocol analyzer analyserer de beskeder der bliver sendt frem og tilbage med I2C. Kommandoerne cat og echo blev brugt til henholdsvis at skrive og læse fra noderne. Da kommunikationen er ens frem og tilbage fra playerside og balldispenser blev der ikke testet med BallDispenser noden. Det første var om init(i2c\_interrupt\_init), probe(i2c\_interrupt\_probe) og open bliver kaldt, som de skal efter modulet er indsat i source tree og dtbo filen(overlay filen efter dts filen er compileret) i device tree. Nedenfor ses kernel beskederne efter init og probe.
 INDSÆT BILLEDE AF INIT OG PROBE i DMESG
 Open og release blev testet med et testprogram(test program ses i SOURCE CODE) vi også senere vil bruge til at teste write(i2c\_interrupt\_write) funktionen. Her vil POSIX functionerne open og close blive kaldt lige efter hinanden billedet nedefor ses kernel beskeder for dette. 

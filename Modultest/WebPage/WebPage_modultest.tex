@@ -8,7 +8,7 @@
 }
 \lstset{style=customc}
 
-\section{WebPage Modultest}
+\section{WebPage Modultest}\label{webpage_modultest}
 I dette afsnit beskrives modultesten for WebPage. WebPage er et modul, som har til opgave at modtage brugerinputs i form af hold- og brugernavne samt holdfarver. Disse informationer indtastes på smartphone af brugeren, og herfra skal de behandles og videresendes til GameController klassen. For at dette er muligt, er det nødvendigt at kommunikationen mellem client og server forløber korrekt, og at WebSocket forbindelsen er pålidelig.
 
 \subsection{Krav}
@@ -28,11 +28,10 @@ K4.11 & \begin{tabular}[c]{@{}l@{}}Mindst 49 ud af 50 gange, hvor der trykkes �
 \label{tab:krav_web}
 \end{table}
 
-
 \subsection{Metode}
 \\For at teste kravene i tabel \ref{tab:krav_web} bliver der i de følgende taget udgangspunkt i et testprogram. \textbf{K4.11} kan af gode grunde ikke testes her, men forholdene kan simuleres ved at server udskriver holdnavne, brugernavne og holdfarver i terminalen, hver gang data sendes fra client (ved tryk på 'Start'). Kravet testes altså ved at indtaste \textit{\textbf{spiller oplysninger}} på hjemmesiden og sende dem, hvorefter terminal output undersøges.
 \\Når dette skal testes vil resultatet være binært, forstået på den måde, at enten sendes data korrekt til server og stemmer overens med det indtastede, eller også gør det ikke. Hvert forsøg på at sende data kan beskrives som en hændelse A med to mulige udfald: succes og fiasko.
-Hvis den stokastiske variabel X beskriver antal elementer i stikprøven, med egenskaben A, kan X siges at være binomialfordelt, hvis følgende er opfyldt:\footnote{https://www.polyteknisk.dk/related\_materials/9788790328368\_Kapitel\_9.pdf}
+Hvis den stokastiske variabel X beskriver antal elementer i stikprøven, med egenskaben A, kan X siges at være binomialfordelt, hvis følgende er opfyldt:\cite{binomial_wiki}
 \begin{enumerate}
     \item Et forsøg udføres n gange.
     \item Hver gang forsøget udføres, registreres om en hændelse indtræffer eller ej.
@@ -77,7 +76,7 @@ Resultatet af modultesten fremgår af tabel \ref{tab:webpage_data_1}. En fejl vi
 Som det ses nedenfor er data sendt og modtaget korrekt alle 50 gange. 
 \begin{table}[H]
     \centering
-    \begin{tabular}{|L{0.15\textwidth}|L{0.15\textwidth}|L{0.2\textwidth}|}
+    \begin{tabular}{|L{0.15\textwidth}|L{0.15\textwidth}|L{0.15\textwidth}|}
          \hline
          \textbf{Forsøg, n} & \textbf{Korrekt output} & \textbf{Fejl} \\ \hline
          50 & 50 & 0 \\ \hline 
@@ -88,5 +87,4 @@ Som det ses nedenfor er data sendt og modtaget korrekt alle 50 gange.
 
 \subsection{Konklusion}
 Kravene i tabel \ref{tab:krav_web} kræver visuel inspektion af hjemmesiden i figur \ref{fig:webpage_modultest_1}. Alt teksten er engelsk, så krav \textbf{K2.12} kan siges at være opfyldt. Det er desuden muligt at indtaste holdnavne og brugernavne, og disse kan ikke overskride en længde på 15 karakterer. Kravene \textbf{K2.13} og \textbf{K2.14} kan betragtes som værende opfyldt. Der er implementeret en løsning med tre track bars til at vælge farver. Der kan dermed vælges mellem 256 $\cdot$ 256 $\cdot$ 256 = 16.777.216 farver. Kravene \textbf{K2.15} og \textbf{K2.16} er derfor også opfyldt. \textbf{K4.11} kan dog først siges at være opfyldt efter en succesfuld accepttest, hvor WebPage er integreret med \textit{\textbf{display}} og \textit{\textbf{Cup lights}}.
-
 \end{document}

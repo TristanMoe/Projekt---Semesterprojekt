@@ -1,7 +1,6 @@
 \documentclass[Rapport/Rapport_main.tex]{subfiles}
 \begin{document}
 \section{Krav}
-\subsection{Introduktion}
 I dette kapitel præsenteres de krav der er til Beer Pong-bordet. Der laves en beskrivelse af de regler for spillet, som der er defineret for lige netop dette Beer Pong-bord. Derudover laves en beskrivelse af funktionelle krav for bordet, hvori de forskellige brugstilfælde(Use Cases) forklares. Til sidst laves en beskrivelse af de ikke-funktionelle krav der er til bordet, altså de krav der beskriver bordets karakteristik fremfor bordets anvendelse. Til at starte med er det vigtigt at få defineret reglerne for spillet så de er afklarede. Her bruges mange definitioner fra Definitionslisten, så det er vigtigt at referere hertil.
 \subsection{Regler for Beer Pong bordet}
 Til at starte med skal bordet være klar til brug, hvilket er opfyldt ved, at bordet har kørt system rutinen \textit{start op}. Hvis bordet er klar til brug, så skal hvert \textit{hold} placere 6 kopper på hver side af bordet. Et \textit{hold} består af 2 brugere, og der er 2 \textit{hold} på hver deres side af bordet. Efter placeringen af kopper er \textit{spil præperationen} udført, og det er op til holdene at bestemme hvem, der starter med \textit{turen}.\\\\
@@ -54,11 +53,11 @@ Funktionalitet og anvendelse af systemet er nu defineret, så der kan derfor kig
 De vigtigste \textit{ikke-funktionelle krav}, der tages ud fra \fullref{kravspec:sec:ikke_funktionelle_krav}, omhandler de sekundære aktører. Det vil altså sige de vigtigste krav for brugerens synspunkt er dem for \textit{mønt}, \textit{bold} og \textit{kop}. Kravene til de sekundære aktører ses oplistet herunder. \\\
 \textbf{Ikke-funktionelle krav for Mønt}
 \begin{itemize}
-    \item Mønten skal være af typen, dansk 5 krone. Ellers skal den afvises.
+    \item Mønten skal være af typen, dansk 5 krone\cite{fiveKrCoin}. Ellers skal den afvises.
 \end{itemize}
 \textbf{Ikke-funktionelle krav for Bold}
 \begin{itemize}
-    \item Bolden skal være en almindelig hvid bordtennis bold.
+    \item Bolden skal være en almindelig hvid bordtennis bold\cite{pingpongball}.
     \item Bolden skal have en diameter på $40mm \pm{1mm}$.
 \end{itemize}
 \textbf{Ikke-funktionelle krav for Kop} 

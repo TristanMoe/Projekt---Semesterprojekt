@@ -1,10 +1,10 @@
 \documentclass[Rapport/Rapport_main.tex]{subfiles}
 \begin{document}
-\section{Accepttest}
+\section{Accepttest}\label{sec:rap_accepttest}
 Accepttesten for både de funktionelle og ikke-funktionelle krav blev specificeret i forhold til kravspecifikationen set i bilag "Kravspecifikation". 
 
 Accepttesten for både de funktionelle og ikke-funktionelle krav blev foretaget d. 14-12-2018. Resultaterne er opsummeret i tabellerne \ref{tab:Accepttest_funktionelle_resultater} og \ref{tab:Accepttest_ikke_funktionelle_resultater}, som er vist nedenfor.
-Der var flere punkter som fejlede, da vi som gruppe havde valgt at nedprioritere visse fysiske parametre for produktet. 
+Der var flere punkter som fejlede, da vi som gruppe havde valgt at nedprioritere visse fysiske parametre for produktet. I dette afsnit beskrives kort afvigelserne for de funktionelle krav. 
 
 % Godkendt, delvist godkendt, ikke godkendt
 \begin{table}[H]
@@ -12,44 +12,21 @@ Der var flere punkter som fejlede, da vi som gruppe havde valgt at nedprioritere
 \begin{tabular}{|L{0.3\textwidth}|L{0.3\textwidth}|L{0.3\textwidth}|}
 \hline
 \textbf{Testgrundlag} & \textbf{Status} \\ \hline
-Use Case 1 & \\ \hline
-Use Case 2 & \\ \hline
-Use Case 3 & \\ \hline
-Use Case 4 & \\ \hline
+Use Case 1 & Delvist godkendt\\ \hline
+Use Case 2 & Delvist godkendt\\ \hline
+Use Case 3 & Delvist godkendt\\ \hline
+Use Case 4 & Delvist godkendt\\ \hline
 \end{tabular}
-\caption{Accepttest resultat funktionelle krav}
+\caption{Accepttest resultat for funktionelle krav}
 \label{tab:Accepttest_funktionelle_resultater}
 \end{table}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{|L{0.3\textwidth}|L{0.3\textwidth}|L{0.3\textwidth}|}
-\hline
-\textbf{Testgrundlag} & \textbf{Status} \\ \hline
-Fysiske parametre & \\ \hline
-User Interface & \\ \hline
-Ydeevne & \\ \hline
-Pålidelighed & \\ \hline
-\end{tabular}
-\caption{Accepttest resultat ikke-funktionelle krav}
-\label{tab:Accepttest_ikke_funktionelle_resultater}
-\end{table}
-
 \textbf{Funktionelle krav:}\\
-\textbf{UC1:}\\
-\textbf{UC2:}\\
-\textbf{UC3:}\\
-\textbf{UC4:}\\
+\textbf{UC1:} \\Der var intet fungerende \textit{\textbf{display}} og der var kun én Playerside til stede, Playerside2 blev simuleret vha. en stub. \textbf{Coin} blev ikke frigivet, når der ikke var \textbf{Balls}. \\\\
+\textbf{UC2:} \\\textbf{Balls} blev ikke detekteret, når den ramte kanten af en \textbf{Cup}. Intet \textit{\textbf{display}}. \\\\
+\textbf{UC3:} \\Intet fungerende \textit{\textbf{display}}, ellers som forventet - både stub og opstillet Playerside modtager korrekte tilstande: WON og LOST. \\\\
+\textbf{UC4:} \\Rød LED på \textit{\textbf{Ball dispenser}} slukker ikke, ved påfyldning af \textbf{Balls}, men blinker kort, når den åbnes. Grøn LED tændes først, når \textit{\textbf{Ball dispenser}} lukkes. \\\\
 
-\textbf{Ikke-funktionelle krav:}\\
-\textbf{Fysiske parametre:} \\
-\textbf{User Interface:} \\ 
-\textbf{Ydeevne:} \\
-\textbf{Pålidelighed:} \\
-
-
-
-
-
-
+\textbf{Ikke-funktionelle krav:} \\
+For nærmere information for accepttesten for de ikke-funktionelle krav henvises til bilaget "Accepttestspecifikation"\space afsnit\space "Accepttest - Ikke funktionelle krav". 
 \end{document}

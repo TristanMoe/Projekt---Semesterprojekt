@@ -1,56 +1,8 @@
-{\large\textbf{Funktionsbeskrivelser: CoinDespenser}}\\[0.2cm]
+\documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
 
-\textbf {initCoinDetector: void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf {Beskrivelse:} Denne funksjonen initialiserer detekterings-ISR. \\ [0.2cm]
-\textbf {Parametere:} ingen \\ [0.2cm]
-\textbf {Returneringsverdi:} ingen \\ [0.2cm]
-\end{adjustwidth}
-
-\textbf {CY\_ISR}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf {Beskrivelse:} Denne funksjonen er default ISR handeler for deteksjons ISR-en. Den deaktiverer ISR-en for å forhindre flere myntoppdagelser, og deretter kaller den funksjonen handleCoinDetection. \\ [0.2cm]
-\textbf {Parametere:} ISR\_detection\_handler angir hvilket interrupt som skal håndteres. \\ [0.2cm]
-\end{adjustwidth}
-
-\textbf {handleCoinDetection: void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf {Beskrivelse:} Denne funksjonen kalles fra deteksjonshandleren. Den sender en melding til GameController om at en mynt er detektert så sjekker om dispenseren er aktivert og kaller passende funksjon.
-\textbf {Parametere:} ingen \\ [0.2cm]
-\textbf {Returneringsverdi:} ingen \\ [0.2cm]
-\end{adjustwidth}
-
-\textbf {rejectCoin: void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf {Beskrivelse:} Denne funksjonen er ansvarlig for myntavvisning, den kaller de kontrollfunksjonene som kreves for å avvise en mynt fra systemet, og gjenaktiverer deteksjons-ISR-en for å gjøre systemet klar for en ny mynt. \\ [0.2cm]
-\textbf {Parametere:} ingen \\ [0.2cm]
-\textbf {Returneringsverdi:} ingen \\ [0.2cm]
-\end{adjustwidth}
-
-\textbf {acceptCoin: void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf {Beskrivelse:} Denne funksjonen er ansvarlig for å akseptere en mynt i systemet, det kaller motorstyringsfunksjonene som kreves for å akseptere en mynt, og gjenaktiverer deteksjons-ISR-en for å gjøre systemet klar for en ny mynt. \\ [0.2cm]
-\textbf {Parametere:} ingen \\ [0.2cm]
-\textbf {Returneringsverdi:} ingen \\ [0.2cm]
-\end{adjustwidth}
-
-\textbf {disableDispencer: void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf {Beskrivelse:} Denne funksjonen deaktiverer dispenseren, denne funksjonen kalles fra I2C-handleren når den mottar en melding fra GameController at spillet er aktivt. \\ [0.2cm]
-\textbf {Parametere:} ingen \\ [0.2cm]
-\textbf {Returneringsverdi:} ingen \\ [0.2cm]
-\end{adjustwidth}
-
-\textbf {enableDispencer: void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf {Beskrivelse:} Denne funksjonen aktiverer dispenseren, denne funksjonen kalles fra I2C-håndtereren når den mottar en melding fra GameController at spillet er inaktivt. \\ [0.2cm]
-\textbf {Parametere:} ingen \\ [0.2cm]
-\textbf {Returneringsverdi:} ingen \\ [0.2cm]
-\end{adjustwidth}
-
-\textbf {resetDetectorISR: void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf {Beskrivelse:} Feilsøkingsfunksjonen brukes til å aktivere gjenkjennings-ISR-en. \\ [0.2cm]
-\textbf {Parametere:} ingen \\ [0.2cm]
-\textbf {Returneringsverdi:} ingen \\ [0.2cm]
-\end{adjustwidth}
+\begin{document}
+\section{Ball Dispenser}
+\subfile{Softwaredesign/CoinSensor/BallDispController.tex}
+\subfile{Softwaredesign/CoinSensor/CoinSensorDesign.tex}
+\subfile{Softwaredesign/CoinSensor/MotorControl.tex}
+\end{document}

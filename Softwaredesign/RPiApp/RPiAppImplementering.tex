@@ -152,9 +152,10 @@ PlayersideRead::PlayersideRead(const char * filename, MsgQueue * GameControllerQ
 }
 \end{lstlisting}
 
-\subsection{WebPage}
-
+\subsection{WebPage}\label{sec:webpage_implementering}
+I dette afsnit ses implementeringen for WebPage. Der er kun medtaget de væsentligste metoder og parametre. For yderligere detaljer henvises til kildekoden. 
 \subsubsection{Client}
+Client henviser til den HTML-fil, som afvikles i web browseren. Listing \ref{list:webpage_interface} viser hvordan hjemmesidens layout er implementeret, herunder testfelter, track bars og Start-knap.
 \begin{lstlisting}[language=HTML, caption={WebPage interface layout}, label=list:webpage_interface]
 <!DOCTYPE html>
   <html>
@@ -210,6 +211,8 @@ PlayersideRead::PlayersideRead(const char * filename, MsgQueue * GameControllerQ
 <button type="button" onclick="acquireInfo()">Start</button>
 \end{lstlisting}
 
+Listing \ref{list:webpage_handlers} viser i JavaScript implementeringen af de event handlers, som er associeret med WebSocket objektet. Et for loop med event listeners sørger for at opdatere de viste farver, når disse justeres. Funktionen acquireInfo() kaldes, når der trykkes på 'Start'-knappen, og sørger for at konkatenere alle brugerinputs til én tekststreng, som sendes til Server. 
+
 \begin{lstlisting}[language=JavaScript, caption={WebPage event handlers}, label=list:webpage_handlers]
 
 <script language="javascript" type="text/javascript">
@@ -219,14 +222,6 @@ var wsUri = "ws://10.9.8.2:3000/";
 function init(){
     output = document.getElementById("output");
     testWebSocket();
-}
-
-function testWebSocket(){
-    websocket = new WebSocket(wsUri);
-    websocket.onopen = function(evt){onOpen(evt)};
-    websocket.onclose = function(evt){onClose(evt)};
-    websocket.onmessage = function(evt){onMessage(evt)};
-    websocket.onerror = function(evt){onError(evt)};
 }
 
 function onOpen(evt){
@@ -265,8 +260,6 @@ for(var i = 0; i<input1.length; i++) {
 ...
 //Similar for team2
 
-window.addEventListener("load", init, false);
-
 function acquireInfo(){
     username1 = document.getElementById("username1").value;
     username2 = document.getElementById("username2").value;
@@ -280,6 +273,7 @@ function acquireInfo(){
 \end{lstlisting}
 
 \subsubsection{Server}
+Server er implementeret som en C++ klasse kaldet WebPAge. Implementering af funktionen WSInit() fremgår af listing \ref{list:WSInit}. OnMessage funktionen kaldes for et Hub objekt h, som er en del af uWS biblioteket. Det fremgår desuden, at onMessage er implementeret som et lambda udtryk. Det betyder, at den skrives som en inline-funktion, som kan udføres umiddelbart efter, at den er defineret. Capture listen [\&] tillader, at den kan tilgå alle variabler i det scope, den er omgivet af. I et for loop indlæses tekststrengen i en buffer. Herefter anvendes getline funktionen i et for loop til at splitte strengen ad og gemme dem i en STL Vector. Set-metoder fra UserInfo klasse anvendes til at sætte members og disse sendes i en dynamisk allokeret besked kaldet WebPageResponse til GameControllers MsgQueue. Endelig sendes en response besked til Client.
 \begin{lstlisting}[caption={Initering af WebSocket}, label=list:WSInit]
 void WebPage::WSInit()
 {

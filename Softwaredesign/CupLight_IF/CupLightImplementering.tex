@@ -6,7 +6,7 @@ Implementeringen af CupLight\_IF er lavet i IDE'et PSoC-creator 4.2, hvor interf
 \subsection{ShiftPWM}
 Det første step til implementeringen af software, er at implementere det, der genererer PWM-signalet på den ønskede pin på PSoC. 
 \subsubsection{ShiftRegPWM Modulet}
-Til implementeringen af dette blev der hentet en del inspiration fra et blog indlæg lavet af Timo Denk \footnote{https://timodenk.com/blog/shiftregister-pwm-library/}. Især den datastruktur og den modificerende algoritme derpå,  han har udviklet til sit library, blev brugt som inspiration til at skrive ShiftRegPWM modulet. 
+Til implementeringen af dette blev der hentet en del inspiration fra et blog indlæg lavet af Timo Denk \cite{shiftregpwm} Især den datastruktur og den modificerende algoritme derpå,  han har udviklet til sit library, blev brugt som inspiration til at skrive ShiftRegPWM modulet. 
 \\Modulet ShiftRegPWM indeholder 4 metoder, en interrupt-handler og en datastruktur. Startes der ud med datastrukturen, så har den  til formål at holde styr på sekvensen af bits, der skal skiftes ind i 74HC595, for at det ønskede PWM signal opnås på en ønskede pin. Data strukturen ses i listing \ref{lst:ShiftRegPWM_DataStruct}.
 
 \begin{lstlisting}[caption={Datastruktur for ShiftRegPWM}, label={lst:ShiftRegPWM_DataStruct},

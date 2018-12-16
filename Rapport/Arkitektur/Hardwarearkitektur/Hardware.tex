@@ -24,7 +24,7 @@ Tilhørende laves der et IBD for det overordnede system, hvilket ses i figur \re
     \caption{Overordnet intern blokdiagram for systemet.}
     \label{fig:rap_overall_hardware_ibd}
 \end{figure}
-IBD'et i figur \ref{fig:rap_overall_hardware_ibd} viser som sagt de interne forbindelser i systemet. Det vigtige at observere på IBD'et er kommunikationen mellem RPi (master) og de to Player sides og Ball dispenser (slaver). Her bruges der som beskrevet i analysen I2C. En ulempe ved I2C er at det altid er masteren som skal initiere kommunikationen. Det vil kræve at den hele tiden skal polle oplysninger fra slaverne for fx. at få oplysninger hvornår der indsættes en mønt. Dette anses som værende upraktisk. Derfor tilføjes der for hver slave en interruptlinje,  som slaven trækker lav når den har information den vil videregive til masteren/RPi. Disse interruptslinjer er ligesom signalerne for I2C protokollen open-drain. Dette gøres for at der kan håndteres kommunikation mellem et 3.3V system og et 5V system. Til dette kræves der pull-up modstande som beskrives i  \\
+IBD'et i figur \ref{fig:rap_overall_hardware_ibd} viser som sagt de interne forbindelser i systemet. Det vigtige at observere på IBD'et er kommunikationen mellem RPi (master) og de to Player sides og Ball dispenser (slaver). Her bruges der som beskrevet i analysen \fullref{analyse:sec:comm_analyse} I2C. En ulempe ved I2C er at det altid er masteren som skal initiere kommunikationen. Det vil kræve at den hele tiden skal polle oplysninger fra slaverne for fx. at få oplysninger hvornår der indsættes en mønt. Dette anses som værende upraktisk. Derfor tilføjes der for hver slave en interruptlinje,  som slaven trækker lav når den har information den vil videregive til masteren/RPi. Disse interruptslinjer er ligesom signalerne for I2C protokollen open-drain. Dette gøres for at der kan håndteres kommunikation mellem et 3.3V system og et 5V system. Til dette kræves der pull-up modstande som beskrives i  \\
 Nu hvor systemet er beskrevet overordnet, så kan der gås lidt mere i dybden med de enkelte blokke.
 \subsubsection{Playerside - Hardware Arkitektur}
 Til at starte med kigges der på Hardware arkitekturen for Playerside. Til at få overblik over de blokke som Playerside består af, laves et BDD der kan ses på figur \ref{fig:rap_playerside_hardware_bdd}.
@@ -40,7 +40,7 @@ Til at starte med kigges der på Hardware arkitekturen for Playerside. Til at f�
 Kigges der på BDD'et så ses det, at \textsc{Power Supply} er indkøbt og derfor ikke udarbejdet i projektet.\\
 Playerside består af 6 \textsc{Cup Holder}, der hver især består af \textsc{Cup light} og \textsc{Cup sensor}. CupHolder sørger altså for lyset og detektering af \textit{Game Events}.\\ 
 Der skal også være en \textsc{Cup Holder Controller}, som styrer lyset på samtlige \textsc{Cup Holders} og samler og filtrerer sensor signalet fra samtlige \textsc{Cup Holders}. \\ 
-Til sidst er der indkøbt en PSoC Player Side, som er en PSoC 5LP Dev kit, hvor der er implementeret softwaren PlayerSideApp på. Derfor er blokken orange. Denne blok behandler sensor outputtet fra \textsc{Cup Holder Controller} og styre lyset gennem \textsc{Cup Holder Controller}.\\
+Til sidst er der indkøbt en PSoC Player Side, som er en PSoC 5LP Dev kit\cite{psoc5lp}, hvor der er implementeret softwaren PlayerSideApp på. Derfor er blokken orange. Denne blok behandler sensor outputtet fra \textsc{Cup Holder Controller} og styrer lyset gennem \textsc{Cup Holder Controller}.\\
 De interne signaler for Playerside kan ses i IBD'et i figur \ref{fig:rap_playerside_hardware_ibd}.
 \begin{figure}[H]
     \centering
@@ -50,7 +50,7 @@ De interne signaler for Playerside kan ses i IBD'et i figur \ref{fig:rap_players
     \caption{Intern blokdiagram for Player side.}
     \label{fig:rap_playerside_hardware_ibd}
 \end{figure}
-De fulde blok- og portbeskrivelser kan ses i \textbf{Arkitektur} \fullref{sec:playerside_hardware_block_description}
+De fulde blok- og portbeskrivelser kan ses i \textbf{Arkitektur} dokumentet afsnit \fullref{arch:sec:playerside_hardware_block_description}
 
 \subsubsection{Ball dispenser - Hardware Arkitektur}
 Det næste der kigges på er hardware arkitekturen for Ball dispenser. Denne blok findes der kun en af i systemet og BDD'et for delsystem ses i figur \ref{fig:rap_balldispenser_hardware_bdd}.
@@ -74,7 +74,7 @@ De interne signaler i blokken kan desuden ses i figur \ref{fig:rap_balldispenser
     \label{fig:rap_balldispensere_hardware_ibd}
 \end{figure}
 
-Blokbeskrivelser og portbeskrivelser for Ball dispenser kan ses i \fullref{arch:sec:balldispenser_hardware_ports}.
+Blokbeskrivelser og portbeskrivelser for Ball dispenser kan ses i \textbf{Arkitektur} dokumentet i afsnit \fullref{arch:sec:balldispenser_hardware_ports}.
 
 \subsubsection{RPi - Hardware Arkitektur}
 RPi er hjernen i systemet, der er derfor ikke mange hardware blokke, der hører til her, da det meste er logik lavet i software. BDD'et for RPi kan ses i figur \ref{fig:rap_rpi_hardware_bdd}.
@@ -86,7 +86,7 @@ RPi er hjernen i systemet, der er derfor ikke mange hardware blokke, der hører 
     \caption{Blok definitionsdiagram for RPi.}
     \label{fig:rap_rpi_hardware_bdd}
 \end{figure}
-Figur \ref{fig:rap_rpi_hardware_bdd} viser at \textsc{RPi Power Supply} er indkøbt, samt en \textsc{RPi Zero W}, hvor der på RPi'en er udviklet egen softwaren til anvendelse i systemet, RPiApp. Den eneste egentlige hardware blok er \textsc{Pull up resistors}, der er de resistorer der anvendes til interrupts fra de andre delsystemer. Det er vigtigt at det er pull-up modstande til 3.3V og ikke 5V. Det er ikke nødvendigt med pull-up modstande til I2C signalerne, da RPi Zero W allerede har interne pull-up modstande \\
+Figur \ref{fig:rap_rpi_hardware_bdd} viser at \textsc{RPi Power Supply} , samt en \textsc{RPi Zero W} er indkøbt, hvor der på RPi'en er udviklet egen softwaren til anvendelse i systemet, nemlig RPiApp. Den eneste egentlige hardware blok er \textsc{Pull up resistors}, der er de resistorer der anvendes til interrupts fra de andre delsystemer. Det er vigtigt at det er pull-up modstande til 3.3V og ikke 5V. Det er ikke nødvendigt med pull-up modstande til I2C signalerne, da RPi Zero W allerede har interne pull-up modstande \autocite{RPiPins}  \\
 De interne signaler for denne blok kan ses i figur \ref{fig:rap_rpi_hardware_ibd}.
 \begin{figure}[H]
     \centering
@@ -96,7 +96,7 @@ De interne signaler for denne blok kan ses i figur \ref{fig:rap_rpi_hardware_ibd
     \caption{Intern blokdiagram for RPi.}
     \label{fig:rap_rpi_hardware_ibd}
 \end{figure}
-Blokbeskrivelser for RPI kan ses i \fullref{arch:sec:rpi_hardware_block_description} og de fulde portbeskrivelser kan ses i \textbf{Arkitektur} \fullref{arch:sec:RPi_hardware_ports}. 
+Blokbeskrivelser for RPI kan ses i \fullref{arch:sec:rpi_hardware_block_description} og de fulde portbeskrivelser kan ses i afsnit \fullref{arch:sec:RPi_hardware_ports} af i \textbf{Arkitektur} dokumentet. 
 
 
 \end{document}

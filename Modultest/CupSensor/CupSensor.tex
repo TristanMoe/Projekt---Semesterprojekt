@@ -1,6 +1,6 @@
 \documentclass[Modultest/Modultest_main.tex]{subfiles}
 \begin{document}
-\section{Cup Sensor}
+\section{Cup Sensor} \label{sec:CupSensor}
 Der udføres en modultest som tester både, hardware blokken Cup Sensor og software klassen CupSensor\_IF. Dette er ikke nødvendigvis den mest rigtige måde at udføre modultest på. Den vigtige grænseflade til sensoren er i softwaren mellem controllerklassen GameController og CupSensor\_IF på PlayerSideApp. Hardwaren og softwaren blev også udviklet parralelt med hinanden, og der er derfor ikke specificeret en detaljeret hardware grænseflade, da dette ikke er så vigtigt. Derfor anses det som værende acceptabelt at udføre modultest af hardware og software samtidig.
 
 \subsection{Krav der testes}

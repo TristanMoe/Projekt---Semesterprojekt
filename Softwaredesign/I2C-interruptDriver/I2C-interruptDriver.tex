@@ -1,6 +1,6 @@
 \documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
 \begin{document}
-\section{Design af I2C-interruptDriver}
+\section{Design af I2C-interruptDriver}\label{sec:I2C_interruptDriver_design_bilag}
 Userspace programmet RPiApp skal læse og skrive til og fra de tre filer /dev/Playerside1, /dev/Playerside2 og /dev/BallDispenser. Disse filer repræsentere de tre hardware enheder. Til dette laves der én driver. Denne driver skal kunne skrive til hver hardware enhed(psoc for de to playersides og ballDipenser) vha. I2C protokollen. Der bliver brugt 3 interrupt linjer mellem rpi'en og de 3 hardware enheder, når hardware enhederne har noget information, de skal sende til rpi'en. 
 
 Driveren skrives som et kernemodul og til inspiration benyttes øvelse 3 fra HAL og frem til øvelse 6. Den vigtigste del fra denne øvelse, er at lave en init og exit funktion. Dette kernemodul laves som en character driver. For at lave en character driver skal der til denne drivers være en open, release, read og write funktion, da vi senere lavede driveren om til en platform driver blev der tilføjet en probe og remove funktion. Da der bliver brugt interrupt er der også en interrupt vektor.

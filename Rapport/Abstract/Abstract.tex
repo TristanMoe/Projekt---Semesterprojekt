@@ -1,9 +1,12 @@
 \documentclass[Rapport/Rapport_main.tex]{subfiles}
 \begin{document}
 
-\begin{abstract}
-    test
-\end{abstract}
+\section{Resume}
+I dette projekt anvendes en SCRUM baseret udviklingsproces til at designe og teste et Beer Pong bord. Det er valgt ikke at realisere et fuldt bord, men i stedet en fungerende prototype af én side af bordet. Der anvendes sensorer til at registrere tilstedeværelsen af en kop og den hændelse, at en bordtennisbold rammer ned i koppen. Disse detekteringer påvirker farven på det lys, som er lokaliseret under kopperne. Bordet er desuden forsynet med en bolddispenser, som via sensorer kan detektere mønter og bordtennisbolde. Stepper-motorer anvendes til at frigive mønter og dispensere bolde. Disse delsystemer styres af to PSoC platforme, som anvender I2C-protokollen til at kommunikere med en RPi Zero W. Denne hoster en hjemmeside, hvorpå brugerne kan indtaste navne og holdfarver. Farverne afspejles i lyset i kopholderne mens navne og score skulle fremgå af et display. Store dele af systemet er implementeret og integreret og en accepttest er udført, men ikke alle krav er opfyldt. Yderligere arbejde er altså påkrævet, hvis display skal integreres, eller det fulde bord skal realiseres.
+
+\section{Abstract}
+In this project a SCRUM based development process is used in order to design a test a Beer Pong Table. It was decided not to 
+
 
 
 \end{document}
