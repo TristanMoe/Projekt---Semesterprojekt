@@ -263,7 +263,7 @@ Det har ikke være muligt at finde tilstrækkelig oplysninger i databladet\autoc
 \end{figure}
 
 \subsubsection{AC kobling} \label{sec:CupSensorACCoupling}
-Strømmen ønskes at laves om til en spænding. Men kun AC komponent af signalet, da LED'en blinker vil nyttesignalet være et AC signal. Der benyttes standard kredsløbet fra øvelse 6 i MSE\autocite{MSE_EXC_6}. Dette kan ses på figur \ref{fig:photodiodeCircuit}. Der benyttes ind til videre komponentværdierne som forslåes i øvelsesvejledningen.   DC komponenten af signalet filtreres væk vha. RC ledet. Den resterende AC strøm konverteres ligesom i teknologiundersøgelsen om til en spænding vha. en TIA. 
+Strømmen ønskes at laves om til en spænding. Men kun AC komponent af signalet, da LED'en blinker vil nyttesignalet være et AC signal. Der benyttes standard kredsløbet fra øvelse 6 i MSE\autocite[5]{MSE_EXC_6}. Dette kan ses på figur \ref{fig:photodiodeCircuit}. Der benyttes ind til videre komponentværdierne som forslåes i øvelsesvejledningen.   DC komponenten af signalet filtreres væk vha. RC ledet. Den resterende AC strøm konverteres ligesom i teknologiundersøgelsen om til en spænding vha. en TIA. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth,trim={0.6in 5.1in 6.0in 0.55in},clip, page=1]{HardwareDesign/CupSensor/graphics/Superposition.pdf}
@@ -354,7 +354,7 @@ $$V_{out} = I_D R_{feedback} \frac{s}{\frac{1}{R C_{coupling}} + s} + V_{ref}$$
 
 Dette er tildels hvad der ønskes, da LED'en blinker skal der kun detekteres AC komponenten fra fotodioden. Men det ønskes kun at detektere den del af signalet som har samme frekvens som LED'en blinker med. Til dette skal der laves et båndpas filter.
 
-\subsubsection{Mixer}
+\subsubsection{Mixer} \label{sec:CupSensorMixer}
 Til at lave et båndpas filter er det valgt at benytte en mixer hvor lokaloscillatoren (LO) er den samme oscillator som styrer LED'en, dvs. samme frekvens og fase. 
 
 Når der benyttes samme clock til at styre LED og til LO, er udgangen fra mixeren et DC niveau, når der ikke er støjsignaler tilstede. Herefter skal der benyttes et lavpasfilter som sammen med mixeren vil fungere som et båndpasfilter.
@@ -399,7 +399,7 @@ Der overvejes en anden variation af multiplexing. Et udkast til sådan en løsni
 
 
 \subsubsection{Udvidelse til Multiplexing med kun en indgang}
-Der overvejes en udvidelse af multiplexing med kun en indgang. I denne udgave vil det kloksignal der sendes til LED'en på en sensor også styre om fotodiodernes strøm skal sendes videre til TIA'en. Så der kun modtages et signal fra den sensor der læses. En ulempe for denne metode er at der skal benyttes flere komponenter end tidligere metode, og systemet bliver mere kompliceret. En fordel er at det ikke er nødvendigt at antage at de andre fotodioder ikke bliver påvirket, da de ikke vil sende signalet videre til TIA'en, og det bliver derfor mere pålidligt.
+Der overvejes en udvidelse af multiplexing med kun en indgang. I denne udgave vil det kloksignal der sendes til LED'en på en sensor også styre om fotodiodernes strøm skal sendes videre til TIA'en. HVis der er et kloksignal skal signalt sendes videre. Så der kun modtages et signal fra den sensor der læses. En ulempe for denne metode er at der skal benyttes flere komponenter end tidligere metode, og systemet bliver mere kompliceret. En fordel er at det ikke er nødvendigt at antage at de andre fotodioder ikke bliver påvirket, da de ikke vil sende signalet videre til TIA'en, og det bliver derfor mere pålidligt.
 
 \subsubsection{Valg af metode}
 Det vil umiddelbart være bedst at benytte den metode hvor der er én kanal til hver sensor, da det fx. kunne være muligt at have en oscillator til hver sensor ekstern fra PSoC'en, så der kun skal bruges ét ben på PSoC'en. Der er med denne metode problemet at forstærkningen vil være lille og signalet på udgangen af mixeren derfor vil være relativt lavt (dette kan dog forstærkes op). Derudover skal der benyttes flere forskellige kloksignaler på PSoC'en hvilket vil benytte flere recourcer på PSoC'en. Denne metode fravælges derfor. 
@@ -466,10 +466,10 @@ De modstande der er tilrådighed kan kun afsætte $250\si{mW}$. Derfor vælges d
 \subsubsection{Mixer i ADC'en}
 En ting der kan ses på diagrammet på figur \ref{CupSensorPSoCDesign} er, at der ikke er nogen mixer. Dette er fordi ADC'en har en indbygget funktion som kan få den til at have funktionaliteten af en mixer \autocite[3]{ADC-DelSig-datasheet}. Det er valgt da det formindsker antallet af nødvendige komponenter. ADC'ens mixer funktionalitet aktiveres ved at vælge "Enable modulator input" i konfigurationen af ADC'en. Når denne er valgt, har ADC'en inputtet 'mi'. Når dette input er højt, inverteres polariteten modulatoren i delta sigma ADC'en. På denne måde fungere ADC'en som en mixer, udover at en normal mixer vil invertere inputtet når LO er lav, derfor er der tilføjet en inverter mellem LED\_clock og 'mi' inputtet.
 
-Formålet med at bruge en mixer er at lave et båndpasfilter. For at dette er tilfældet skal der på udgangen af mixeren være et lavpasfilter. Dette er også inkluderet i ADC'en som et sinc4 filter \autocite[35]{ADC_DelSig_datasheet}. Filteret virker som et lavpasfilter som vil have vil have uendelig stor dæmpning ved samplefrekvensen og alle dens harmoniske overtoner. Samplefrekvensen indstilles til 2500 samples/s. I kombination med mixeren vil det virke som et båndpas filter.  
+Formålet med at bruge en mixer er at lave et båndpasfilter. For at dette er tilfældet skal der på udgangen af mixeren være et lavpasfilter. Dette er også inkluderet i ADC'en som et sinc4 filter \autocite[35]{ADC_DelSig_datasheet}. Filteret virker som et lavpasfilter som vil have vil have uendelig stor dæmpning ved samplefrekvensen og alle dens harmoniske overtoner. Samplefrekvensen indstilles til 2500 samples/s. I kombination med mixeren vil det virke som et båndpas filter. Da filteret er et sinc4 filter har det filterresponse som en sinc funktion.
 
 \subsubsection{Fase forskydning}
-Som tidligere beskrevet vil der på udgangen af en mixer være et DC niveau når det samme clocksignal bruges til styre lyset og lokaloscillatoren (LO) for mixeren. Men hvis de ikke er i fase kan man risikere at DC niveauet er nul. For at dette ikke sker, er det vigtigt at signalet til mixeren og LO har samme fase, eller tæ på samme fase. Det undersøges nu derfor om dette er tilfældet.
+Som tidligere beskrevet (afsnit \ref{sec:CupSensorMixer}) vil der på udgangen af en mixer være et DC niveau når det samme clocksignal bruges til styre lyset og lokaloscillatoren (LO) for mixeren. Men hvis de ikke er i fase kan man risikere at DC niveauet er nul. For at dette ikke sker, er det vigtigt at signalet til mixeren og LO har samme fase, eller tæ på samme fase. Det undersøges nu derfor om dette er tilfældet.
 
 Det undersøges om lysets forsinkelse vil have en betydelig indflydelse på fasen af signalet fra fotodioden. Tidsforsinkelsen for lyset vil være 
 $$t_d = \frac{l}{v_l}$$
@@ -506,7 +506,7 @@ Som det ses på \ref{fig:TIA_saturation} så går TIA'en i mætning i starten af
 \subsubsection{Stabilitet}
 
 Da fotodioderne har en kondensator og de er på indgangen af en operationsforsærker er det vigtig at bestemme om systemet er stabilt. Der er en kondensator C1 (også omtalt $C_{coupling}$) i serie med kondensatorne i fotodioderne. Den samlede kapacitet for de 24 fotodioder blev tidligere bestemt til at være $C_{C_{total}} = 264\si{pF}$. Da $C_{C_{total}} << C1$, kan C1 ignoreres. Kapaciteten på indgangen er derfor $$C_{C_{total}} = 264\si{pF}$$. 
-Kredsløb 4 i øvesle 4 i MSE, benytter et tilsvarende kredsløb som det kan ses på figur \ref{fig:MSE_4_kreds_4}
+Kredsløb 4 i øvesle 4 i MSE \autocite[12]{MSE_EXC_4}, benytter et tilsvarende kredsløb som det kan ses på figur \ref{fig:MSE_4_kreds_4}
 
 \begin{figure}
     \centering
@@ -547,7 +547,7 @@ $$e_{iout} = R_f \cdot i_n = 80\si{k\Omega} \cdot 9.5 \si{\frac{pA}{\sqrt{Hz}}} 
  
 $$e_{ntot} = \sqrt{e_{nR1}^2 + e_{nRf}^2 + e_{iout}^2} = 765\si{\frac{nV}{\sqrt{Hz}}}$$
 
-
+Det antages at båndebredden er 4kHz, da lavpasfiltere
 $$E_{ntot} = e_{ntot}\cdot \sqrt{BW_n} = 765\si{\frac{nV}{\sqrt{Hz}}}\cdot \sqrt{4\si{kHz}\cdot 2 \cdot \frac{\pi}{2\cdot4}} = 43 \si{\mu V}$$
 \subsubsection{Offset}
 Det er tidligere blevet vist at et offset i fotodioden ikke vil have nogen indflydelse grundet RC ledet. 

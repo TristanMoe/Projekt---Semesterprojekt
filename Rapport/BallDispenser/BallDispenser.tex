@@ -1,25 +1,9 @@
 \documentclass[Rapport/Rapport_main.tex]{subfiles}
 \begin{document}
 \section{Ball Dispenser}
-I dette afsnit vil der blive beskrevet de overvejelser, valg og udviklingsprocesser der skulle foretages under design af bolddispenser. Udvikling af komponenterne til bolddispenseren er baseret på prædefineret krav som kan læses under afsnittet . Afsnittet er derudover struktureret efter blokbeskrivelsen af bolddispenserens dele under afsnittet Arkitektur,Harwarearkitektur \fullref{arch:sec:balldispenser_hardware_block_description}.
+I dette afsnit vil der blive beskrevet de overvejelser, valg og udviklingsprocesser der skulle foretages under design af bolddispenser. Udvikling af komponenterne til bolddispenseren er baseret på prædefineret krav som kan læses under afsnittet \fullref{kravspec:sec:uc_4_refill_balls} i dokumentet \textbf{Kravspecifikation}. Afsnittet er derudover struktureret efter blokbeskrivelsen af bolddispenserens dele under afsnittet \fullref{arch:sec:balldispenser_hardware_block_description} i \textbf{Arkitektur} dokumentet.
 \subfile{Rapport/BallDispenser/ballDispenserController/ballDispenserController.tex}
-\subsection{Bolddispenserens fysiske og mekaniske dele}
-Designet af bolddispenserens fysiske og mekaniske dele opdeles kronologisk. Først diskuteres de overvejelser og valg der blev taget under designet af bolddispenseren og derefter beskrives udviklingsprocessen.
 
-\paragraph{Overvejelser}
-\newline\newline
-Der findes mange mekaniske løsninger til dispensering af bolde. Den først metode som blev overvejet er den hvor to hjul sørger for at fremdrive bolden ud dispenseren, ligesom man gør med en tennis bolddispenser. Denne metode er dog mest brugt i tilfælde hvor der er behov for at få dispenseret bolden med en relativ høj hastighed. Fysisk fylder det også meget i forhold til nogle af de andre muligheder. Et andet løsning var at bruge den samme mekanisk system som bruges i typiske bordfodbolds borde. Fordelene er at man nemt kan finde en færdig design på nettet, og alle dele kan 3d printes. Ulempen er at der ikke bruges elektroniske aktuatorer.
-Den tredje løsning som blev overvejet er en rotationsplatform mekanisme. Her udnytter man tyndekraften til at dispensere boldene. En cylinderformet beholder med et hul i bunden sider på den her roterende platform. For at dispensere boldene roteres platformen således at dens hul passer med hullet på bunden af cylinder-beholderen. Nå man så rotere igen, så bliver bolden i platformens hul dispenseret. Denne løsning er god fordi den bruger en aktuator til styring af dispensering, og den er simpel nok til at 3d printe. Ulempen er dog at platformen fylder meget.
-
-\paragraph{Valg}
-\newline\newline
-Der valges platformløsningen da denne virker mest logisk. Fordi den mekaniske del er så simpel, så giver det rum til bedre udvikling af sensor og aktuator.
-
-\paragraph{Udvikling}
-\newline\newline
-Der købes ståltråde og gaffertape til udvikling af en pap prototype. Det er nødvendigt at lave en \textit{proof of concept} med en pap model før vi går i gang med alt andet. Der bruges tomme toiletpapirruller og køkkenruller til cylinder-beholderen. Under udvikling af beholderen blev jeg inspireret til at ændre mekanismen så der ikke var behov for en platform. I stedet for platformen skulle der være endnu en cylinderbeholder med et hul i siden. Denne mindre cylinder ville ligge under beholderen og holde boldene ind, ligesom platformen gjorde. For at dispensere bolde vil den rotere 180 grader rundt om beholderens højde-akse. Bolddispenseren bliver nu kompakt, mekanisk simpel, og nem at forbedre med aktuator og sensor. Boldispenserens fysisk konstruktion og dele kan ses på figur ????
-(INDSÆT FIGUR!)
-Bolddispenseren 3d printes så det kan bruges til test. Her sikres at målene for bolddispenseren passer med boldenes radius. Det færdi produkt ses under nedstående billede.
 \subfile{Rapport/BallDispenser/BallCountSensor/BallCountSensor.tex}
 \subfile{Rapport/BallDispenser/CoinDispenser/CoinDispenser.tex}
 \end{document}

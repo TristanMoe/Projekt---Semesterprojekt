@@ -76,23 +76,21 @@ I2c\_interruptDriver er den driver, som bruges på RPI'en. Den sørger for at se
 \subsubsection{BallDispenserApp}
 I dette avsnittet presenteres software arkitekturen for BallDispenser, for den fulle dokumentasonen refereres der til \textbf{Systemarkitektur} \fullref{arch:sec:balldispenser_application_model}. Applikasjonen er skrevet i C for å kunne kjøres på en PSoC. Under vil klasse, sekvens og tilstands diagrammene til UC1 og UC4 bli presentert.\\\\
 \textbf{Klasse diagram BallDispenserApp}\\
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics{}
+    \includegraphics[width=\textwidth]{Rapport/Arkitektur/graphics/CDBolddispenser.png}
     \caption{Klassediagram for BallDispenser}
     \label{fig:BallDipKlasse}
 \end{figure}
-{\color{Red} \Large VENTER PÅ AARON WWOOOOOOO }
 
 \textbf{Balldispenser - State machine}\\
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics{Arkitektur/Softwarearkitektur/Applikationsmodel/BallDispenser/graphicsBallDispenser/ApplikationsmodelBolddispenserstm.PNG}
+    \includegraphics[width=\textwidth]{Arkitektur/Softwarearkitektur/Applikationsmodel/BallDispenser/graphicsBallDispenser/ApplikationsmodelBolddispenserstm.PNG}
     \caption{BallDispenser State machine}
     \label{fig:my_label}
 \end{figure}
-
-
+Denne figuren viser stadiene for BallDispenser. Den består av to mindre state machines, en som styrer balldispenser og en som styrer CoinDispenser. CoinDispenser enable/disable styres av RPi via I2C. BallDispenser STMen styres av countBalls funksjonen. Dette dokumenteres grundigere i \textbf{Systemarkitektur} \fullref{arch:sec:BallDispSTM}.
 
 \textbf{Sekvensdiagram for UC1}\\
 \begin{figure}[H]

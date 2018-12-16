@@ -13,7 +13,7 @@ Startes der med klassediagrammet for det overordnede overblik over relationer og
 \end{figure}
 \newpage
 
-\textbf{Tilstandsmaskine: Bolddispenser}\\
+\textbf{Tilstandsmaskine: Bolddispenser}\label{sec:BallDispSTM}\\
 I bolddispenseren kan der deles op i to forskellige typer tilstande. En tilstand om bolddispenserens kapacitet af bolde og en tilstand om bolddispenseren må dispensere bolde. Hvordan bolddispenseren bevæger sig imellem disse tilstande, og hvad der sker kan ses i figur \ref{fig:stm_balldispenser}. 
 Af figuren ses det at den øverste del af statemachine diagrammet er det, der omhandler kapacitet af boldene. Der er ikke nogen state, som bolddispenseren skal starte i, idet bolddispenseren kan være i alle states ved opstart. Ved eksekvering af UC4, starter den dog ud i empty, da dette er en prækondition til udførelsen af use casen. 
 Når der så fyldes bolde på bolddispenseren kan den altså gå fra empty til Nonempty i det en sensor detektere at minimumsgrænsen for bolde er nået. Dette trigger en opdatering af status led'erne (Der indikere om der mangler bolde), samt en opdatering på RPi, idet den skal vide om et nyt spil kan påbegyndes. 
@@ -113,16 +113,6 @@ Når der skal udøves service på bolddispenseren, kan dette også beskrives i a
 \textbf {enableDispencer: void}
 \begin{adjustwidth}{1cm}{0pt}
 \textbf {Beskrivelse:} Denne funksjonen clearer og reaktiverer ISRen \\ [0.2cm]
-\textbf {Parametere:} ingen \\ [0.2cm]
-\textbf {Returneringsverdi:} ingen \\ [0.2cm]
-\end{adjustwidth}
-
-
-{\large\textbf{Funktionsbeskrivelser: Motor Controller}}\\[0.2cm]
-b v
-\textbf {coinInserted(): void}
-\begin{adjustwidth}{1cm}{0pt}
-\textbf {Beskrivelse:} Denne funksjonen er hoved kontrol funksjonen til ball dispenser. Den blir kalt hver gang det skjer en coin detection. Den starter all logiken som skjer i UC1 \\ [0.2cm]
 \textbf {Parametere:} ingen \\ [0.2cm]
 \textbf {Returneringsverdi:} ingen \\ [0.2cm]
 \end{adjustwidth}
