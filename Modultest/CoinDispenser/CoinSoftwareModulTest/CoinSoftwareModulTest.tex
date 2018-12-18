@@ -1,11 +1,10 @@
 \documentclass[Modultest/Modultest_main.tex]{subfiles}
 \begin{document}
-\section{CoinDispenser Hardware Modultest}
+\subsection{CoinDispenser Hardware Modultest}  \label{sec:Disp}
 
-\subsection{Test af CoinSlide}
+\subsubsection{Test af CoinSlide}
 I denne seksjonen vil modul testen for CoinDetector softwaren bli beskrevet. Softwaren består av coinDispenser og motorController.\\
 
-\\
 
 \textbf{Krav som skal bli testet:}
 \begin{enumerate}
@@ -15,12 +14,9 @@ I denne seksjonen vil modul testen for CoinDetector softwaren bli beskrevet. Sof
     \item I en periode på 1 time må der højest være 1 falskdetektering af indsættelse af en dansk 5 krone i bolddispenser
 \end{enumerate}
 
-\\
 Testen ble utført ved å slippe mynter ned på detector platen til coinDispenser med UART tilsluttet for følge med på dispensorens kode og endre dens state. Det va ikke nødvendig med custom test kode siden componenten viker selv om den ikke er koblet til systemet.\\
-Systemet ble satt med strømmen sluttet til i 2 dager. \\
-\\
-
-\subsection{Resultater}
+Systemet ble satt med strømmen sluttet til i 2 dager.
+\subsubsection{Resultater}
 \begin{table}[H]
 \Large
 \centering
@@ -33,10 +29,9 @@ Disabled         & 200             & 0             \\ \hline
 
 \end{tabular}
 \end{table}
-\\
-Etter to dager var det ikke forekommet noen feil da resultatet ble avlest med uarten. 
-\subsection{Refleksion}
 
+Etter to dager var det ikke forekommet noen feil da resultatet ble avlest med uarten. 
+\subsubsection{Refleksion}
 Som vi kan se har systemet viker uten noen problemer og er klar til integrasjon med ballDispenceren. 
 
 \end{document}

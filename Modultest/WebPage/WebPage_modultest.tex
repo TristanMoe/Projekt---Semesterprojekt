@@ -1,14 +1,9 @@
 \documentclass[Modultest/Modultest_main.tex]{subfiles}
 \begin{document}
 
-\lstdefinestyle{customc}{
-    breaklines=true,
-    language=C,
-    showstringspaces=false,
-}
 \lstset{style=customc}
 
-\section{WebPage Modultest}\label{webpage_modultest}
+\section{WebPage}\label{sec:webpage_modultest}
 I dette afsnit beskrives modultesten for WebPage. WebPage er et modul, som har til opgave at modtage brugerinputs i form af hold- og brugernavne samt holdfarver. Disse informationer indtastes på smartphone af brugeren, og herfra skal de behandles og videresendes til GameController klassen. For at dette er muligt, er det nødvendigt at kommunikationen mellem client og server forløber korrekt, og at WebSocket forbindelsen er pålidelig.
 
 \subsection{Krav}
@@ -29,7 +24,7 @@ K4.11 & \begin{tabular}[c]{@{}l@{}}Mindst 49 ud af 50 gange, hvor der trykkes �
 \end{table}
 
 \subsection{Metode}
-\\For at teste kravene i tabel \ref{tab:krav_web} bliver der i de følgende taget udgangspunkt i et testprogram. \textbf{K4.11} kan af gode grunde ikke testes her, men forholdene kan simuleres ved at server udskriver holdnavne, brugernavne og holdfarver i terminalen, hver gang data sendes fra client (ved tryk på 'Start'). Kravet testes altså ved at indtaste \textit{\textbf{spiller oplysninger}} på hjemmesiden og sende dem, hvorefter terminal output undersøges.
+For at teste kravene i tabel \ref{tab:krav_web} bliver der i de følgende taget udgangspunkt i et testprogram. \textbf{K4.11} kan af gode grunde ikke testes her, men forholdene kan simuleres ved at server udskriver holdnavne, brugernavne og holdfarver i terminalen, hver gang data sendes fra client (ved tryk på 'Start'). Kravet testes altså ved at indtaste \textit{\textbf{spiller oplysninger}} på hjemmesiden og sende dem, hvorefter terminal output undersøges.
 \\Når dette skal testes vil resultatet være binært, forstået på den måde, at enten sendes data korrekt til server og stemmer overens med det indtastede, eller også gør det ikke. Hvert forsøg på at sende data kan beskrives som en hændelse A med to mulige udfald: succes og fiasko.
 Hvis den stokastiske variabel X beskriver antal elementer i stikprøven, med egenskaben A, kan X siges at være binomialfordelt, hvis følgende er opfyldt:\cite{binomial_wiki}
 \begin{enumerate}

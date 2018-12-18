@@ -1,0 +1,30 @@
+\documentclass[Modultest/Modultest_main.tex]{subfiles}
+\begin{document}
+\subsection{Controller} \label{sec:DispController}
+I denne seksjonen beskrives modultesten for BallDispenser-Contoller.\\
+ \\ \textbf{Det som skal testes: }
+\begin{itemize}
+    \item Kan modulet kommunisere med andre moduler via I2C?
+    \item Stemmer logikken i modulet overens med UC1 og UC4?
+\end{itemize}
+Under testen ble BallDispenser og CoinDispenser koblet sammen og en analog discovery ble koblet til SDA og STL portene på PSoCen. Det ble lest meldingene sendt fra PSoCen når en mynt er oppdaget og når BallDispenser er empty / not\_empty med analog discoveryen. Det ble også observert om baller ble dispensert baller etter coin detection\\
+
+\textbf{Resultater: }
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor[HTML]{9B9B9B} 
+Beskjed             & Forventet Signal & Faktisk Signal \\ \hline
+Coin Inserted       & 0x1E             & 0x1E           \\ \hline
+Dispenser Empty     & 0x1F             & 0x1F           \\ \hline
+Dispenser Not Empty & 0x20             & 0x20           \\ \hline
+\end{tabular}
+\end{table}
+
+Resultatene stemmer overens med forventingene.
+
+
+
+
+\end{document}

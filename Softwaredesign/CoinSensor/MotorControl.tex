@@ -2,7 +2,8 @@
 
 \begin{document}
 
-\subsection{Motor Control Design}\label{subsec:motorControlDesign}
+\subsection{Motor Control}\label{subsec:motorControlDesign}
+\subsubsection{Design}
     \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Softwaredesign/CoinSensor/graphics/TopDesign-MotorControl.png}
@@ -23,7 +24,7 @@ Dette modulet består av flere funksjoner men det er valgt å kun inkludere en m
 
 
 {\textbf{step}}\\
-\begin{lstlisting}[caption={Stepper motor kontroller},style=customc,label={lst:dispenserControlFunction}]
+\begin{lstlisting}[caption={Stepper motor kontroller},style=customc]
 void step(int mode)
 {
 
@@ -73,7 +74,7 @@ void step(int mode)
 Dette er den viktigste funksjonen i motor controll, den har 4 states som den stepper gjennom hver gang step funksjonen blir kalt. nextStep blir oppdatert etter hvilket mode den blir kaldt i. Det vil si den stepper fra 1 til 4 hvis den der i forward mode og fra 4 til 1 hvis den er i reverse.
 
 {\textbf{Interrupt}}\\
-\begin{lstlisting}[caption={Example of a motorcontrol function},style=customc,label={lst:dispenserControlFunction}]
+\begin{lstlisting}[caption={Example of a motorcontrol function},style=customc]
 CY_ISR(Motor_Timer_I_handler)
 {
     readyForNextStep = true;
@@ -82,7 +83,7 @@ CY_ISR(Motor_Timer_I_handler)
 Dette er funksjonen som kalles når PSoC mottar et interrupt fra motorstyringstimeren. Det forhindrer at motoren sitter fast i motorstyringsfunksjonene. Dette betyr også at motor hastigheten styres av timer hastigheten.
 
 
-\begin{lstlisting}[caption={Example of a motorcontrol function},style=customc,label={lst:dispenserControlFunction}]
+\begin{lstlisting}[caption={Example of a motorcontrol function},style=customc]
 void Rotate90()
 {
     int x = 0;

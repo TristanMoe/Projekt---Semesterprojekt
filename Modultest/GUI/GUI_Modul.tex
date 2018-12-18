@@ -1,9 +1,33 @@
 \documentclass[Modultest/Modultest_main.tex]{subfiles}
 
 \begin{document}
+\textbf{Display test af Message Queue modtagelse}\label{sec:GUI_modultest_doc}
+I dette afsnit vil der være gennemgang af modulet "Display applikation". Her vil der der testes om Display'et kan modtage beskeder fra message queue, og opføre side som ønskede.
+\\
+Dette gøres ved at oprette en "Display message queue".  Derefter startes en tråd som fylder køen med en af hver besked. Derfter  startes "run" funktionen ; run funktionen begynder,  at trække beskederne ud af køen, og sender dem ud med dispathceren. 
+Rækkefølgen som beskederne i er som følger:  "\_IDLE",  "\_PLACE\_CUPS" , "\_INFO", "\_GAME\_STATUS",  "\_CUPS\_UPDATED", "\_ENDGAME", "\_SERVICE". 
+\\
+Funktionerne i denne test er modificeret til at printe ud til konsollen når de bliver brugt, ud over at bruge deres normale funktion.  Derfor ud over at skærmen skifter/reagerer som normalt;  forventes det også, at konsollen udskriver beskederne: som f.eks.: "IDLE HANDLER WAS USED". 
+\\ 
+Output fra konsol ses som følgende: 
+\begin{verbatim}
+IDLE HANDLER WAS USED
+SHOW PLACE CUPS HANDLER WAS USED
+DISPLAY SHOW INFO HANDLER WAS USED
+DISPLAY PLAYING HANDLER WAS USED
+UPDATE CUPS HANDLER WAS USED
+UPDATE WIN HANDLER WAS USED
+SERVICE HANDLER WAS USED 
+\end{verbatim}
 
-\section{Display applikation Modultest}
-I dette afsnit vil der være gennemgang af modulet "Display applikation". Her vil der der testes om Display'et kan vise de rigtige "boards"; dusuden skal det også testes, om kopperne kan skifte farve som ønsket. 
+
+
+\textbf{Opsumering}
+Display del applikationen kunne modtage beskeder fra message queue , og reagerede som forventede. Visuelle test blev udført parralelt med test af display message queue modtagelse, men da disse test ikke kan dokumenteres, men blev observeret til at virke er testen bestået.  Det blev desuden testet på et 24 tommer display med en opløsning på 1920x1080, hvilket var et krav. 
+
+
+
+
 
 
 

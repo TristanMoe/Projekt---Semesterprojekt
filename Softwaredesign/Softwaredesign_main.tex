@@ -2,7 +2,7 @@
 \input{Setup/Preamble.tex}
 
 
-\def\titlename{Software Design}
+\def\titlename{Softwaredesign}
 
 
 
@@ -14,14 +14,32 @@
 \tableofcontents
 \newpage
 
+\subfile{Softwaredesign/CoinSensor/CoinDespenser.tex}
+\newpage
+
+\section{Design af playerSideApp}
 \subfile{Softwaredesign/CupLight_IF/CupLightDesign.tex}
 \subfile{Softwaredesign/CupLight_IF/CupLightImplementering.tex}
-\subfile{Softwaredesign/I2C-interruptDriver/I2C-interruptDriver.tex}
+\subfile{Softwaredesign/CupSensor_IF/CupSensor_IF.tex}
 \newpage
-\subfile{Softwaredesign/RPiApp/RPiApp.tex}
-\subfile{Softwaredesign/RPiApp/RPiApp-Funktion.tex}
-\subfile{Softwaredesign/RPiApp/RPiAppImplementering}
-\subfile{Softwaredesign/CoinSensor/CoinDispenser.tex}
+\subfile{Softwaredesign/RPI_IF/player_side_boundary.tex}
+\subfile{Softwaredesign/RPI_IF/playerside_rpi_boundary_implementering.tex}
+\newpage
+\subfile{Softwaredesign/GameController/GameController_design.tex}
+\subfile{Softwaredesign/GameController/GameController_implementering.tex}
 
+\newpage
+\subfile{Softwaredesign/I2C-interruptDriver/I2C-interruptDriver.tex}
+\subfile{Softwaredesign/I2C-interruptDriver/Implementering.tex}
+\newpage
+
+\subfile{Softwaredesign/RPiApp/RPiApp.tex}
+\newpage
+\subfile{Softwaredesign/RPiApp/RPiAppFunktion.tex}
+\newpage
+\subfile{Softwaredesign/RPiApp/RPiAppImplementering}
+\newpage
+
+\printbibliography
 
 \end{document}

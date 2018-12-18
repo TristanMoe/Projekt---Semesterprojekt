@@ -1,7 +1,7 @@
 \documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
 \begin{document}
 
-\section{CupSensor\_IF}
+\subsection{Design af CupSensor\_IF} \label{sec:CupSensorSWDesign}
 Der skal udvikles en CupSensor\_IF klasse på PlayerSideApp som har til opgave at håndtere input/output for alle 6 Cup Sensors på en player side. Dette er udvilket på baggrund af hardwaren beskrevet i \ref{hwdesign:sec:CupSensor}. Som opsummering benyttes der en multiplexer som styre hvilken cup sensor som der sættes til blinke med dens IR LED. Herefter bruges der udtrykket der styres hvilke 'sensor der læses'. Multiplexeren styres af et register Control\_Reg\_Led. Inputtet ender med at blive læst med en Delta Sigma ADC, med et differentiabelt input. Til forventede signaler er der kun positive signaler. Der benyttes sinc4 filteret i ADC'en. Dette betyder at udgangen først er korrekt efter 4 samples hvis der sker et step i indgangssignalet. Til at læse signalet fra ADC'en benyttes en DMA (Direct memory access) komponent som genererer et interrupt når den er færdig.
 
 Der er til software design af CupLight\_IF, udviklet et klassediagram. Diagrammet kan ses på figur \ref{fig:CupSensor-IF-classDiagram}. Det vil være uhensigtsmæssigt at lave alt i en klasse. Klassen CupSensor\_IF er den klasse som GameController interagere med. De resterende klasser er en del af en custom component i PSoC\autocite{PSoCHowToCreateCustomComponents}. CupSensor er hoved-klassen for CupSensor blokken. Den skal som alle andre PSoC komponenter startes vha. Start metoden. Denne metode sørge for at starte og opsætte de forskellige hardware komponenter og interrupts. Derudover skal de 6 instanser for CupSensorUnit initieres. Som en del af denne metode skal DMA'en opsættes. Koden til dette genereres vha. PSoC Creators DMA Wizard\autocite[2]{DMADatasheet}. Da man som tidligere beskrevet skal vente 4 samples efter et step på indgangen, opsættes DMA'en til kun at generere et interrupt efter hver 6. sample. Det er 6 frem for 4 Da andre dele af systemet også vil tage noget tid at reagere på et step. Det step der tales om, er ændringen i hvilken sensor der sættes til at blinke. Da to sensorer ikke nødvendigvis har samme output, vil ændringen opfattes som et step. ADC'en har en samplerate på 2500 sps, når kun hver 6. måling er brugbar svare det til en samplerate på ca. 417 sps. Men da der skal læses fra 6 Cup Sensors, er sampleraten for en given sensor kun ca 70 sps. Dette vil betyde at at den maksimale frekvens der kan måles er 35Hz, eller signaler med en periode på ca 29 ms eller længere. Det signal der for sensoren skal analyseres som har den højeste frekvens er når en bold rammer i. Dette har en periode på ca 200ms. Derfor er dette en god nok løsning.
@@ -36,7 +36,7 @@ insertReading metoden i CupSensor klassen returnerer om tilstanden ændres. Hvis
     \label{fig:CupSensor-IF-getting-reading}
 \end{figure}
 
-\subsection{Valg af grænseværdier} \label{sec:CupSensorThresholds}
+\subsubsection{Valg af grænseværdier} \label{sec:CupSensorThresholds}
 Til at bestemme de forskellige grænseværdier er der udført nogle målinger, hvor der placeres/fjernes en kop flere gange, og der tabes en bold flere gange. Dette udføres med forskellige mængder øl, den øvre (130ml) og nedre (90ml) grænse for mængden af øl beskrevet i kravene samt den nominiele værdi, 110ml. Disse målinger laves hvor den læste værdi skrives til en DAC med en opløsning på 16mV. De læste målinger divideres med 16mV for at opnå talværdien som systemet bruger. Der afrundes til nærmeste heltal. Målingerne udføres med Digilent Analog Discovery 2\autocite{AnalogDiscovery2}.
 
 Først laves der målinger der måler baseline for den givne opstilling
@@ -160,7 +160,7 @@ Det antages først at dette er normalfordelt. Der er så stor en standardafvigel
 Den maksimale værdi for 90ml er 48, for 110ml er den 44 og for 130ml er den 36. placed\_baseline antages at være middelværdien for den stationære værdi for når der står en kop. Den relative ændring er derfor for 90ml $\frac{48}{28} = 1.71$, for 110ml er den relative ændring $\frac{44}{24} = 1.83$ og for 130ml er den $\frac{36}{22} = 1.64$. Den maksimale relative ændring der fremkommer ved at fjerne koppen er 1.83 gange signalet for når der står en kop med øl (i forhold til baseline).
 Derfor vælges en lidt større værdi end denne. hit\_trigger sættes til at være 1.9. Dette er ikke den ideele måde at bestemme hit\_trigger på, men det er det er testet og 1.9 er en god værdi til at detektere så mange bolde der ramme i som muligt samtidig med at der ikke sker falske detekteringer når koppen fjernes.
 
-\subsection{Implementering} \label{sec:CupSensorImplementation}
+\subsection{Implementering af CupSensor\_IF} \label{sec:CupSensorImplementation}
 Da der laves en custom PSoC komponent skal navngivningen følge standarden. Hvis der fx kaldes Start() funktionen for en UART komponent med navnet UART\_1 skal der kaldes funktionen UART\_1\_Start(). Dette skal gøres for Cup Sensor komponenten. Da det ikke vides hvad brugeren af komponenten kalder den valgte blok, kan navnet ikke 'hard codes' ind. Til at få navnet på blokken skal der skrives følgende: `\$INSTANCE\_NAME` \autocite[Lesson 5]{PSoCHowToCreateCustomComponents}. Eksempelvis skrives prototypen for Start() funktionen som i listing \ref{lst:start_naming}:
 
 \begin{lstlisting}[caption={Eksempel på hvordan der skrives navnet på blokken som en del af funktionen},style=customc,label={lst:start_naming}]
@@ -202,4 +202,6 @@ uint8_t CupSensorUnit_insertReading(struct CupSensorUnit* sensorUnit, uint8_t re
 }
 \end{lstlisting}
 
+Resten af kildekoden kan ses i bilagsmappen:\\ "Kildekode/playerSideApp/integration/integration\_all.cydsn/CupSensor"\\ og i filerne:\\ "Kildekode/playerSideApp/integration/integration\_all.cydsn/CupSensor\_IF.h" \\og\\ 
+"Kildekode/playerSideApp/integration/integration\_all.cydsn/CupSensor\_IF.c" 
 \end{document}

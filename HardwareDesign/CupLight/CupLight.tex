@@ -1,7 +1,8 @@
 \documentclass[HardwareDesign/HardwareDesign_main.tex]{subfiles}
 \begin{document}
-\section{CupLight Hardware Design}\label{sec:cuplight_hw_design}
+\section{CupLight Hardwaredesign}\label{sec:cuplight_hw_design}
 I dette afsnit beskrives de overvejelser der har været omkring det lys, der skal være under kopperne på Beer Pong bordet. Både lyset i al sin enkelthed men også hvordan lyset skal styres.\\
+
 Før der dog kan laves et design, må der først og fremmest kigges på, hvilke krav der er til lyset. Af Kravsspecifikationen \fullref{kravspec:sec:ikke_funktionelle_krav} hives der følgende krav ud omkring lyset:
 \begin{enumerate}
     \item Koplys skal kunne lyse med mindst 10 forskellige farver.
@@ -9,13 +10,25 @@ Før der dog kan laves et design, må der først og fremmest kigges på, hvilke 
 \end{enumerate}
 Da lyset skal styres af en controller pr. spillerside, så giver det umiddelbart også et krav om at alle lys skal kunne styres med forholdsvis få pins på PSoC'en. 
 \subsection{Design af lyset CupLight}
-Lyset skal kunne styres på en effektiv, men også billig måde, da det ville være spild af ressourcer at bruge al budgettet på bordet på at lave belysning frem for egentlig funktionalitet. Det er især også vigtigt fordi, der skal være så meget lys, nemlig minimum 6 steder på hver side af bordet (en for hver kop holder). Lyset skal også kunne passe i forhold til den skitse \textbf{Krav Spec} \fullref{kravspec:sec:ikke_funktionelle_krav}, så det må heller ikke fylde særligt meget. Derfor besluttes der at bruge almindelige RGB-led'er, som kan købes på nettet forholdsvis billigt og som kan fås i en størrelse på 3mm. Der findes også RGB-led'er der kan addresseres individuelt, men disse blev valgt fra, da de var for dyre og de ikke var nødvendige i forhold til de krav, der var til projektet. 
-\\Der findes to typer RGB-led'er; Common Anode og Common Cathode. Da der ikke er klare fordele og ulemper mellem de to, vælges en RGB-led med Common Cathode, da den har nogle fordele i forhold til den styring, der laves dertil. 
-\\Mere specifikt blev der til projektet valgt en RGB Led med vare nummeret: \textsc{L-154A4SURKQBDZGW}\cite{RGBledDatasheet}. Denne LED består i princippet af 3 LED'er, en rød, en grøn og en blå. Derfor skal der til 3 af benene forbindes resistorer, men disse er nødvendigvis ikke samme størrelse, da LED'erne har forskellige elektroniske karakteristikker i forhold til deres farve. For at finde størrelsen af resistorene bruges Ohms lov.
+Lyset skal kunne styres på en effektiv, men også billig måde, da det ville være spild af ressourcer at bruge hele bordbudgetet på at lave belysning frem for egentlig funktionalitet. Det er især også vigtigt fordi, der skal være så meget lys, nemlig minimum 6 steder på hver side af bordet (en for hver kop holder). Lyset skal også kunne passe i forhold til den skitse \textbf{Krav Spec} \fullref{kravspec:sec:ikke_funktionelle_krav}.
+\subsubsection{Teknologi Undersøgelse}
+I dette afsnit opstilles de undersøgte teknologier for fordele ulemper
+\begin{longtable}[H]{|L{0.2\textwidth}|L{0.2\textwidth}|L{0.2\textwidth}|L{0.2\textwidth}|}
+        \hline
+        \textbf{Teknologi.} & \textbf{Fordele} & \textbf{Ulemper} & \textbf{Karakteristik} \\ \hline
+        Integrated Circuit LEDs & Små, Nemme at implementere & Lyset skal anvendes med noget diffused materiale for spredning af lyset. Dyrere.\\ \hline
+        RGB-LED'er & Billige, Kraftigt spredt lys  & Der skal implementeres en controller. Led'en er større end chippen.\\ \hline
+\end{longtable}
+\subsubsection{Beslutning}
+Der besluttes at bruge almindelige RGB-led'er, som kan købes på nettet forholdsvis billigt og som kan fås i en størrelse på 5mm, hvilket passer fint til kravene. De addresserbare  RGB-led'er blev valgt fra, da de var for dyre og de ikke var nødvendige i forhold til de krav, der var til projektet. Dette medfører dog, der skal laves et Controller kredsløb.\\
+Der findes to typer RGB-led'er; Common Anode og Common Cathode. Da der ikke er klare fordele og ulemper mellem de to, vælges en RGB-led med Common Cathode, da den har nogle fordele i forhold til den styring, der laves dertil.\\
+Mere specifikt blev der til projektet valgt en RGB Led med vare nummeret: \textsc{L-154A4SURKQBDZGW}\cite{RGBledDatasheet}. Denne LED består i princippet af 3 LED'er, en rød, en grøn og en blå.
+\subsubsection{Analyse og Beregning af komponenten}
+Til 3 af benene på RGB-led'en skal forbindes resistorer, men disse er nødvendigvis ikke samme størrelse, da LED'erne har forskellige elektroniske karakteristikker i forhold til deres farve. For at finde størrelsen af resistorene bruges Ohms lov.
 \begin{equation}
     R=\frac{U}{I}
 \end{equation}
-Til de elektroniske karakteristikker slås der op i databladet for RGB-LED'en. Her er man interesseret i strømmen gennem LED'erne, og hver enkelts Forward Voltage. Det findes at $I=20mA$, $V_R=1.95V$, $V_G=3.3V$ og $V_B=3.3V$. Det er nu muligt at finde de enkelte modstande for hver LED.
+Til de elektroniske karakteristikker slås der op i databladet for RGB-LED'en\cite{RGBledDatasheet}. Her er man interesseret i strømmen gennem LED'erne, og hver enkelts Forward Voltage. Det findes at $I=20mA$, $V_R=1.95V$, $V_G=3.3V$ og $V_B=3.3V$. Det er nu muligt at finde de enkelte modstande for hver LED.
 
 \begin{subequations}
         RGB Resistor Værdier:
@@ -55,15 +68,20 @@ Da der anvendes en transistor, vil der et spændingsfald over transistoren i for
 \end{align}
 \end{subequations}
 
+Selvom disse værdier er et godt udgangspunkt, så er der højst sandsynlige andre karakteristikker for den virkelige LED. For at få de bedste farver, bør der i et færdigt produkt laves kalibrering af farver, for at få den bedste farvekorrekthed i LED'erne. Dette er ikke et krav i dette projekt, så derfor er det ikke inkluderet.
+
 \subsection{Design af Controller af CupLight}
 \subsubsection{Styring af RGB-led'er}
-Det krav, der kommer til at vise sig ekstremt vigtigt og problematisk er kravet om, at hvert koplys skal kunne styres individuelt. En RGB-led har nemlig 4 ben, 1 ben til den røde farve, 1 ben til den grønne farve, 1 ben til den blå farve og 1 ben til katode/anode. Måden farven så styres på er, at man ved PWM ændrer spændingen på benene, og jo højere spænding jo kraftigere farve. Det er derfor intet problem at styre farverne på en LED, da der bare skal bruges 4 pins på PSoC'en, hvor en pin ved en transistor styrer om LED'en skal være tændt eller slukket og resten laver PWM. Men her bliver problemet også åbenlyst i det, der på hver playerside skal styres 6 forskellige lys. Hvis der altså ikke laves en anden løsning, så skal der bruges 24 pins bare til lys. 
-\\Problemet kan umiddelbart løses ved multiplexing, dog gør denne løsning hardwaren lidt svære, og softwaren en del svære. Essensen i løsningen med multiplexing er, at LED'erne tændes hver især så hurtigt at det for menneskelige øjne ligner at LED'en lyser konstant. På den måde kan der bruges en fælles pin til henholdsvis rød, grøn og blå til alle led'er, samt en konstant mængde pins til at stå for multiplexing. Det vil altså sige, at alle led'er kan styres af en konstant mængde pins, hvilket også åbner op for, at der kan tilføjes et vilkårligt antal led'er, uden påvirkning af brugen af PSoC pins. Denne måde vil dog stærkt påvirke styrken af lysene, da jo flere led'er jo længere tid mellem opdateringerne
-\\En anden måde til at kontrollere LED'erne, der blev taget i betragtning var det der kaldes Charlieplexing. Charlieplexing udnytter de 3 states på en microcontroller pin (High,Low,Input), til at kontrollere de givne LEDs. Denne metode ville helt klart være nemmest at implementere, da størstedelen er software. Desværre er det kun muligt at opnå 7 farver: Rød, Grøn, blå, gul, magenta, cyan og hvid. Der ønskes altså en løsning, hvor et højere spektrum af farver er mulig at opnå.
+Det krav, der kommer til at vise sig ekstremt vigtigt og problematisk er kravet om, at hvert koplys skal kunne styres individuelt. En RGB-led har nemlig 4 ben, 1 ben til den røde farve, 1 ben til den grønne farve, 1 ben til den blå farve og 1 ben til katode/anode. Måden farven så styres på er, at man ved PWM ændrer spændingen på benene, og jo højere spænding jo kraftigere farve. Det er derfor intet problem at styre farverne på en LED, da der bare skal bruges 4 pins på PSoC'en, hvor en pin ved en transistor styrer om LED'en skal være tændt eller slukket og resten laver PWM. Men her bliver problemet også åbenlyst i det, der på hver playerside skal styres 6 forskellige lys. Hvis der altså ikke laves en anden løsning, så skal der bruges 24 pins bare til lys.\\
+
+\textbf{Løsninger}\\
+Problemet kan umiddelbart løses ved multiplexing, dog gør denne løsning hardwaren lidt svære, og softwaren en del svære. Essensen i løsningen med multiplexing er, at LED'erne tændes hver især så hurtigt at det for menneskelige øjne ligner at LED'en lyser konstant. På den måde kan der bruges en fælles pin til henholdsvis rød, grøn og blå til alle led'er, samt en konstant mængde pins til at stå for multiplexing. Det vil altså sige, at alle led'er kan styres af en konstant mængde pins, hvilket også åbner op for, at der kan tilføjes et vilkårligt antal led'er, uden påvirkning af brugen af PSoC pins. Denne måde vil dog stærkt påvirke styrken af lysene, da jo flere led'er jo længere tid mellem opdateringerne\\
+En anden måde til at kontrollere LED'erne, der blev taget i betragtning var det der kaldes Charlieplexing. Charlieplexing udnytter de 3 states på en microcontroller pin (High,Low,Input), til at kontrollere de givne LEDs. Denne metode ville helt klart være nemmest at implementere, da størstedelen er software. Desværre er det kun muligt at opnå 7 farver: Rød, Grøn, blå, gul, magenta, cyan og hvid. Der ønskes altså en løsning, hvor et højere spektrum af farver er mulig at opnå.\\
+Dem sidste løsning er at lave en ekstern PWM-generator på Controller-hardware, der kan styres gennem software med relativt få pins og evt. en kommunikationsprotokol. 
 
 \subsubsection{Styring ved multiplexing}
 Selvom denne løsning forkastes, så er den stadig medtaget, da det først efter en test blev klart, at man med denne metode også kun var i stand til at opnå 7 farver.\\\\
-Størstedelen af arbejdsbyrden ved multiplexing ligger i software, men der skal stadig laves nogle overvejelser omkring hardware design angående multiplexing, f.eks. hvilke komponenter, der skal bruges. Efter en gennemgang af tilgængelige komponenter, blev der valgt en 74HC595 IC\cite{datasheet_shiftreg}, som skal stå for at multiplexe LED'erne. IC'en er i sig selv ikke beregnet til opgaven da det er et serial-in-parallel-out shift-register, men lige netop denne funktionalitet kan sagtens anvendes til formålet, da man ved hjælp af relativt få pins kan styre mange outputs. Desværre har den samme minus som ved Charlieplexing, nemlig at der kun kan laves 7 farver i en RGB-led. Grunden til denne form for multiplexing er valgt over den enklere løsning med Charlieplexing er muligheden for at erstatte 74HC595 ic'en, med en TLC5940 IC istedet. Dette vil ikke ændrer designet særligt meget og det kræve ikke meget arbejde i software, da begge anvender SPI-kommunikation. Ud fra disse valg kan der laves et overordnet hardware design som kan ses i figur \ref{fig:CupLight_HW_Multiplexing}
+Størstedelen af arbejdsbyrden ved multiplexing ligger i software, men der skal stadig laves nogle overvejelser omkring hardware design hvis, der anvendes multiplexing gennem hardware. Det er f.eks. hvilke komponenter, der skal bruges. Efter en gennemgang af tilgængelige komponenter, blev der valgt en 74HC595 IC\cite{datasheet_shiftreg}, som skal stå for at multiplexe LED'erne. IC'en er i sig selv ikke beregnet til opgaven da det er et serial-in-parallel-out shift-register, men lige netop denne funktionalitet kan sagtens anvendes til formålet, da man ved hjælp af relativt få pins kan styre mange outputs. Desværre har den samme minus som ved Charlieplexing, nemlig at der kun kan laves 7 farver i en RGB-led. Ud fra disse valg kan der laves et overordnet hardware design som kan ses i figur \ref{fig:CupLight_HW_Multiplexing}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{HardwareDesign/CupLight/graphics/CupLight.png}

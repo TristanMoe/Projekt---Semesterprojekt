@@ -18,7 +18,6 @@ Nedenfor ses de vigtigste elementer fra de forskellige klasser. Ikke alle operat
 \textbf{Retur værdi:} ingen \\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
-
 %Default Destructor
 \textbf{~GameController()}
 \begin{adjustwidth}{1cm}{0pt}
@@ -27,7 +26,6 @@ Nedenfor ses de vigtigste elementer fra de forskellige klasser. Ikke alle operat
 \textbf{Retur værdi:} ingen \\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
-
 {\large\textbf{Metodebeskrivelser: GameController}}\\[0.2cm]
 \textbf{run(): void}
 \begin{adjustwidth}{1cm}{0pt}
@@ -42,7 +40,7 @@ Nedenfor ses de vigtigste elementer fra de forskellige klasser. Ikke alle operat
 \textbf{Beskrivelse:}  Get-metode for \textsc{UserInfo} om team1.\\[0.2cm]
 \textbf{Parametre:}ingen \\[0.2cm]
 \textbf{Retur værdi:}
-\lstinline{UserInfo\&}: Bruger information omkring team1.
+\lstinline{UserInfo&}: Bruger information omkring team1.
 \\[0.2cm]
 \textbf{Bivirkninger:} ingen\\[0.2cm]
 \end{adjustwidth}
@@ -52,7 +50,7 @@ Nedenfor ses de vigtigste elementer fra de forskellige klasser. Ikke alle operat
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:}  Get-metode for \textsc{UserInfo} om team2.\\[0.2cm]
 \textbf{Parametre:}ingen \\[0.2cm]
-\textbf{Retur værdi:} \lstinline{UserInfo\&}: Bruger information omkring team2.
+\textbf{Retur værdi:} \lstinline{UserInfo&}: Bruger information omkring team2.
 \\[0.2cm]
 \textbf{Bivirkninger:} ingen\\[0.2cm]
 \end{adjustwidth}
@@ -135,7 +133,7 @@ Nedenfor ses de vigtigste elementer fra de forskellige klasser. Ikke alle operat
 \end{adjustwidth}
 
 %void handleWebPageResponse(WebPageResponse * msg);
-\textbf{handleWebPageResponse(WebPageResponse * msg}
+\textbf{handleWebPageResponse(WebPageResponse * msg)}
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Behandler alt data sendt fra WebPage gennem et nedarvet Message objekt - specifikt to UserInfo objekter, som indeholder den data, brugeren har indtastet\\[0.2cm]
 \textbf{Retur værdi:} ingen \\[0.2cm]
@@ -221,7 +219,7 @@ Nedenfor ses de vigtigste elementer fra de forskellige klasser. Ikke alle operat
 {\large\textbf{Constructors : PlayersideRead}}\\[0.2cm]
 \textbf{PlayersideRead(const char * filename, MsgQueue * GameControllerQueue, int playerside)}
 \begin{adjustwidth}{1cm}{0pt}
-\textit{Beskrivelse:} Initialisere associationen mellem GameControllers MsgQueue og PlayersideRead, samt tager filenavnet på den prædefineret node "/dev/playerside1" eller "/dev/playerside2", så den kan få adgang til dets filoperationer. Det erklæres også hvilke playerside instansen tilhører. \\[0.2cm]
+\textbf{Beskrivelse:} Initialisere associationen mellem GameControllers MsgQueue og PlayersideRead, samt tager filenavnet på den prædefineret node "/dev/playerside1" eller "/dev/playerside2", så den kan få adgang til dets filoperationer. Det erklæres også hvilke playerside instansen tilhører. \\[0.2cm]
 \textbf{Parametre:} 
 \begin{enumerate}
     \item \lstinline{const char * filename}: Pointer til prædefineret filnavn. 
@@ -236,7 +234,7 @@ Nedenfor ses de vigtigste elementer fra de forskellige klasser. Ikke alle operat
 %Virtual void translateMessage()
 \textbf{translateMessage(): void}
 \begin{adjustwidth}{1cm}{0pt}
-\textit{Beskrivelse:} Behandler data som modtages fra i2c\_interrupDriver'en - indirekte Playerside-enheden.\\[0.2cm]
+\textbf{Beskrivelse:} Behandler data som modtages fra i2c\_interrupDriver'en - indirekte Playerside-enheden.\\[0.2cm]
 \textbf{Parametre:}ingen \\[0.2cm]
 \textbf{Retur værdi:} ingen \\[0.2cm]
 \textbf{Bivirkninger:} \\[0.2cm]
@@ -246,7 +244,7 @@ Nedenfor ses de vigtigste elementer fra de forskellige klasser. Ikke alle operat
 {\large\textbf{Constructors : PlayersideWrite}}\\[0.2cm]
 \textbf{PlayersideWrite(const char * filename, int playerside)}
 \begin{adjustwidth}{1cm}{0pt}
-\textit{Beskrivelse:} Tager filenavnet på den prædefineret node "/dev/playerside1" eller "/dev/playerside2", så den kan få adgang til dets filoperationer. Det erklæres også hvilke playerside instansen tilhører. \\[0.2cm]
+\textbf{Beskrivelse:} Tager filenavnet på den prædefineret node "/dev/playerside1" eller "/dev/playerside2", så den kan få adgang til dets filoperationer. Det erklæres også hvilke playerside instansen tilhører. \\[0.2cm]
 \textbf{Parametre:}
 \begin{enumerate}
     \item \lstinline{const char * filename}: Pointer til prædefineret filnavn. 
@@ -259,7 +257,7 @@ Nedenfor ses de vigtigste elementer fra de forskellige klasser. Ikke alle operat
 {\large\textbf{Metodebeskrivelser: PlayersideWrite}}\\[0.2cm]
 \textbf{dispatchGameControllerRequests(unsigned long id, Message * msg) : void)}
 \begin{adjustwidth}{1cm}{0pt}
-\textit{Beskrivelse:} Dispatcher beskeder, der modtages i event-loopet, ud til deres handlers. Der modtages kun beskeder fra GameController\\[0.2cm]
+\textbf{Beskrivelse:} Dispatcher beskeder, der modtages i event-loopet, ud til deres handlers. Der modtages kun beskeder fra GameController\\[0.2cm]
 \textbf{Parametre:}
 \begin{itemize}
     \item \lstinline{unsigned long msgID}: ID'en på beskeden for at associere den med en besked nedarvning.
@@ -271,21 +269,22 @@ Nedenfor ses de vigtigste elementer fra de forskellige klasser. Ikke alle operat
 
 \textbf{handeIdleRequest() : void}
 \begin{adjustwidth}{1cm}{0pt}
-\textit{Beskrivelse:} Sender kommandoen Playerside.IDLE som er prædefineret i MsgProtocol - den nedarvede writeI2C-metode bruges til dette. Der er tilhørende handlers for de andre stadier, som sendes til Playerside.\\[0.2cm]
+\textbf{Beskrivelse:} Sender kommandoen Playerside.IDLE som er prædefineret i MsgProtocol - den nedarvede writeI2C-metode bruges til dette. Der er tilhørende handlers for de andre stadier, som sendes til Playerside.\\[0.2cm]
 \textbf{Parametre:} ingen \\[0.2cm]
 \textbf{Retur værdi:} ingen \\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
 \end{adjustwidth}
 
 \textbf{handleStartingRequest() : void}
+\begin{adjustwidth}{1cm}{0pt}
 \textit{Beskrivelse:} Sender kommandoen Playerside.IDLE som er prædefineret i MsgProtocol - den nedarvede writeI2C-metode bruges til dette. Der er tilhørende handlers for de andre stadier, som sendes til Playerside. Der sendes også farvekoderne MyColor og OpponentColor. \\[0.2cm]
 \textbf{Parametre:} ingen \\[0.2cm]
 \textbf{Retur værdi:} ingen \\[0.2cm]
 \textbf{Bivirkninger:} ingen \\[0.2cm]
+\end{adjustwidth}
 
 \subsection{MsgProtocol}
 {\large\textbf{Enumerationsbeskrivelse og Structs: MsgProtocol}}\\[0.2cm]
-
 \textbf{struct PlayersideMsg}
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{Beskrivelse:} Indeholder prædefineret kommando for Playerside beskeder \\[0.2cm]
@@ -350,6 +349,15 @@ Nedenfor ses de vigtigste elementer fra de forskellige klasser. Ikke alle operat
 	\item SERVICE = 115
 \end{itemize}
 \end{adjustwidth}
+
+
+\subsection{Display}
+\subsubsection{MainWindow Klassediagram \label{sec:GUI_klassediagram_doc}}
+\subfile{Softwaredesign/GUI/Documents/Klassediagram.tex}
+\subsubsection{Funktionsbeskrivelse\label{sec:GUI_funktionsbeskrivelse_doc}}
+\subfile{Softwaredesign/GUI/Documents/Funktions_beskrivelser.tex}
+\subsubsection{Ressourcebeskrivelse\label{sec:Ressourcebeskrivelse_doc}}
+\subfile{Softwaredesign/GUI/Documents/resource_beskrivelse.tex}
 \end{document}
 
 

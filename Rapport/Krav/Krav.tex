@@ -1,63 +1,62 @@
 \documentclass[Rapport/Rapport_main.tex]{subfiles}
 \begin{document}
 \section{Krav}
-I dette kapitel præsenteres de krav der er til Beer Pong-bordet. Der laves en beskrivelse af de regler for spillet, som der er defineret for lige netop dette Beer Pong-bord. Derudover laves en beskrivelse af funktionelle krav for bordet, hvori de forskellige brugstilfælde(Use Cases) forklares. Til sidst laves en beskrivelse af de ikke-funktionelle krav der er til bordet, altså de krav der beskriver bordets karakteristik fremfor bordets anvendelse. Til at starte med er det vigtigt at få defineret reglerne for spillet så de er afklarede. Her bruges mange definitioner fra Definitionslisten, så det er vigtigt at referere hertil.
-\subsection{Regler for Beer Pong bordet}
-Til at starte med skal bordet være klar til brug, hvilket er opfyldt ved, at bordet har kørt system rutinen \textit{start op}. Hvis bordet er klar til brug, så skal hvert \textit{hold} placere 6 kopper på hver side af bordet. Et \textit{hold} består af 2 brugere, og der er 2 \textit{hold} på hver deres side af bordet. Efter placeringen af kopper er \textit{spil præperationen} udført, og det er op til holdene at bestemme hvem, der starter med \textit{turen}.\\\\
-\textit{Spillet er i gang} nu, hvorefter hver spiller på det \textit{aktive hold} kaster en bold af gangen. Hvis kun en bold rammer i en af \textit{modstander holdets} kopper, så skal \textit{modstander holdet} drikke indholdet af denne kop. Hvis begge bolde rammer i 2 forskellige kopper, så drikkes indholdet af begge kopper. Hvis begge bolde rammer i samme kop, så drikkes denne kop, samt to vilkårlige kopper. Efter det \textit{aktive hold} har kastet deres bolde, er de ikke længere i besiddelse af boldene, og rollerne som aktivt- og modstander-hold bytter.\\\\
-Dette fortsætter indtil \textit{spillet er slut}, hvilket vil sige en af holdenes sidste kop er ramt. \textit{Det vindende hold} er så det hold, der rammer den sidste kop, og det vindende holds tilbageværende kopper drikkes af\textit{modstander holdet}. De er så det \textit{tabende hold}.\\\\
+I dette afsnit præsenteres de krav, der er til Beer Pong bordet. Der laves en beskrivelse af de regler for spillet, som er defineret for lige netop dette Beer Pong-bord. Derudover laves en beskrivelse af funktionelle krav for bordet, hvori de forskellige brugstilfælde (Use Cases) forklares. Til sidst laves en beskrivelse af de ikke-funktionelle krav, der er til bordet, altså de krav der beskriver bordets karakteristik fremfor bordets anvendelse. Til at starte med er det vigtigt at få defineret reglerne for spillet, så de er afklarede. Her bruges mange definitioner fra \textbf{Definitionslisten}, så det er vigtigt at referere hertil.
+\subsection{Regler for Beer Pong}\label{sec:rap_rules}
+Til at starte med skal bordet være klar til brug, hvilket er opfyldt ved, at bordet har kørt systemrutinen \textit{start op}. Hvis bordet er klar til brug, så skal hvert \textit{hold} placere 6 kopper på hver side af bordet. Et \textit{hold} består af 2 brugere, og der er 2 \textit{hold} på hver deres side af bordet. Efter placeringen af kopper er det op til holdene at bestemme hvem, der starter med \textit{turen}.\\\\
+\textit{Spillet er i gang} nu, hvorefter hver spiller på det \textit{aktive hold} kaster en bold ad gangen. Hvis kun en bold rammer i en af \textit{modstanderholdets} kopper, så skal \textit{modstanderholdet} drikke indholdet af denne kop. Hvis begge bolde rammer i 2 forskellige kopper, så drikkes indholdet af begge kopper. Hvis begge bolde rammer i samme kop, så drikkes denne kop, samt to vilkårlige kopper. Efter det \textit{aktive hold} har kastet deres bolde, er de ikke længere i besiddelse af boldene, og rollerne som aktivt- og modstander-hold bytter.\\\\
+Dette fortsætter indtil \textit{spillet er slut}, hvilket vil sige, at en af holdenes sidste kop er ramt. \textit{Vinderholdet} er det hold, der rammer den sidste kop, og det \textit{vinderholdets} tilbageværende kopper drikkes af \textit{taberholdet}.\\\\
 Nu hvor reglerne er definerede, kan man begynde at gå i dybden med, hvordan Beer Pong bordet skal anvendes, hvilket er beskrevet gennem de funktionelle krav for bordet.
 
 \subsection{Funktionelle krav}
 I dette afsnit beskrives det funktionelle aspekt af bordet, hvem aktørerne til bordet er, og hvordan bordet anvendes.
 \subsubsection{Aktører}
-Til at starte med er det værd at definere, hvem der kommer til at anvende bordet og hvad der kommer til at påvirke det. Derfor er der som det første et Aktør-kontekst diagram, der beskriver dette, som kan ses på figur \ref{fig:rap_actor_context}.
+Til at starte med er det værd at definere, hvem der kommer til at anvende bordet og hvad der kommer til at påvirke det. Derfor er der som det første et aktør-kontekst diagram, der beskriver dette, som kan ses på figur \ref{fig:rap_actor_context}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth,trim={0.24in 0.24in 0.24in 0.24in},clip, page=1]{Kravspecifikation/Funktionelle_krav/graphics_funktionel/Krav-spec-diagrammer.pdf}
     \caption{Aktør kontekst diagram for systemet}
     \label{fig:rap_actor_context}
 \end{figure}
-Af figur \ref{fig:rap_actor_context} ses de primære aktører til venstre, der skal symbolisere de to \textit{hold} der \textit{spiller} på bordet. Til højre ses de sekundære aktører, der er de andre udefra kommende ting der interagere med systemet. Disse sekundære aktører er valgt ud fra deres indflydelse på systemet. Indflydelsen af en \textit{mønt} er at den starter spillet. En \textit{kop} skal registreres om den fjernes eller sættes på bordet. Der skal registreres om \textit{bolde} rammer i koppen og antallet af dem i en dispenser. Til sidst er der en \textit{arbejder}, der står for påfyldning af bolde på bordet. Nu hvor aktørerne til systemet er kendt, kan der i de næste afsnit kigges på brugssituationer og anvendelser af bordet.
+Af figur \ref{fig:rap_actor_context} ses de primære aktører til venstre, der skal symbolisere de to \textit{hold} der \textit{spiller} på bordet. Til højre ses de sekundære aktører, der er de andre udefrakommende ting, der interagerer med systemet. Disse sekundære aktører er valgt ud fra deres indflydelse på systemet. Indflydelsen af en \textit{mønt} er, at den starter spillet. En \textit{kop} skal registreres, om den fjernes eller sættes på bordet. Der skal registreres, om \textit{bolde} rammer i koppen og antallet af dem i en dispenser. Til sidst er der en \textit{arbejder}, der står for påfyldning af bolde på bordet.\\
+Nu hvor aktørerne til systemet er kendt, kan der i de næste afsnit kigges på brugssituationer og anvendelser af bordet.
 
 \subsubsection{Use Cases} \label{sec:rap_use_cases}
-Til Beer Pong-bordet er der defineret 4 Use Cases, hvor 3 af dem omhandler selve spillet, og den sidste er service på bordet. Til overskueliggørelse af dette er der lavet et Use case diagram, der kan ses i figur \ref{fig:rap_uc_diagram}.
+Til Beer Pong-bordet er der defineret 4 Use Cases, hvor 3 af dem omhandler selve spillet, der er beskrevet i afsnit \fullref{sec:rap_rules}, og den sidste omhandler service på bordet. Til overskueliggørelse af dette er der lavet et Use Case diagram, der kan ses i figur \ref{fig:rap_uc_diagram}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth,trim={0.24in 0.24in 0.24in 0.24in},clip, page=2]{Kravspecifikation/Funktionelle_krav/graphics_funktionel/Krav-spec-diagrammer.pdf}
     \caption{Use Case diagram for systemet}
     \label{fig:rap_uc_diagram}
 \end{figure}
-Figur \ref{fig:rap_uc_diagram} viser de forskellige sammenhæng mellem aktørerne og use cases, hvorved der nu kan laves en beskrivelse af, hvad use casene egentlig er. Efter use cases er beskrevet kort, så laves der et flow chart, der viser flowet af spillet, altså UC1-UC3. \\\\
+Figur \ref{fig:rap_uc_diagram} viser de forskellige sammenhænge mellem aktørerne og use cases, hvorved der nu kan laves en beskrivelse af, hvad use casene egentlig er. Efter use cases er beskrevet kort, så laves der et flow chart, der viser flowet af spillet, altså UC1-UC3. De fully dressed Use Cases kan findes i afsnit \fullref{kravspec:sec:usecases} i bilag \textbf{Kravspecifikation}.\\\\
 \textbf{Use Case 1: Start Game}\\
-Denne use case handler for et \textit{aktiv hold} om, hvad der skal til for at \textit{starte et spil} Beer Pong på bordet. Holdet indsætter en \textit{mønt} i bolddispenser, hvorved holdet modtager 2 \textit{bolde}. Det aktive hold placerer nu egne \textit{kopper} på de indikerede pladser på bordet. Efter placeringen af kopper indtaster den aktive bruger \textit{spiller oplysninger} . Når det aktive hold trykker på start spil \textit{er spillet igang}.\\
-Der er nogle undtagelser for denne use case. Hvis det aktive hold indsætter en mønt, der ikke er i overensstemmelse med de ikke-funktionelle krav, så returneres den. Derudover hvis der ikke er bolde i systemet, så frigives mønten også. Den fully dressed use case 1 kan ses i kravspecifikationen \fullref{kravspec:sec:uc_1_start_game}.\\\\
+Denne Use Case handler for et \textit{aktivt hold} om, hvad der skal til for at starte et spil Beer Pong på bordet. Holdet indsætter en \textit{mønt} i bolddispenser, hvorved holdet modtager 2 \textit{bolde}. Det aktive hold placerer nu egne \textit{kopper} på de indikerede pladser på bordet. Efter placeringen af kopper indtaster det aktive hold \textit{spilleroplysninger} på en hjemmeside. Når det aktive hold trykker på start spil \textit{er spillet i gang}.\\
+Der er nogle undtagelser for denne use case. Hvis det aktive hold indsætter en mønt, der ikke er i overensstemmelse med de \textbf{ikke-funktionelle krav}\ref{sec:rap_ikke_funktionelle_krav}, så frigives den. Derudover gælder det, at hvis der ikke er bolde i systemet, så frigives mønten også.\\\\
 \textbf{Use Case 2: Play turn}\\
-Denne use case beskriver den primære del af spillet. Her spiller holdene  deres tur ved at kaste begge holdets bolde.  Efter boldene er kastet skifter \textit{turen} til det modsatte hold. Hvis et \textit{Game Event} forekommer, så reagere systemet i forhold til dette. Denne use case 
-Den fully dressed use case 2 kan ses i kravspecifikationen \fullref{kravspec:sec:uc_2_play_turn}.\\\\
+Denne Use Case beskriver den primære del af spillet. Her spiller holdene  deres tur ved at kaste begge holdets bolde.  Efter boldene er kastet, skifter \textit{turen} til det modsatte hold. Hvis et \textit{Game Event} forekommer, så reagerer systemet i forhold til dette.\\\\
 \textbf{Use Case 3: End Game}\\
-Denne use case initieres ved at den sidste kop er ramt altså \textit{spillet er slut}. Når altså et hold fjerner deres sidste kop, så opdateres systemet i forhold til \textit{det vindende-} og \textit{det tabende}-hold.Den fully dressed use case 3 kan ses i kravspecifikationen \fullref{kravspec:sec:uc_3_end_game}.\\\\
+Denne Use Case initieres ved, at den sidste kop er ramt, altså \textit{spillet er slut}. Når et hold fjerner deres sidste kop, så opdateres systemet i forhold til \textit{vinderholdet} og \textit{vinderholdet}.\\\\
 \textbf{Use Case 4: Refill Balls}\\
-Den sidste Use Case omhandler service på systemet, der skal udføres af en \textit{medarbejder}. \textit{Medarbejderens} opgave i denne use case er at genopfylde systemet med nok bolde til at et spil kan starte. Use casen starter ved at systemet indikerer overfor \textit{Medarbejderen}, at der er mangel på bolde. Herefter åbner medarbejderen for bolddispenser og påfylder bolde indtil systemet indikere, der ikke mangler flere bolde eller bolddispenseren er fuld.Den fully dressed use case 4 kan ses i kravspecifikationen \fullref{kravspec:sec:uc_4_refill_balls}\\\\
+Den sidste Use Case omhandler service på systemet, der skal udføres af en \textit{medarbejder}. \textit{Medarbejderens} opgave i denne Use Case er at genopfylde systemet med nok bolde til, at et spil kan starte. Use Casen starter ved, at systemet indikerer overfor \textit{Medarbejderen}, at der er mangel på bolde. Herefter åbner medarbejderen for bolddispenser og påfylder bolde, indtil systemet indikerer, der ikke mangler flere bolde, eller bolddispenseren er fuld.\\\\
 Nu hvor systemets funktionalitet og anvendelse er på plads, så kan der laves et overordnet flow af systemet, som det ses fra holdenes synspunkt af. Det kan ses i et flow chart diagram, på figur \ref{fig:rap_beer_pong_flow}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Kravspecifikation/Flowchart/pics/Beerpongflowchart.png}
-    \caption{Flow Chart diagram for et spil Beer Pong}
+    \caption{Flow Chart diagram med oversigt over Use Cases for et spil Beer Pong}
     \label{fig:rap_beer_pong_flow}
 \end{figure}
-Af figur \ref{fig:rap_beer_pong_flow} ses også, hvad use casene indeholder og hvordan flowet af en anvendelse af bordet er.\\\\
 Funktionalitet og anvendelse af systemet er nu defineret, så der kan derfor kigges på de ikke-funktionelle krav for systemet.
 
-\subsection{Ikke-funktionelle krav}
-De vigtigste \textit{ikke-funktionelle krav}, der tages ud fra \fullref{kravspec:sec:ikke_funktionelle_krav}, omhandler de sekundære aktører. Det vil altså sige de vigtigste krav for brugerens synspunkt er dem for \textit{mønt}, \textit{bold} og \textit{kop}. Kravene til de sekundære aktører ses oplistet herunder. \\\
+\subsection{Ikke-funktionelle krav}\label{sec:rap_ikke_funktionelle_krav}
+De vigtigste \textit{ikke-funktionelle krav}, der tages ud fra afsnit \fullref{kravspec:sec:ikke_funktionelle_krav} af \textbf{Kravspecifikationen}, omhandler de sekundære aktører. Det vil altså sige, de vigtigste krav fra brugerens synspunkt er dem for \textit{mønt}, \textit{bold} og \textit{kop}. Kravene til de sekundære aktører ses oplistet herunder. \\\
 \textbf{Ikke-funktionelle krav for Mønt}
 \begin{itemize}
-    \item Mønten skal være af typen, dansk 5 krone\cite{fiveKrCoin}. Ellers skal den afvises.
+    \item Mønten skal være af typen, dansk 5-krone\cite{fiveKrCoin}. Ellers skal den afvises.
 \end{itemize}
 \textbf{Ikke-funktionelle krav for Bold}
 \begin{itemize}
-    \item Bolden skal være en almindelig hvid bordtennis bold\cite{pingpongball}.
+    \item Bolden skal være en almindelig hvid bordtennisbold\cite{pingpongball}.
     \item Bolden skal have en diameter på $40mm \pm{1mm}$.
 \end{itemize}
 \textbf{Ikke-funktionelle krav for Kop} 
@@ -66,8 +65,8 @@ De vigtigste \textit{ikke-funktionelle krav}, der tages ud fra \fullref{kravspec
     \item Kopperne skal have en øvre diameter på $94mm \pm{3mm}$.
     \item Kopperne skal have en nedre diameter på $65 \pm{3mm}$
     \item Kopperne skal have en højde på $120mm \pm{5mm}$.
-\end{itemize}\\
-Udover disse ikke-funktionelle krav er det også værd at kigge på de rige skitser, der er lavet i forbindelse med systemet. Skitserne er lavet for at få defineret, hvordan vigtige dele af systemet skal se ud. Der er lavet skitser for forskellig UI skal se ud, f.eks. en kop holder, der kan ses af figur \ref{fig:rap_LEDplacement}.
+\end{itemize}
+Udover disse ikke-funktionelle krav er det også værd at kigge på de rige skitser, der er lavet i forbindelse med systemet. Skitserne er lavet for at få defineret, hvordan vigtige dele af systemet skal se ud. Der er lavet skitser for, hvordan de forskellige UI's skal se ud, f.eks. en kopholder, der kan ses af figur \ref{fig:rap_LEDplacement}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth,trim={2in 0.4in 2in 1.3in},clip, page=1]{Kravspecifikation/Ikke-funktionelle/graphics/LEDplacement.pdf}
@@ -75,15 +74,14 @@ Udover disse ikke-funktionelle krav er det også værd at kigge på de rige skit
     \label{fig:rap_LEDplacement}
 \end{figure}
 Af denne figur ses led'ernes placering, der stemmer overens med de specificerede mål på en kop, for at give den bedste lyseffekt i den gennemsigtige kop.\\\\
-Der er også lavet et design for WebPage, hvor brugeren indtaster \textit{spiller oplysninger}. Denne kan ses af figur \ref{fig:rap_webpage_sketch}.
+Der er også lavet en designskitse for den WebPage, hvor brugeren indtaster \textit{spilleroplysninger}. Denne kan ses af figur \ref{fig:rap_webpage_sketch}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{Kravspecifikation/Ikke-funktionelle/graphics/WebPage_IF.png}
-    \caption{Skitse af grænsefladen for WebPage}
+    \caption{Skitse af grænsefladen for WebPage, der anvendes i use casen \textit{UC1: Start Game}}
    \label{fig:rap_webpage_sketch}
 \end{figure}
-
-Her ses den webpage, der anvendes i use casen \textit{UC1: Start Game}, hvor det kan ses, de forskellige felter til indtastning af spillerbrugernavne, holdnavne og trackbars til valg af holdfarve, samt en knap til start af spillet.
+Nu hvor Projektet er præsenteret og forklaret, så er det vigtigt at tydeliggøre de dele, der ikke inkluderes i den endelige prototype.
 
 \end{document}

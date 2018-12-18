@@ -1,9 +1,9 @@
 \documentclass[Integrationstest/Integrationstest_main.tex]{subfiles}
 \begin{document}
 
-\section{Integrationstest Playerside}
+\section{Integrationstest Playerside}\label{sec:integration_playerside}
 \subsection{Introduktion}
-Dette afsnit beskriver den integration og de tests mellem undermodulerne, der har lavet for PlayerSide-modulet. PlayerSide-modulet består henholdt systemarkitekturen af følgende hardware moduler: 
+Dette afsnit beskriver den integration og de tests mellem undermodulerne, der har lavet for PlayerSide-modulet. PlayerSide-modulet består henholdt systemarkitekturen af følgende hardware moduler:
 \begin{itemize}
     \item 6 CupHolders, hver bestående af 
     \begin{itemize}
@@ -24,7 +24,7 @@ Følgende software moduler skulle også integreres til et samlet modul:
 \end{itemize}
 
 
-\subsection{Integration mellem GameController og CupLight}
+\subsection{Integrationstest mellem GameController og CupLight}
 Det blev først besluttet at lave integrationen mellem GameController og CupLight, da det på denne måde var muligt at få visuelt feedback på sekvensen af GameController. Denne form for integration kan siges at være top-down.  Derudover var det også muligt at simulere states fra RPi gennem brug af WaveForms Protocol funktionen. 
 \subsubsection{Testopstilling}
 Til integrationstesten blev der anvendt CupHolder prototypen set på figur \ref{fig:Cupholder_integration}
@@ -57,16 +57,10 @@ Denne test blev foretaget ved at gennemløbe de forskellige states i GameControl
 \subsubsection{Resultater}
 Testresultaterne viste at ved at stubbe forskellige sensor og I2C inputs, så resulterede det i de forventede farve kombinationer, som forklaret i fremgangsmetoden. Disse farvekombinationer vises ikke  i dette afsnit, men kan ses i funktion med sensoren i næste afsnit.
 
-\subsection{Integration med CupSensor}
+\subsection{Integrationstest med CupSensor}
 Næste skridt i integrationen var så at integrere kopsensoren med de to allerede integrerede moduler. 
 \subsubsection{Testopstilling}
-Til integrationstesten blev der anvendt en samlet testopstilling, hvor de tidligere nævnte dele gik igen, sammen med et filter til sensoren. Dette kan ses på figur \ref{}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{}
-    \caption{Integrationstest af den fulde implementering}
-    \label{fig:int_PSoC_full}
-\end{figure}
+Til integrationstesten blev der anvendt en samlet testopstilling, hvor de tidligere nævnte dele gik igen, sammen med et filter til sensoren.
 
 \subsubsection{Fremgangsmetoden for test}
 Igen blev testene foretaget, ved states blev kontrolleret af de I2C beskeder, der blev sendt fra AnalogDiscovery. Denne gang kunne states testes,\textit{Starting}, \textit{won} og et \textit{Loss} testes fuldt ud for PSoC idet sensoren kunne give inputs. Til denne test blev der igen anvendt default farver \lstinline|missingCupColor={255,0,0}|(Rød), \lstinline|placedCupColor={0,0,255}|(Blå), \lstinline|myColor={255,0,255}|(Lilla) og \lstinline|opponentColor={0,255,255}|(Cyan). 
@@ -146,7 +140,7 @@ Der skal også skiftes state til \textit{Lost}. Der testes på samme måde som \
 \end{figure}
 
 
-\subsection{Integration med RPi\_IF}
+\subsection{Integrationstest med RPi\_IF}
 Der skulle også testes integration i forhold til om  data der følger protokollen blev sendt fra PSoC-playerside til RPi på de rigtige tidspunkter. Dette modul var i princippet allerede testet med GameController, men det skulle verificeres at det stadig virker.
 
 \subsubsection{Testopstilling}
@@ -159,7 +153,7 @@ Testene blev foretaget ved at tjekke om det rigtige data blev sendt i forhold ti
 Da modultesten for RPI\_IF allerede har testet protokollen, og der ingen ændringer var i forhold til denne, så beskrives den ikke yderligere end at konstatere at resultaterne var de samme.
 
 
-\subsection{Reflektion}
+\subsection{Refleksion}
 Af de foregående resultat afsnit ses det, at systemet fungere i forbindelse med hvilket lys, der bliver vist, i forbindelse med den detektering af events  ved placering af, fjernelse af og bold i kop, samt systemets navigation mellem states.
 
 I integrationstesten har der været flere små fejl, der har forstyrret integreringen mellem de forskellige komponenter. Startes der med den største fejl, så blev den tydelig da der blev læst CupStatus via I2C kommunikation fra PSoC. Der skete en fejl, hvor at der blev modtaget forkert data i forhold til det forventede. Denne fejl blev isoleret til, at da der blev kombineret mange forskellige interrupts, og de havde samme prioritet, så skabte det en fejl, hvor I2C blev interruptet midt i sit eget. Denne fejl blev umiddelbart løst ved at ændre prioriteterne af de forskellige interrupts til noget fornuftigt. Det dumme ved dette er, at vi flere gange inden har haft prioriteterne oppe og diskutere, men dette blev bare glemt under selve intergreringen. De valgte prioriteter ses i figur \ref{fig:int_interrupt_priorities}, hvor lavt tal er høj prioritet.

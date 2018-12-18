@@ -8,7 +8,7 @@
 }
 \lstset{style=customc}
 
-\section{Integrationstest mellem Playerside}
+\section{Integrationstest Playerside og RPiApp}
 \subsection{Introduktion}
 I dette afsnit beskrives intregationstesten mellem to Playersides og RPi'en. Her testes kommunikationen mellem Playerside og RPi, specifikt at alle protokol beskeder kan modtages og sendes korrekt. Til testningen bruges en tidlig udgave af RPiAppen. 
 \subsection{Integrationstest mellem Playerside og RPiApp}
@@ -103,7 +103,7 @@ PS_WRITE2: STATE LOST
 PS_WRITE1: STATE WON
 \end{verbatim}
 
-\subsection{Reflektion}
+\subsection{Refleksion}
 Vi havde forventet en del uventede resultater, når det kom til at læse og skrive fra RPi'en. Da de bruger samme I2C-bus er det afgørende at de ikke læser eller skriver samtidigt. Der opstod af flere omgange problemer at sende multiple beskeder samtidigt, da der ikke var nogen kontrol over hvornår en skrive-operation var ovre. Dette blev dog fikset ved at implementere en blokerende funktion i driveren - kun en kan skrive og læse på i2c-bussen af gangen. \\\\
 Det kan ses i både figur \ref{fig:test_Playerside_terminal} og \ref{fig:test_Playerside_analog} at begge Playersides modtager det korrekte - i denne simulation taber Playerside 1 og Playerside 2 vinner. Figur \ref{fig:test_Playerside_analog} viser også målingerne taget fra Analog Discovery, her ses det også at de korrekte værdier bliver sendt og stemmer overens med protokollen.
 \subsection{Konklusion}

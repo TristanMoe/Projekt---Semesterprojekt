@@ -359,7 +359,7 @@ Displayet viser konstant spillets status og fortæller brugerne hvad de skal gø
 
 \textbf{Tilstandsmaskine: GameController}\\
 Tilstandsmaskinen for GameController afspejler spillets gang. GameController skifter tilstand i forhold til de input den får givet fra PSOC-enhederne. Når den går ind i en given tilstand notificerer den alle boundary klasserne om dets tilstandsskifte - dette symboliseres ved funktionerne "SystemPlaying()", "SystemIdle()" osv. \\\\
-GameController afspejler også hele systemets tilstand:
+GameController afspejler også alle systemets tilstande:
 \begin{enumerate}
     \item IDLE: Send "IDLE"-tilstandsbesked til Playersides. Åben for møntmodtageren, tænd for displayet og vis tilhørende skærmbillede. 
     \item STARTING: Send "STARTING"-tilstandsbesked til Playersides. Luk for møntmodtager og vis tilhørende skærmbillede på displayet. Skal håndtere information om ny kop placering fra Playersides. Skal vente på bruger data fra WebPage. 

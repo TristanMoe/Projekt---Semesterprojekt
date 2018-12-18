@@ -32,9 +32,12 @@ HandleDisplayShowInfo funktionen sætter infotext til,  at være en bebsked som 
 \textbf{HandleDisplayPlaying }
 HandleDisplayPlaying funktionen starter som det første med, at sætte MainWindow's style sheet, til at være lig med gameboard sheet'et.  Derefter køres et forloop som sætter alle kopperne lig med at være "on", så spillet er nu startet. Til sidst sættes infotext også til at være blank,  Dette gøres ved at til "ui" objekt som har adgang til info tekst objektet. 
 
+\textbf{HandleSerivce}
+HandleServie funktionen sætter alle tekst strenge til være tomme. Derefter skiftes der til et billede, som fortæller der er brug for service.
+
 \textbf{HandleDisplayUpdateCups}
 HandleDisplayUpdateCups funktionen tager to argumenter :  en DisplayRequest pointer og en DisplayWindow pointer.  DisplayRequest pointeren anvendes til at få oplysninger fra beskeden,  om hvilken playside der skal arbejdes på. Efterfølgende bruges DisplayWindow pointeren  til at få information fra beskeden, om hvilke kopper som er "on" og hvilke er "off". 
-
+ 
 \textbf{HandleUpdateWin}
 HandleUpdateWin funktionen tager et argument: en EndGameCfm pointer. Denne pointer bruges til at finde frem til hvilken side som har tabt. Ud fra det skifter MainWinodw til en "Win" state, som viser en tekst som kontratulere den vindende side.  
 

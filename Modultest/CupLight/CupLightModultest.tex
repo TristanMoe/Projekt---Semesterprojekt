@@ -1,6 +1,6 @@
 \documentclass[Modultest/Modultest_main.tex]{subfiles}
 \begin{document}
-\section{CupLight Modultest}\label{sec:cuplight_test}
+\section{CupLight}\label{sec:cuplight_test}
 Dette afsnit omhandler Modultest af alt, der har med lys og lysstyring at gøre. I de følgende underafsnit vil der laves modultest for software modulet, og et samlet modultest, der anvender CupLight\_IF til at styre noget hardware.
 
 \subsection{Modultest af ShiftRegPWM}
@@ -8,7 +8,7 @@ Startes der ud med at lave en modultest af ShiftRegPWM software modulet, så kun
 \subsection{Test opstilling for ShiftRegPWM}
 Som teststub/testbench blev der anvendt et program, der bruger UART-komponent på PSoC'en, så forskellige tests kan foretages real time uden for meget modificering af kode. Koden til dette kan ses i listing \ref{lst:ShiftRegPWM_Test}
 
-\begin{lstlisting}[caption={Test program for ShiftRegPWM}, label={lst:ShiftRegPWM_Test}]
+\begin{lstlisting}[caption={Test program for ShiftRegPWM}, label={lst:ShiftRegPWM_Test}, style=customc]
 #include "project.h"
 #include "ShiftRegPWM.h"
 
@@ -132,13 +132,11 @@ I figur \ref{fig:test_50_pin_0}, ses testen for at skrive værdien 50 til pin 0,
     \caption{Test af setPin(0,50)}
     \label{fig:test_50_pin_0}
 \end{figure}
-Her aflæses det at PWM-signalet er tændt i 1.39ms ud af varigheden af en periode på  7.03 ms. Der kan altså her laves en beregning af den målte duty cycle ($dc_m$) og den forventede duty cycle ($dc_e$)
-\begin{subequation}
-\begin{align}
-    \%dc_m=\frac{1.39ms}{7.03ms}\cdot 100\% = 19.8\%
-    \\\%dc_e=\frac{50}{255}\cdot 100\% = 19.6\%
-\end{align}
-\end{subequation}
+Her aflæses det at PWM-signalet er tændt i 1.39ms ud af varigheden af en periode på  7.03 ms. Der kan altså her laves en beregning af den målte duty cycle ($dc_m$) og den forventede duty cycle ($dc_e$).\\
+
+    $$\%dc_m=\frac{1.39ms}{7.03ms}\cdot 100\% = 19.8\%$$\\
+    $$\%dc_e=\frac{50}{255}\cdot 100\% = 19.6\%$$\\
+    
 Det ses af ovenstående beregning at der er en forskel på +0.2\%  mellem den målte duty-cycle og den forventede duty-cycle.
 \\Det andet man kan se af figuren er at frekvensen på PWM signalet er på $F_{pwm}=\frac{1}{7.03ms}=141Hz$. Denne frekvens er meget tilfredsstillende, da den blinker med en frekvens, der er høj nok til, at den ikke kan ses af mennesker. Det der er værd at medtage fra dette er, at frekvensen ikke kan bankes i vejret, da duty-cyclen på interrupt service rutinen vil blive større og derved vil, der ikke være time-slices nok for andre ting at køre. Derudover kan den heller ikke gøres meget mindre, da mennesker kan se frekvenser <60Hz. Dog er det værd at være opmærksom på, at der muligvis stadig kan hentes lidt her, hvis time-slices bliver et problem.
 
@@ -149,13 +147,9 @@ I figur \ref{fig:test_100_pin_0}, ses testen for at skrive værdien 100 til pin 
     \caption{Test af setPin(0,100)}
     \label{fig:test_100_pin_0}
 \end{figure}
-Endnu en gang laves der en beregning mellem den målte og forventede duty-cycle,
-\begin{subequation}
-\begin{align}
-    \%dc_m=\frac{2.73ms}{7.03}\cdot 100\% = 38.8\%
-    \\\%dc_e=\frac{100}{255}\cdot 100\% = 39.2\%
-\end{align}
-\end{subequation}
+Endnu en gang laves der en beregning mellem den målte og forventede duty-cycle:\\
+    $$\%dc_m=\frac{2.73ms}{7.03}\cdot 100\% = 38.8\%$$\\
+    $$\%dc_e=\frac{100}{255}\cdot 100\% = 39.2\%$$\\
 Her ses det, at den forventede og målte er forskellige med -0.4\%, når der skrives værdien 100 til pin 0.
 
 I figur \ref{fig:test_150_pin_0}, ses testen for at skrive værdien 150 til pin 0.
@@ -165,13 +159,9 @@ I figur \ref{fig:test_150_pin_0}, ses testen for at skrive værdien 150 til pin 
     \caption{Test af setPin(0,150)}
     \label{fig:test_150_pin_0}
 \end{figure}
-Beregning af målt og forventet duty-cycle ses her.
-\begin{subequation}
-\begin{align}
-    \%dc_m=\frac{4.13ms}{7.03ms}\cdot 100\% = 58.7\%
-    \\\%dc_e=\frac{150}{255}\cdot 100\% = 58.8\%
-\end{align}
-\end{subequation}
+Beregning af målt og forventet duty-cycle ses her.\\
+    $$\%dc_m=\frac{4.13ms}{7.03ms}\cdot 100\% = 58.7\%$$\\
+    $$\%dc_e=\frac{150}{255}\cdot 100\% = 58.8\%$$\\
 Her ses at der er en forskel på +0.1\% mellem den målte og den forventede duty-cycle.
 
 I figur \ref{fig:test_200_pin_0}, ses testen for at skrive værdien 200 til pin 0.
@@ -181,13 +171,9 @@ I figur \ref{fig:test_200_pin_0}, ses testen for at skrive værdien 200 til pin 
     \caption{Test af setPin(0,200)}
     \label{fig:test_200_pin_0}
 \end{figure}
-Igen laves en beregning mellem målt og forventet duty-cycle.
-\begin{subequation}
-\begin{align}
-    \%dc_m=\frac{5.51ms}{7.03}\cdot 100\% = 78.4\%
-    \\\%dc_e=\frac{200}{255}\cdot 100\% = 78.4\%
-\end{align}
-\end{subequation}
+Igen laves en beregning mellem målt og forventet duty-cycle.\\
+    $$\%dc_m=\frac{5.51ms}{7.03}\cdot 100\% = 78.4\%$$\\
+    $$\%dc_e=\frac{200}{255}\cdot 100\% = 78.4\%$$\\
 Der findes, at der er en forskel på 0.0\% mellem den målte og forventede duty-cycle.
 
 I figur \ref{fig:test_250_pin_0}, ses testen for at skrive værdien 250 til pin 0.
@@ -197,12 +183,8 @@ I figur \ref{fig:test_250_pin_0}, ses testen for at skrive værdien 250 til pin 
     \caption{Test af setPin(0,250)}
     \label{fig:test_250_pin_0}
 \end{figure}
-\begin{subequation}
-\begin{align}
-    \%dc_m=\frac{6.89ms}{7.03}\cdot 100\% = 98.0\%
-    \\\%dc_e=\frac{250}{255}\cdot 100\% = 98.0\%
-\end{align}
-\end{subequation}
+    $$\%dc_m=\frac{6.89ms}{7.03}\cdot 100\% = 98.0\%$$\\
+    $$\%dc_e=\frac{250}{255}\cdot 100\% = 98.0\%$$\\
 Her ses at det, at den målte og forventede duty cycle er den samme.
 
 I tabelen herunder ses alle målinger samlet, hvor den procentvise difference også er fundet.
@@ -226,7 +208,7 @@ Den måling med størst afvigelse testes flere gange ved at genstarte PSoC, sæt
 
 
 
-Der laves også en beregning af rise time for PWM-signalet.  Beregningen blev foretaget med et pwm-signal på 50\% dc.  Først laves der en måling på output pin af 74HC595, som det kan ses af figur \ref{cuplight_rise}.
+Der laves også en beregning af rise time for PWM-signalet.  Beregningen blev foretaget med et pwm-signal på 50\% dc.  Først laves der en måling på output pin af 74HC595, som det kan ses af figur \ref{fig:cuplight_rise}.
 
 \begin{figure}[H]
     \centering
@@ -236,7 +218,7 @@ Der laves også en beregning af rise time for PWM-signalet.  Beregningen blev fo
 \end{figure}
 
 Af figur \ref{fig:cuplight_rise} ses det, at der på output pin af 74HC595 er et PWM-signal med en rise time på 21.9 ns. 
-\\Herefter forbindes den testede pin til et transistor kredsløb som, det ses i hardware designet for den røde LED. Rise time kan nu testes i forhold til det, der når ud på LED'en. Denne måling kan ses i figur \ref{cuplight_rise_transistor}.
+\\Herefter forbindes den testede pin til et transistor kredsløb som, det ses i hardware designet for den røde LED. Rise time kan nu testes i forhold til det, der når ud på LED'en. Denne måling kan ses i figur \ref{fig:cuplight_rise_transistor}.
 
 \begin{figure}[H]
     \centering
@@ -248,7 +230,7 @@ Af figur \ref{fig:cuplight_rise} ses det, at der på output pin af 74HC595 er et
 På denne måling ses det først og fremmest at forward spænding af det, der ville være den rød led er 2.05V. Derudover ses det også at rise time på LED'en er 65.6 ns.
 
 Da controlleren for PSoC skal kunne håndtere flere interrupts service rutine, er det også relevant at teste varigheden af interrupt service rutinen til opdatering. Det er især relevant fordi interrupt service rutinen for lyset er rimelig heavy duty, da den kaldes mange gange i sekundet. Måden det blev testet på var at sætte en pin høj, ved indgangen til interrupt rutinen og sætte den lav igen ved udgangen af interrupt rutinen. Koden for dette ses i listing \ref{lst:isr_length_code}
-\begin{lstlisting}[caption={Kode for at teste længden af interrupt service rutinen}, label={lst:isr_length_code}]
+\begin{lstlisting}[caption={Kode for at teste længden af interrupt service rutinen}, label={lst:isr_length_code},style=customc]
 CY_ISR(updater_handler)
 {
     Pin_update_time_Write(1);
@@ -273,7 +255,7 @@ Efter af have testet, at ShiftRegPWM modulet leverede et tilfredsstillende PWM-s
 \subsection{Test opstilling for ShiftRegPWM}
 Til at teste CupLight\_IF blev, der igen anvendt et testprogram, der principielt minder ufatteligt meget om det forrige. Det anvendte testprogram kan ses i listing \ref{lst:CupLight_Test}.
 
-\begin{lstlisting}[caption={Test program for CupLight_IF}, label={lst:CupLight_Test}]
+\begin{lstlisting}[caption={Test program for CupLight\_IF}, label={lst:CupLight_Test},style=customc]
 
 #include <stdbool.h>
 #include "project.h"
@@ -323,37 +305,37 @@ void handleByteReceived(uint8_t byteReceived)
         case 'q' :
         {
             globalRed = 255;
-            controlLight(LEDTOTEST,(color_t){globalRed,globalGreen,globalBlue});
+            controlLight(LEDTOTEST,(color_t){globRed,globGreen,globBlue});
         }
         break;
         case 'w' :
         {
             globalGreen = 255;
-            controlLight(LEDTOTEST,(color_t){globalRed,globalGreen,globalBlue});
+            controlLight(LEDTOTEST,(color_t){globRed,globGreen,globBlue});
         }
         break;
         case 'e' :
         {
             globalBlue = 255;
-            controlLight(LEDTOTEST,(color_t){globalRed,globalGreen,globalBlue});
+            controlLight(LEDTOTEST,(color_t){globRed,globGreen,globBlue});
         }
         break;
         case 'a' :
         {
             globalRed += 5;
-            controlLight(LEDTOTEST,(color_t){globalRed,globalGreen,globalBlue});
+            controlLight(LEDTOTEST,(color_t){globRed,globGreen,globBlue});
         }
         break;
         case 's' :
         {
             globalGreen += 5;
-            controlLight(LEDTOTEST,(color_t){globalRed,globalGreen,globalBlue});
+            controlLight(LEDTOTEST,(color_t){globRed,globGreen,globBlue});
         }
         break;
         case 'd' :
         {
             globalBlue += 5;
-            controlLight(LEDTOTEST,(color_t){globalRed,globalGreen,globalBlue});
+            controlLight(LEDTOTEST,(color_t){globRed,globGreen,globBlue});
         }
         break;
         break;
@@ -366,7 +348,7 @@ void handleByteReceived(uint8_t byteReceived)
 }
 \end{lstlisting}
 
-Den største forskel i dette forskel er anvendelsen af typen $color_t$ til at styre farven, og i stedet for at sætte en pin, så sættes et helt lys (RGB-led). Der anvendes også 3 globale variable, der bruges til stepvis at styre lyset.
+Den største forskel i dette forskel er anvendelsen af typen \textsc{color\_t} til at styre farven, og i stedet for at sætte en pin, så sættes et helt lys (RGB-led). Der anvendes også 3 globale variable, der bruges til stepvis at styre lyset.
 
 Den fysiske opstilling til testen, er en forsimplet version af den skematiske fra Hardware designet for CupLight. Det vil altså sige, at der kun styres en LED til en start. Selvfølgelig er det ikke optimalt, at der kun styres en LED, når der er 5 i en kopholder, men der blev brugt de ressourcer, der var til rådighed. Opstillingen ses i figur \ref{fig:cupLight_test}
 

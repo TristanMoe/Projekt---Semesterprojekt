@@ -17,16 +17,14 @@ Der er designet printpladen som ses på figur \ref{fig:CupHolderPrintpladeDesign
     \includegraphics[width=1\linewidth,trim={0.6in 7.28in 4.5in 0.5in},clip, page=1]{HardwareDesign/CupHolder/graphics/top.pdf}
 \end{subfigure}
 }
-\caption{Design af printplade. På venstre figur er det røde areal kobberet på undersiden af printpladen og på højre figur er det grønne areal kobberet på oversiden. Den cyane farve er silkscreen på toppen, som viser hvilke komponenter der er på oversiden. Den lilla farve er silkscreen på bunden og indikerer komponenter der sidder på bunden}
+\caption{Design af printplade. På venstre figur er det røde areal kobberet på undersiden af printpladen, og på højre figur er det grønne areal kobberet på oversiden. Den cyane farve er silkscreen på toppen, som viser hvilke komponenter, der er på oversiden. Den lilla farve er silkscreen på bunden og indikerer komponenter der sidder på bunden}
 \label{fig:CupHolderPrintpladeDesign}
 \end{figure}
 
 Som en del af designet af printpladen er der fokus på minimering af støj, men også på de fysiske dimensioner. Komponenterne placeres i forhold til kravene fra Cup Sensor (figur \ref{fig:lightPaht}) og fra (kravspecifikationen (K\ref{kravspec:req:light-D-center} og K\ref{kravspec:req:light-led-angle} i kravspecifikation bilaget).
-For at minimere støjpåvirkingen er det forsøgt at flytte de støjende signaler, så langt væk fra signalerne til sensorerne. Dette vil minimere den kapacitive kobling. Der kan stadig være noget induktiv støj. Denne støj mimimeres ved at returvejen af strømmene er så tæt på signalbanerne. Det vil for RGB LED'erne betyde at stel så tæt på de tre parallelle baner som muligt. Dette er udført da stort set hele den øvre kobber er et stelplan. For at have så kort en fælles stelvej som muligt er det også valgt at der er et separat analog og digital stel. Det er dog i sidste ende det samme stel, men det får først fælles stel på Cup Holder Controller.
-Det er hermed forsøgt at minimere både den kapacitive og induktive kobling.
 
 \subsubsection{Implementering}
-Resultatet af printpladen kan ses på figur \ref{fig:CupHolderRev2}. Der blev lavet en tidligere version hvor der blev påmonteret 5 RGB LED'er, men der var ikke nok ressourcer til at gøre det på samtlige Cup Holders.
+Resultatet af printpladen kan ses på figur \ref{fig:CupHolderRev2}.
 \begin{figure}[H]
 \centering
 \makebox[\textwidth][c]{%

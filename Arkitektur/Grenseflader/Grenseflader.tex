@@ -6,8 +6,6 @@ I dette afsnit forklares de forskellige grænseflade mellem delsystemerne, samt 
 
 
 \subsection{Kommunikation mellem RPi og PSoC enheder} \label{sec:RPi_PSoC_com}
-
-
 Systemet gør brug af I2C-protokollen i forhold til kommunikationen mellem RPi, Playerside og BallDispenser. Kommunikationen mellem enhederne starter enten med at RPi'en (MASTER) ønsker at sende noget til Playerside eller BallDispenser (SLAVES) eller hvis en af slaverne sender et interrupt. Interrupts er nødvendigt, da PSoC enhederne er afhængig af RPi'en SCL - dette er grundprincippet for I2C. 
 
 \begin{figure}[H]

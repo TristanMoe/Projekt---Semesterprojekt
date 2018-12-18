@@ -1,15 +1,14 @@
 \documentclass[Modultest/Modultest_main.tex]{subfiles}
 \begin{document}
-\section{GameController Modultest}\label{sec:test_Game}
+\section{GameController}\label{sec:test_Game}
 I dette afsnit beskrives modultesten af GameController. GameController er controller modulet for RPiApp. Generelt er det svært at modelteste GameController, da den ikke har en entydig opgave. Med det sagt er der nogle operationer som er kritisk for at klasserne kan kommunikere med hinanden: 
 \begin{enumerate}
     \item Test af MsgQueue kommunikation (Producer / Consumer)
     \item UserInfo instanser og logiske operationer 
 \end{enumerate}
-
 \subsection{Test af MsgQueue kommunkation}
-Det essentielle for vores program er den trådsikre kommunikation. For at teste systemet, skal der sendes beskeder til GameController. Dette gøres ved at dynamisk allokere bruger definerede beskeder, som sendes til GameControllers MsgQueue instans. Dispatcheren afvilker det som sendes til MsgQueuen sekventielt. Den modtager et MsgId, som identificerer den service som 'requestes', kalder tilhørende handler og static\_cast'er beskeden til den korrekt type nedarvning. \\\\
-Denne metode benævnes som "White-box testing", som tester de interne strukturer og funktionsmåder i applikationen, i modsætning til dets funktionalitet ("Black-box").\\\\
+Det essentielle for programmet er den trådsikre kommunikation. For at teste systemet, skal der sendes beskeder til GameController. Dette gøres ved at dynamisk allokere bruger definerede beskeder, som sendes til GameControllers MsgQueue instans. Dispatcheren afvilker det som sendes til MsgQueuen sekventielt. Den modtager et MsgId, som identificerer den service som 'requestes', kalder tilhørende handler og static\_cast'er beskeden til den korrekt type nedarvning. \\\\
+Denne metode benævnes som "White-box testing", som tester de interne strukturer og funktionsmåder i applikationen, i modsætning til dets funktionalitet ("Black-box").\autocite{Whitebox}\\\\
 Der bruges White-box testing, da det er essentielt for programmet at den interne kommunikation mellem tråden er operationel og virker optimalt. 
 Først simuleres indsættelse af en mønt. Her gøres brug af en brugerdefineret besked, som indeholder en const char pointer til det som reelt er sendt til GameControllers MsgQueue fra BallDispenserRead. \\
 Brugerdefineret besked: 
@@ -59,7 +58,7 @@ void GameController::dispatcherGameMessage(unsigned long msgID, Message * msg)
     ...
 \end{lstlisting}
 
-\subsection{Resultater}
+\subsubsection{Resultater}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Modultest/GameController/graphic/Modeltest.png}
@@ -67,10 +66,10 @@ void GameController::dispatcherGameMessage(unsigned long msgID, Message * msg)
     \label{fig:test_game}
 \end{figure}
 
-\subsection{Refleksion}
+\subsubsection{Refleksion}
 Trådkommunikationen med MsgQueue er nu testet og operationelt. Så længe alle klasser sender dynamiske beskeder og allokerer beskederne statisk efter korrekt type nedarvning, bør der ikke opstå fejl allokering af resourcer eller segmentation faults.
 
-\section{PlayersideWrite og PlayersideRead Modultest}
+\subsection{PlayersideWrite og PlayersideRead Modultest}
 Dette afsnit testes PlayersideWrite og PlayersideRead filoperationerne og den prædefineret protokol angivet i klassen MsgProtocol. Trådkommunikationen er 'bekræftet' i modultesten for GameController, så den bruges til at sende beskeder til PlayersideWrite og -Read for at teste at det korrekte kan sendes til PSoC enhederne. \\\\
 \textbf{White-Box test fremgangsmåde - 'Flow'}
 \begin{enumerate}
@@ -95,10 +94,10 @@ Dette afsnit testes PlayersideWrite og PlayersideRead filoperationerne og den pr
     \caption{Terminal output - Modultest for playerside read og write}
     \label{fig:test_playerside}
 \end{figure}
-\subsection{Refleksion}
+\subsubsection{Refleksion}
 Det kan ses at trådkommunikation virker som forventet og de korrekte funktioner bliver kaldt. Da der bruges fil-operationer for både read- og writemetoderne, vil vi modtage fejlbeskeder, da filerne ikke er oprettet og driveren er ikke integreret med programmet endnu - dette skal først undersøges ved integrationstesten med driveren og Playerside-enheden. 
 Der laves ikke en modultest for BallDispenserRead og -Write, da der bruges samme operationer som PlayersideRead og -Write. 
-\section{UserInfo modultest}
+\subsection{UserInfo modultest}
 I dette afsnit beskrives modultesten for nogen af UserInfo operationerne, specifikt anvendelse af datamemberen \textbf{Cups\_}. \textbf{Cups\_} symboliserer antal kopper for hvert hold. Det er valgt at bruge biblioteket <bitset> for omdanne den char som modtages fra PlayersideRead til et array bools, såledet Display klassen let kan se hvilke kop som er blevet ramt, fx ved at bruge en index operator. \\\\
 Der laves et lille testprogram for at teste funktionaliteten: 
 \begin{lstlisting}
@@ -132,13 +131,13 @@ int main()
 	return 0; 
 }
 \end{lstlisting}
-\subsection{Resultater}
+\subsubsection{Resultater}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{Modultest/GameController/graphic/Modultest_userInfo.png}
-    \caption{Terminal output - Modultest af bitset Cups_ datamember}
+    \caption{Terminal output - Modultest af bitset Cups\_ datamember}
     \label{fig:test_cups}
 \end{figure}
-\subsection{Refleksion}
+\subsubsection{Refleksion}
 Testning af denne funktion er måske lidt triviel, men det gør behandlingen af \textbf{Cups\_} lettere for Display klassen, og det bekræfter at man kan omdanne en char til et bitset array - bitset objekter har bl.a. også en del overloaded operationer og metoder, som bruges i GameController. 
 \end{document}

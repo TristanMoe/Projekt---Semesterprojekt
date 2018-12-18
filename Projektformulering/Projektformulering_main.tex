@@ -1,0 +1,51 @@
+\documentclass[a4paper,12pt,fleqn,oneside]{article} 
+\input{Setup/Preamble.tex}
+\def\titlename{Projektformulering}
+
+% Den oprindelige projektformulering
+
+\begin{document}
+\input{Setup/Forside.tex}
+\section{Projektformulering}
+\subsection{Indledning}
+Målet for dette projekt er at udarbejde et Beer pong bord. Beer pong er et populært drukspil, som typisk spilles af to konkurrerende hold af 2-4 spillere. Spillerne står på hver deres side af bordet og kaster på skift en bordtennisbold hen over bordet, med hensigten at ramme ned i modstanderens øl kop i den anden ende. Øl kopperne placeres typisk i en trekantet formation af 6 kopper i hver ende af bordet, og holdene skiftes til at kaste bolden. Når bolden lander i en kop, indtages indholdet af modstanderen og koppen fjernes fra bordet. Vinderen er det hold, som først eliminerer alle modstanderens kopper. 
+På trods af at spillet er populært og udbredt, foregår langt de fleste spil på simple og inferiøre borde. Ofte er der delte meninger omkring spillets score, hvis tur det er til at kaste og om legitimiteten af de enkelte kast. Derudover kan kopper vælte og indholdet spildes. Det resulterer ofte i udbredt forvirring og en forringet brugeroplevelse.  Ved at udvikle en forbedret og interaktiv udgave af et Beer pong bord, sikres en mere underholdende og komplet oplevelse for spillerne, og forvirringen minimeres. En skitse af opstillingen ses nedenfor.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Projektformulering/graphics/BeerPong_oprindelig_skitse.png}
+    \caption{Skitse af Beer Pong Table}
+    \label{fig:ShiftRegPWM_test}
+\end{figure}
+\subsection{Problemformulering}
+I dette projekt udvikles og designes et interaktivt Beer pong bord, som interagerer ud fra brugerens adfærd. I et traditionelt spil Beer pong er det spillerens ansvar at styre spillets gang. Der ønskes et system, som automatiserer spillets gang og underholder med et interaktiv design. 
+
+Fra et mobilt device - f.eks. en smartphone - skal brugeren kunne indtaste hvilke spillere, som skal deltage i spillet og hvilke hold de skal høre under. Denne information skal opdateres på et display, som er placeret på midten af Beerpong-bordet. Efter spillet er startet skal systemet agerer ud fra spillets gang. Når en spiller fjerner en kop, skal en sensor registrere dette og opdatere displayet. Her kan der også laves en timer, der begynder ved registrering af at et glas er løftet og kan evt. bruges ved en challenge*. Der kan også med fordel implementeres et system til at registrere, at en bold rammer ned i en kop. Dermed kan spillerne få visuel eller auditiv feedback med det samme i tilfælde af et succesfuldt kast. 
+Den visuelle feedback kommer fra belysning under kopperne, men det kan udvides til at have belysning rundt om hele bordet. Displayet skal være spillere og tilskueres adgang til information om spillet. Det skal angive antallet af kopper, der er tilbage på bordet, spillerne og holdenes navne.  
+
+Det er et krav til denne opgave, at systemet skal etableres ved en indlejret Linux platform og en PSoC platform. Desuden skal systemet kunne interagere med omverdenen via sensorer/aktuatorer. Her inkluderes en dispenser i spillet, der ved hjælp af en aktuator forsyner spillere med bordtennisbolde ved indsætning af mønter.
+
+Det endelige produkt af projektet skal være en prototype, der demonstrerer, at ovenstående kan realiseres. 
+\subsection{MoSCoW}
+\begin{table}[H]
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Must have} & \begin{tabular}[c]{@{}l@{}}- 6 kopholdere\\ - Belysning under/rundt om hver kop\\ - Registrering af fjernelse af kop fra bord\\ - Dispenser til Bordtennisbold\\ - Registrer mønter til at dispensere bordtennisbolde\\ - UI til visning af scoreboards, holdet og hvis tur det er\end{tabular} \\ \hline
+\textbf{Should have} & \begin{tabular}[c]{@{}l@{}}- 12 kopholdere(6 for hver side) \\ - Indtastning af information fra mobilt device \\ - Registrering at et glas er blevet ramt af bold \\ (og giver visuelt/auditivt respons)\\ - Ved fjernelse af kop udløses timer, som \\ kan stoppes ved tryk på knap\end{tabular} \\ \hline
+\textbf{Could have} & \begin{tabular}[c]{@{}l@{}}- Hjemmeside til at gemme resultater fra forskellige spil\\ - Belysning rundt om bordet\end{tabular} \\ \hline
+\textbf{Wont have} & \begin{tabular}[c]{@{}l@{}}- Bevægende ringe på midten af banen til at kaste bolde \\ igennem(for eksempel som en challenge*)\end{tabular} \\ \hline
+\end{tabular}
+\end{table}
+*challenge=En udfordring, som for eksempel at bunde en øl hurtigere end det andet hold
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

@@ -8,11 +8,11 @@
 }
 \lstset{style=customc}
 
-\section{WebPage og RPi integrationstest}
+\section{Integrationstest RPiApp}
 \subsection{Introduktion}
 Modulet WebPage har til opgave at modtage brugerinputs i form af brugernavne, holdnavne og holdfarver og sende disse til GameController klassen. Herfra skal de videreformidles til resten af systemet, herunder playersides og display. Det er vigtigt at WebPage sender de rigtige informationer, og at der sjældent sker fejl i afsendingen. \\\\Det er ikke tilstrækkeligt kun at teste WebPage isoleret, da den baserer sig på kommunikation med GameController klassen og er afhængig af denne. WebPage er en boundary klasse til GameController, og det skal testes, at kommunikationen mellem klasserne forløber som planlagt. GameController klassen er imidlertid kompleks og varetager  mange af spillets funktioner. Der er derfor udviklet et separat program til formålet. Denne test stub skal simulere GameController klassen, så det kan undersøges, om GameController modtager de rigtige informationer, når de sendes fra hjemmesiden. 
 
-\subsection{Integrationstest}
+\subsection{Integrationstest mellem WebPage og GameController}
 Der implementeres en C++ klasse kaldet WebPage og en C++ klasse kaldet GameController. Der anvendes den event drevne arkitektur, som er beskrevet i afsnittet "Design af RPiApp - USER SPACE". Det betyder at programmet anvender messages og message queues, samt klasserne Thread og ThreadFunctor til at håndtere tråde. I main oprettes GameControllers MsgQueue samt to tråde, hhv. WebPageThread og GameThread. Dette er vist i kodeeksemplet nedenfor.
 \begin{lstlisting}
 int main()
@@ -57,6 +57,15 @@ void GameController::dispatcher(unsigned long messageID, Message * msg)
 }
 \end{lstlisting}
 
+\subsubsection{Testopstilling}
+Testopstillingen for integrationstesten mellem WebPage og GameController ses i figur \ref{fig:webpage_integration_testopstilling}. PC fremgår ikke her.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Integrationstest/WebPageogRPi/graphics/integrationstest3_web_game.png}
+    \caption{Integrationstest af WebPage og RPi - Testopstilling}
+    \label{fig:webpage_integration_testopstilling}
+\end{figure}
+
 \subsubsection{Fremgangsmetoden for test}
 \begin{enumerate}
     \item Kompiler programmet på host
@@ -78,9 +87,9 @@ Figur \ref{fig:Integration_3} viser hjemmesidens interface i browseren og result
     \label{fig:Integration_3}
 \end{figure}
 
-\section{Refleksion}
-Der opstod flere komplikationer under testen. De var dog alle af mindre karakter, og blev løst løbende. F.eks. var der uforudsete problemer med at konvertere rgb værdierne fra strings til uint8\_t og at udskrive disse i terminalen. De var imidlertid hurtigt løst og selve kommunikationen mellem WebPage og GameController viste sig at fungere som forventet. Som beskrevet i afsnittet 'Server' under Softwaredesign for boundary-klassen WebPage er kommunikationen bevidst gjort envejs. Dette designvalg kom os muligvis til gode under integrationstesten, da det har sænket kompleksiteten og elimineret visse fejlkilder. Når der trykkes 'Start' i client og data sendes, forbliver WebSocket forbindelsen åben. Der kunne således testes ved at sende gentagende beskeder, med varierende hold- og brugernavne samt farvevalg. Dette forløb efter hensigten og stemte overens med terminal outputs. 
+\subsection{Refleksion}
+Der opstod flere komplikationer under testen. De var dog alle af mindre karakter, og blev løst løbende. F.eks. var der uforudsete problemer med at konvertere rgb værdierne fra strings til uint8\_t og at udskrive disse i terminalen. De var imidlertid hurtigt løst og selve kommunikationen mellem WebPage og GameController viste sig at fungere som forventet. Som beskrevet i afsnittet 'Server' under Softwaredesign for boundary-klassen WebPage er kommunikationen bevidst gjort envejs. Dette designvalg kom os muligvis til gode under integrationstesten, da det har sænket kompleksiteten og elimineret visse fejlkilder. Når der trykkes 'Start' i Client og data sendes, forbliver WebSocket forbindelsen åben. Der kunne således testes ved at sende gentagende beskeder, med varierende hold- og brugernavne samt farvevalg. Dette forløb efter hensigten og stemte overens med terminal outputs. 
 
-\section{Konklusion}
+\subsection{Konklusion}
 Integrationstesten bekræftede, at GameController modtager de rigtige brugerinputs fra hjemmesiden, herunder hold- og brugernavne samt holdfarver. Den event drevne arkitektur lader til at være en hensigtsmæssig måde for de uafhængige tråde at kommunikere på. Klassen UserInfo indeholder informationerne, og måden hvorpå to objekter af denne bliver sendt ved hjælp af beskedsystemet virker også som forventet.
 \end{document}

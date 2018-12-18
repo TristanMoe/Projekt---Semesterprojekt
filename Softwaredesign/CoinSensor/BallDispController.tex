@@ -3,15 +3,13 @@
 \begin{document}
 
 
-\subsection{Controller}
+\subsection{Controller} \label{sec:BallDispController}
 \subsubsection{Design}
 I denne seksjonen beskrives software designet bak Controlleren til BallDispeser. Vi trengte en måte å sette sammen modulene CoinDispenser og BallDispenser samt kommunisere med RPi og det er det denne klassen skal oppnå. 
 
 
 %Innsett seq diagram
-
-
-Meldingene som sendes sendes via I2C protokollen som beskrives i Grenseflater avsnittet \ref{}. For å opprette kommunikasjon brukes I2C slave modulet som er et modul fra PSoC Creator og et interrupt som trekkes lavt når BallDispenser har en melding som skal sendes til RPi.
+Meldingene som sendes sendes via I2C protokollen som beskrives i Grenseflater avsnittet \fullref{arch:sec:RPi_BallDispenser_com}. For å opprette kommunikasjon brukes I2C slave modulet som er et modul fra PSoC Creator og et interrupt som trekkes lavt når BallDispenser har en melding som skal sendes til RPi.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Rapport/BallDispenser/ballDispenserController/graphics/I2Cslave.png}
@@ -32,7 +30,7 @@ Dette modulet består av flere funksjoner men det er noen av dem som kun er swit
 Disse definisjonene brukes når det skal kommuniseres via I2C, demonstrasjon av dette kan sees senere i dette avsnittet.\\
 
 {\textbf{coinInserted}}\\
-\begin{lstlisting}[caption={Hoved kontrol funksjonen til ballDispenser},style=customc,label={lst:dispenserControlFunction}]
+\begin{lstlisting}[caption={Hoved kontrol funksjonen til ballDispenser},style=customc,label={lst:coinInserted}]
 void coinInserted()
 {
     handleCoinDetection();
@@ -49,7 +47,7 @@ void coinInserted()
 Denne funksjonen er hoved funksjonen i kontrolleren, den blir kalt når det skjer et interrupt fra detectorISR. Den går da gjennom sekvensen av funkjoner som kreves for å handtere en detektering, inkludert å kommunisere med RPi.\\
 
 {\textbf{SendToRPi}}\\
-\begin{lstlisting}[caption={Komunikasjon fra Ball Dispenser til RPi},style=customc,label={lst:dispenserControlFunction}]
+\begin{lstlisting}[caption={Komunikasjon fra Ball Dispenser til RPi},style=customc,label={lst:sendtorpi}]
 void SendToRPi(uint8_t message)
 {
     resetReadBuffer();
@@ -64,8 +62,8 @@ void SendToRPi(uint8_t message)
 
 Denne funksjonen står for å sende beskedene til RPi, den mottar en variabel message som er den beskjeden den sender. I denne funksjonen brukes I2C slave modulet.\\
 
-{\textbf{SendToRPi}}\\
-\begin{lstlisting}[caption={Komunikasjon fra RPi til Ball Dispenser},style=customc,label={lst:dispenserControlFunction}]
+{\textbf{handleI2CData}}\\
+\begin{lstlisting}[caption={Komunikasjon fra RPi til Ball Dispenser},style=customc,label={lst:handleI2CData}]
 void handleI2CData()
 {
     if(I2C_SlaveClearWriteStatus() & I2C_SSTAT_WR_CMPLT)

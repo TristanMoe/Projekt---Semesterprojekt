@@ -2,27 +2,27 @@
 \begin{document}
 
 \section{Definitionsliste}
-Definitionslisten er lavet som et 'look up' værktøj, der kan bruges gennem hele projektets dokumenter, hvis man er i tvivl om hvad der menes med forskellige implicitte begreber.
-\begin{longtable}{|>{\centering\arraybackslash}m{3cm}|>{\RaggedRight\arraybackslash}m{10cm}| p{.20\textwidth} | p{.80\textwidth}|} 
+Definitionslisten er lavet som et 'look up' værktøj, der kan bruges gennem alle projektets dokumenter, hvis man er i tvivl om, hvad der menes med forskellige implicitte begreber.
+\begin{longtable}{|>{\centering\arraybackslash}m{4cm}|>{\RaggedRight\arraybackslash}m{10cm}| p{.20\textwidth} | p{.80\textwidth}|} 
 \hline
         \large{Begreb} & \large{Definition}\\
         \hline
-        \textit{\textbf{Start op}} & \underline{System rutine}:
-        Systemet går fra et slukket tilstand hvor displayskærm, lys og bolddispenser er slukket, til et tændt tilstand hvor nævnte moduler tænder. Det defineres, at systemet er færdig med sit start op rutine, når displayskærmen viser en "klar til spil" besked, og bolddispenserens grøn eller rød LED samt kopholder-lys er tændt.\\
+        \textit{\textbf{Start op}} & \underline{Systemrutine}:
+        Systemet går fra en slukket tilstand hvor displayskærm, lys og bolddispenser er slukket, til en tændt tilstand hvor nævnte moduler tænder. Det defineres, at systemet er færdig med sit start op rutine, når displayskærmen viser en "klar til spil" \space besked, og bolddispenserens grøn eller rød LED samt kopholder-lys er tændt.\\
         \hline
-        \textit{\textbf{Slukke}} & \underline{System rutine}:
-        Systemet går fra et tændt tilstand hvor displayskærm, lys og bolddispenser er tændt, til et slukket tilstand hvor nævnte moduler slukker. Det defineres, at systemet er færdig med at slukke, når displayskærmen er slukket og begge LED'er fra bolddispenser samt kopholder-lys er slukket\\
+        \textit{\textbf{Slukke}} & \underline{Systemrutine}:
+        Systemet går fra en tændt tilstand hvor displayskærm, lys og bolddispenser er tændt, til en slukket tilstand hvor nævnte moduler slukker. Det defineres, at systemet er færdig med at slukke, når displayskærmen er slukket og begge LED'er fra bolddispenser samt kopholder-lys er slukket\\
         \hline
         \textit{\textbf{Spillet er i gang}} & \underline{System-Bruger interaktion}:
-        Et spil er i gang, når både systemet og brugerne er klar til at interagere med hinanden. Det vil sige, at \textit{\textbf{Spiller oplysninger}} er tastet ind via hjemmeside, betalt for bolde, stillet kopper på bordet og trykket på start knappen i hjemmesiden.\\
+        Et spil er i gang, når både systemet og brugerne er klar til at interagere med hinanden. Det vil sige, at \textit{\textbf{Spiller oplysninger}} er tastet ind via hjemmeside, der er betalt for bolde, stillet kopper på bordet og trykket på start knappen i hjemmesiden.\\
         \hline
         \textit{\textbf{Spillet er slut}} & \underline{System-Bruger interaktion}:
-        Et spil er slut når et af holdene er tvunget til at fjerne deres sidste kop fra bordet.\\        
+        Et spil er slut, når et af holdene er tvunget til at fjerne deres sidste kop fra bordet.\\        
         \hline
         \textit{\textbf{Spillet er klar}} & \underline{System-Bruger interaktion}:
-        Et \textbf{\textit{spil er klar}}, når \textbf{\textit{start op}} af afviklet, der er to eller flere bolde og når hverken \textbf{spillet er i gang} eller \textbf{spillet slut}.\\
+        Et \textbf{\textit{spil er klar}}, når \textbf{\textit{start op}} er afviklet, der er to eller flere bolde, og når hverken \textbf{spillet er i gang} eller \textbf{spillet er slut}.\\
         \hline
-        \textit{\textbf{Spiller oplysninger}} & \underline{System definition}:
+        \textit{\textbf{Spilleroplysninger}} & \underline{System definition}:
         Oplysninger om spillerne og holdenes navne, samt farver.\\
         \hline
         \textit{\textbf{Spil status}} & \underline{System definition}:
@@ -32,25 +32,25 @@ Definitionslisten er lavet som et 'look up' værktøj, der kan bruges gennem hel
         At kaste en bold og ramme i en af kopperne på bordet. At score medfører fjernelsen af den ramte kop. Det hold hvis kop blev ramt fjerner koppen. \\
         \hline
         \textit{\textbf{Turen}} & \underline{Bruger definition}:
-        Et hold har retten til at kaste bolde når de er i besiddelse af to bolde, retten overdrages frem og tilbage mellem holdene ved at kaste de to bolde. \\
+        Et hold har retten til at kaste bolde, når de er i besiddelse af to bolde, retten overdrages frem og tilbage mellem holdene ved at kaste de to bolde. \\
         \hline
         \textit{\textbf{Aktive hold}} & \underline{Bruger definition}:
         Det hold der holder turen, så længe holdet har kastet 0 eller 1 bold. Ved kast af 2 bolde bytter det aktive hold og \textit{modstander holdet} definition.\\
         \hline
-        \textit{\textbf{Modstander hold}} & \underline{Bruger definition}:
-        Det hold der ikke holder turen, så længe det andet hold har kastet 0 eller 1 bold. Ved kast af 2 bolde bytter det aktive hold og \textit{modstander holdet} definition.\\
+        \textit{\textbf{Modstanderhold}} & \underline{Bruger definition}:
+        Det hold der ikke holder turen, så længe det andet hold har kastet 0 eller 1 bold. Ved kast af 2 bolde bytter det \textit{aktive hold} og \textit{modstander holdet} definition.\\
         \hline
-        \textit{\textbf{Taber hold}} & \underline{Bruger definition}:
+        \textit{\textbf{Taberhold}} & \underline{Bruger definition}:
         Det hold der efter \textbf{spillet er slut} ikke har flere kopper tilbage på sin side.\\
         \hline
-        \textit{\textbf{Vinder hold}} & \underline{Bruger definition}:
+        \textit{\textbf{Vinderhold}} & \underline{Bruger definition}:
         Det hold der efter \textbf{spillet er slut} stadig har flere kopper tilage på sin side.\\
         \hline
         \textit{\textbf{UI}} & \underline{System definition}:
         Alle de elementer fra systemet som benyttes til at kommunikere med brugeren; lys under og rundt om kopholderne, display på bordet, webpage og bolddispenserens LED'er.\\
         \hline
         \textit{\textbf{Game Events}} & \underline{Bruger interaktion}:
-        De udefra kommende events ind i systemet, der trigger et Event på PSoC-playerside. Det er f.eks. en Kop flyttes i forhold til en kop holder, eller en bold rammer i en kop\\
+        De udefrakommende events ind i systemet, der trigger et Event på PSoC-playerside. Det er f.eks. en Kop flyttes i forhold til en kopholder, eller en bold rammer i en kop\\
         \hline
         \textit{\textbf{Spil præparation}} & \underline{System-bruger interaktion}:
         Systemet har udført \textbf{opstart}, hvorefter \textbf{holdene} udfører \textit{UC1:Start Game}. \\

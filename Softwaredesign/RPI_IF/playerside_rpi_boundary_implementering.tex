@@ -1,10 +1,8 @@
 \documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
 
-\usepackage{listings}
-
 
 \begin{document}
-\section{Implementering af RPI\_IF boundary klasse}\label{sec:RPI_IF_implementering_bilag}
+\subsection{Implementering af RPI\_IF}\label{sec:RPI_IF_implementering_bilag}
 Denne klasse består kun af tre funktioner. den ene hedder sendCupStatus(). Denne funktion har til formål at sende cupstatus tilbage til RPI'en, når denne ændres. Denne funktion kan ses nedenfor.
 \begin{lstlisting}
 void sendCupStatus(uint8_t status)
@@ -19,7 +17,7 @@ void sendCupStatus(uint8_t status)
 \end{lstlisting}
 I denne funktion lægges den opdaterede cupstatus over i readbufferen. Herefter kaldes funktionen I2C\_SlaveClearReadBuf(), hvor interrupt benet bliver trukket lavt lige efter. Dette skyldes at RPI'en skal bruge et interrupt for at vide, hvornår den skal læse fra PSoC'en. Efter at interupt benet er trukket lavt, så vil,der være et lille delay for at være sikker på at interruptet registres af RPI'en. Herefter vil interrupt benet igen trækkes højt, så RPI'en igen er klar til at et interrupt modtages. 
 
-Den anden funktion, der er vær at tale om er funktionen RPI\_IF\_handledata(). Denne funktion har til formål at læse fra writebufferem hver gang, der sendes noget til PSoc'en. I et switch statement vil der tjekkes for hvilken besked, der er sendt fra RPI'en og alt afhængig af beskedens indhold,så vil der ske noget forskelligt. Hvis den første byte af beskeden består af en hex værdi fra 0x0A til 0x0E, så vil kun denne byte læses. Disse fem værdier ses ikke i funktion men er defineret ved hjælp af preprocessor makroen #define. De fem makroer ses nedenfor.
+Den anden funktion, der er vær at tale om er funktionen RPI\_IF\_handledata(). Denne funktion har til formål at læse fra writebufferem hver gang, der sendes noget til PSoc'en. I et switch statement vil der tjekkes for hvilken besked, der er sendt fra RPI'en og alt afhængig af beskedens indhold,så vil der ske noget forskelligt. Hvis den første byte af beskeden består af en hex værdi fra 0x0A til 0x0E, så vil kun denne byte læses. Disse fem værdier ses ikke i funktion men er defineret ved hjælp af preprocessor makroen \#define. De fem makroer ses nedenfor.
 \begin{lstlisting}
 #define IDLE_DATA 0x0A
 #define STARTING_DATA 0x0B

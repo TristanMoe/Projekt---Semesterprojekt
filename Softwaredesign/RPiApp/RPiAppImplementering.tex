@@ -11,13 +11,13 @@
                 emphstyle={\color{purple}}
 }
 \begin{document}
-\section{Implementation af RPiApp - USER SPACE}
-Softwareapplikation RPiApp er generelt udviklet objektorienteret i sproget C++17. Sproget bruges da det kan kompileres og afvikles på den valgte computerenhed, Rasberry Pi W Zero. C++ bruges til at udvikle det event driven arkitektur og det trådsikret system, men der bruges også elementer af C11 til at få adgang til filoperationer i Kernal Space. Implementering tager udgangspunkt i figur "XX", som viser klassediagrammet for RPiApp. Klassediagrammet viser de forskellige attributer, operationer og relationer mellem klasserne. \\\\
-Alt kode er ikke forklaret for de forskellige klasser, her henvises til den fulde source-kode i bilaget "XX". 
+\section{Implementering af RPiApp}
+Softwareapplikation RPiApp er generelt udviklet objektorienteret i sproget C++17. Sproget bruges da det kan kompileres og afvikles på den valgte computerenhed, Rasberry Pi W Zero. C++ bruges til at udvikle det event driven arkitektur og det trådsikret system, men der bruges også elementer af C11 til at få adgang til filoperationer i Kernal Space. Implementering tager udgangspunkt i figur \ref{swdesign:fig:cd_RPiApp_}, som viser klassediagrammet for RPiApp. Klassediagrammet viser de forskellige attributer, operationer og relationer mellem klasserne. \\
+Alt kode er ikke forklaret for de forskellige klasser, her henvises til den fulde source-kode i bilaget \textbf{Kildekode}. 
 
 \subsection{GameController}
 Den første klasse som implementeres er klassen GameController, som er den logiske controller i softwaresystemet. Som nævnt i designafsnittet, er softwaresystemet designet ud fra event driven arkitektur, MsgQueue-systemet, dispatchers og handlers. \\
-GameController klassen følger stadie transitionen som vist i figur "XX" i softwarearkitekturen. 
+GameController klassen følger stadie transitionen som vist i figur \ref{arch:fig:stm_Game} i softwarearkitekturen. 
 \begin{lstlisting}[caption={Enumeration stadier for GameController}, label=list:Game_State]
 enum GameControllerState
 {
@@ -111,12 +111,11 @@ public:
 	const int playerside_ = 0;
 };
 \end{lstlisting}
-
 Alle beskeder modtaget gennem GameControllers MsgQueue behandles tilsvarende som listing \ref{list:PS_Response}. 
 
-
 \subsection{I2C}
-Klassen I2C er baseklassen for alt i2c kommunikation. Her implementeres alle funktioner, som både Playerside og BallDispenser klasserne skal bruge - hovedsageligt filoperationerne tilhørende write- og readfunktionerne. BallDispenserRead og -Write, samt PlayersideRead og -Write nedarver fra I2C, men åbner selv filen de skal opererer på og bruger den nedarvede filpointer. Se klassen struktur i listing \ref{list:i2c_class}
+Klassen I2C er baseklassen for alt i2c kommunikation. Her implementeres alle funktioner, som både Playerside og BallDispenser klasserne skal bruge - hovedsageligt filoperationerne tilhørende write- og readfunktionerne. BallDispenserRead og -Write, samt PlayersideRead og -Write nedarver fra I2C, men åbner selv filen de skal opererer på og bruger den nedarvede filpointer. Klassens read- og writefunktioner er inspireret af slides fra HAL-undervisning \autocite{HAL2018}\\
+Se klassens struktur i listing \ref{list:i2c_class}
 \begin{lstlisting}[caption={I2C headerfil}, label=list:i2c_class]
 class I2C
 {
@@ -140,7 +139,8 @@ protected:
 Der benyttes også polymorphism i form af funktion translateMessage, som skal implemteres i PlayersideRead og BallDispenserRead. 
 
 \subsection{Playerside og BallDispenser (Read og Write)}
-De tidligere Playerside og BallDispenser boundary klasser er opdelt i funktionalitet; read og write. I begge tilfælde nedarves fra I2C klassen, og i constructoren åbnes den fil, som er prædefineret i device træet for driveren (filepointer data memberen er fra I2C klassen). Nedenfor ses eksemplet for PlayersideRead, men det er samme princip for de andre klasser: 
+De tidligere Playerside og BallDispenser boundary klasser er opdelt i funktionalitet; read og write. I begge tilfælde nedarves fra I2C klassen, og i constructoren åbnes den fil, som er prædefineret i device træet for driveren (filepointer data memberen er fra I2C klassen). Klassenernes constructor er inspireret af slides fra HAL-undervisning \autocite{HAL2018}\\
+Nedenfor ses eksemplet for PlayersideRead, men det er samme princip for de andre klasser: 
 \begin{lstlisting}[caption={PlayersideRead constructor}, label=list:construct]
 PlayersideRead::PlayersideRead(const char * filename, MsgQueue * GameControllerQueue, int playerside)
 	: GameControllerQueue_(GameControllerQueue), playerside_(playerside)
@@ -152,11 +152,11 @@ PlayersideRead::PlayersideRead(const char * filename, MsgQueue * GameControllerQ
 }
 \end{lstlisting}
 
-\subsection{WebPage}\label{sec:webpage_implementering}
+\subsection{WebPage implementering}\label{sec:webpage_implementering}
 I dette afsnit ses implementeringen for WebPage. Der er kun medtaget de væsentligste metoder og parametre. For yderligere detaljer henvises til kildekoden. 
 \subsubsection{Client}
-Client henviser til den HTML-fil, som afvikles i web browseren. Listing \ref{list:webpage_interface} viser hvordan hjemmesidens layout er implementeret, herunder testfelter, track bars og Start-knap.
-\begin{lstlisting}[language=HTML, caption={WebPage interface layout}, label=list:webpage_interface]
+Client henviser til den HTML-fil, som afvikles i web browseren. Listing \ref{list:webpage_interface} viser hvordan hjemmesidens layout er implementeret, herunder tekstfelter, track bars og Start-knap.
+\begin{lstlisting}[caption={WebPage interface layout}, label=list:webpage_interface]
 <!DOCTYPE html>
   <html>
   <meta charset="utf-8" />
@@ -211,9 +211,9 @@ Client henviser til den HTML-fil, som afvikles i web browseren. Listing \ref{lis
 <button type="button" onclick="acquireInfo()">Start</button>
 \end{lstlisting}
 
-Listing \ref{list:webpage_handlers} viser i JavaScript implementeringen af de event handlers, som er associeret med WebSocket objektet. Et for loop med event listeners sørger for at opdatere de viste farver, når disse justeres. Funktionen acquireInfo() kaldes, når der trykkes på 'Start'-knappen, og sørger for at konkatenere alle brugerinputs til én tekststreng, som sendes til Server. 
+Listing \ref{list:webpage_handlers} viser JavaScript implementeringen af de event handlers, som er associeret med WebSocket objektet. Et for loop med event listeners sørger for at opdatere de viste farver, når disse justeres. Funktionen acquireInfo() kaldes, når der trykkes på 'Start'-knappen, og sørger for at konkatenere alle brugerinputs til én tekststreng, som sendes til Server. 
 
-\begin{lstlisting}[language=JavaScript, caption={WebPage event handlers}, label=list:webpage_handlers]
+\begin{lstlisting}[caption={WebPage event handlers}, label=list:webpage_handlers]
 
 <script language="javascript" type="text/javascript">
 
@@ -331,8 +331,8 @@ void WebPage::run()
 }
 \end{lstlisting}
 
+\subsection{Display Implementering}
+\subfile{Softwaredesign/GUI/GUI_implementering.tex}\label{sec:GUI_implementering_doc}
 
-
-\subsection{Display}
 
 \end{document}

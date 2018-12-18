@@ -1,13 +1,11 @@
 \documentclass[Modultest/CoinDispenser/CoinDispenserModulTest.tex]{subfiles}
 \begin{document}
-\section{CoinDispenser Hardware Modultest}
+\subsection{CoinDispenser Hardware Modultest} \label{sec:CoinModulTest}
 
-\subsection{Test af CoinSlide}
+\subsubsection{Test af CoinSlide}
 I denne seksjonen vil modul testen for CoinDetector hardwaren bli beskrevet. Hardwareen som blir testet er sklien som sorterer myntene basert på sin størrelse.\\
 
-\\
-
-\textbf{Krav som skal bli testet:}
+\textbf{Krav som skal bli testet:}\\
 \begin{enumerate}
     \item Systemet skal kun tage imod en danskfemkrone som betaling. Diameter på 28.5 mm+/- 0.5mm og tykkelse på 2.00 +/- 0.1 mm.
     \item Systemet skal returnere mønter med endiameter på 27.0 mm og under og tykkelse på2.35 mm og under
@@ -25,7 +23,7 @@ I denne seksjonen vil modul testen for CoinDetector hardwaren bli beskrevet. Har
 
 Testen be utført ved sette opp sklien, legge myntene flat på toppen av skien og la dem skli ned. Dette ble gjennomført 200 ganger både for 5 kroner og 20 kr. Under er resultatene presentert:
 
-\subsection{Resultater Test 1}
+\subsubsection{Resultater Test 1}
 \begin{table}[H]
 \Large
 \centering
@@ -39,11 +37,11 @@ Testen be utført ved sette opp sklien, legge myntene flat på toppen av skien o
 \end{tabular}
 \end{table}
 
-\subsection{Refleksion Test 1}
+\subsubsection{Refleksion Test 1}
 
 Som vi kan se ble 5 kr myntene feil sortert 4,5\% av gangene som ikke er innenfor det akseptable feilmarginet. Derfor ble det gjennomført noen endringer på sklien og deretter ble 300 nye målinger ble tatt.
 
-\subsection{Resultater Test 2}
+\subsubsection{Resultater Test 2}
 \begin{table}[H]
 \Large
 \centering
@@ -54,7 +52,7 @@ Som vi kan se ble 5 kr myntene feil sortert 4,5\% av gangene som ikke er innenfo
 20 kr         & 300             & 2             \\ \hline
 \end{tabular}
 \end{table}
-\subsection{Refleksion Test 2}
+\subsubsection{Refleksion Test 2}
 Som man kan se er målingene nå innenfor feilmarginet og testen anses som bestått.
 
 \end{document}

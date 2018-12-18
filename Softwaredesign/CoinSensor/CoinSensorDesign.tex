@@ -1,13 +1,13 @@
 \documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
 
 \begin{document}
-\section{CoinDetector software design}
+\subsection{CoinDetector} \label{sec:CoinDisp}
 Våres design krever en måte å oppdage mynter, samt en måte å håndtere mynter etter at de hadde kommet inn i systemet. I denne delen er designet av CoinDetector samt noen valg som ble tatt underveis. 
 \\ 
 CoinDetector-programvaren består av 2 forskjellige moduler, de er CoinDetector og MotorControl. CoinDetector modulet er hovedlogikken til programvaren, den inneholder state maskinen enabled og disabled som bestemmer om den skal motta eller avise myntene som kommer inn i systemet.
-\subsection{CoinDetector Design valg} 
+\subsubsection{CoinDetector design valg} 
 Ved utformingen av CoinSensor så vi på noen forskjellige tilnærminger. Ideene vi overveide var en slags lyssensor eller en form for bytter som mynten ville trykke ned når den kom inn i systemet, før vi endte opp med det endelige designet med en kortslutning. 
-\subsection{CoinDetector med kortslutningsdesign} 
+\subsubsection{CoinDetector med kortslutningsdesign} 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{Softwaredesign/CoinSensor/graphics/TopDesign-CoinDetector.png}

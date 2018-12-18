@@ -1,13 +1,14 @@
 \documentclass[Rapport/Playerside/RPI_IF/RPI_IF.tex]{subfiles}
 \label{sec:playerside_RPI_IF_design}
 \begin{document}
-\subsubsection{Design}
-I dette afsnit omtalles RPI\_IF boundary klassens design. Klassen er en boundary klasse til RPI(Raspberry Pie) og skal stå for at sende kop status beskeder til RPI'en, når en ændring forekommer. Den skal også stå for at modtage beskeder fra RPI'en, som kan være en farvekode eller en state ændring. I grænsefladeafsnittet i arkitekturen er en mere uddybende beskrivelse af disse beskeder. Protokollen brugt er I2c og til dette formål er en i2c slave komponent brugt i PSoC creators komponent katalog. På figur \ref{fig:I2c_slave} ses denne komponent.
-\begin{figure}
+\subsubsection{Softwaredesign}
+I dette afsnit omtales RPi\_IF boundary klassens design. Klassen er en boundary klasse til RPi og skal stå for at sende cupstatus beskeder til RPi'en, når en ændring forekommer. Den skal også stå for at modtage beskeder fra RPi'en, som kan være en farvekode eller en state ændring. Protokollen brugt er I2C, og til dette formål er en I2C slave komponent brugt i PSoC creators komponent katalog. På figur \ref{fig:I2c_slave} ses denne komponent.
+\begin{figure}[H]
     \centering 
     \includegraphics[width=\linewidth]{Softwaredesign/RPI_IF/graphics/i2c_enhed.PNG}
-    \caption{I2C slave komponent brugt til i2c kommunikationen mellem PSoC playerside og RPI}
+    \caption{I2C slave komponent til kommunikation mellem PSoC playerside og RPi.}
     \label{fig:I2c_slave}
 \end{figure}
-Denne komponent skal initieres, for at se hvordan dette gøres ses RPI\_IF design bilag. I arkitekturen for denne klasse ses, der to funktioner, der er brugt. Det er sendCupStatus og RPI\_IF\_handledata. Her er sendCupStatus den metode, der står for at sende beskeder omkring kop status tilbage til RPI og er brugt af GameController klassen, når den modtager kopstatus ændring fra CupSensor\_IF. For en mere detaljeret beskrivelse ses design bilag for RPI\_IF. Funktionen  RPI\_IF\_handledata står for modtagelsen af state ændringer for playerside samt beskeder omkring ændring af farvekode for begge playersides. I denne metode vil flere metoder fra GameController bruges alt afhængig af, hvilken besked er sendt. For mere information om RPI\_IF\_handledata metodens funktion ses afsnit \fullref{sec:RPI_IF_design_bilag} og for mere information om GameController metoderne ses design for denne klasse i afsnit \fullref{sec:playerside_GameController}.
+Denne komponent skal initieres, for at se hvordan dette gøres, ses afsnit \fullref{sec:playerside_RPI_IF_design} i dokumentet design i bilaget. I arkitekturen for denne klasse er to funktioner blevet brugt, som vist i klassediagrammet i figur \ref{fig:CD_PlayerSide} i arkitekturen. Det er sendCupStatus og RPi\_IF\_handledata. Her er sendCupStatus den metode, der står for at sende beskeder omkring cupStatus tilbage til RPi. Funktionen  RPi\_IF\_handledata står for modtagelsen af state ændringer for playerside samt beskeder omkring ændring af farvekode for begge playersides. For en mere detaljeret beskrivelse ses bilaget \textbf{Softwaredesign} i afsnit \fullref{swdesign:sec:RPI_IF_design_bilag}.
 \end{document}
+

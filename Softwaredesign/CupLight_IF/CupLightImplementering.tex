@@ -1,11 +1,10 @@
 \documentclass[Softwaredesign/Softwaredesign_main.tex]{subfiles}
 \begin{document}
-
-\section{CupLight Software Implementering}\label{sec:cuplight_sw_impl}
+\subsection{Implementering af CupLight\_IF}\label{sec:cuplight_sw_impl}
 Implementeringen af CupLight\_IF er lavet i IDE'et PSoC-creator 4.2, hvor interfacet er skrevet i sproget C og kompileret med ARM GCC Generic Version: 4.2.0.641. Da sproget er C, kan der ikke laves rigtige klasser, og der er heller ikke valgt en objekt orienteret løsning med struct og funktionspointers, da interfacet er rimelig småt. I stedet er det implementeret ved moduler bestående af header- og source-filer.
-\subsection{ShiftPWM}
+\subsubsection{ShiftPWM}
 Det første step til implementeringen af software, er at implementere det, der genererer PWM-signalet på den ønskede pin på PSoC. 
-\subsubsection{ShiftRegPWM Modulet}
+\textbf{ShiftRegPWM Modulet}
 Til implementeringen af dette blev der hentet en del inspiration fra et blog indlæg lavet af Timo Denk \cite{shiftregpwm} Især den datastruktur og den modificerende algoritme derpå,  han har udviklet til sit library, blev brugt som inspiration til at skrive ShiftRegPWM modulet. 
 \\Modulet ShiftRegPWM indeholder 4 metoder, en interrupt-handler og en datastruktur. Startes der ud med datastrukturen, så har den  til formål at holde styr på sekvensen af bits, der skal skiftes ind i 74HC595, for at det ønskede PWM signal opnås på en ønskede pin. Data strukturen ses i listing \ref{lst:ShiftRegPWM_DataStruct}.
 
@@ -17,9 +16,7 @@ volatile uint8_t shiftRegData[RESOLUTION*SHIFT_REGISTERS] = {0};
 Det ses også her at det er muligt at definere(i \#defines), hvor stor en opløsning man vil have PWM-signalet, samt hvor mange ShiftRegisters, der er daisy chained. 
 \\Som de fleste andre ting, der laves i PSoC, så har dette modul også en init-funktion, der skal initialisere, de "komponenter", der er på designet \ref{fig:CupLight_ShiftPWM_PSoC_Design}. Disse komponenter er et SPI-master komponent, der står for at skifte bits ind i 74HC595'en, en Timer, der har til ansvar at interrupte, hver gang ShiftRegisteret skal opdateres og til sidst en UART, der fungere som stub og debugging til modulet.
 \\Hvis der startes ud med en beskrivelse af timeren, så har den som sagt til ansvar at lave et interrupt, der skal opdatere pins. Derfor hører interrupt service rutinen sammen med en funktion kaldet update. Implementeringen af disse kan ses i listing \ref{lst:ISR_Update_impl}.
-
-
-\begin{lstlisting}[caption={ISR & Update}, label={lst:ISR_Update_impl}, style=customc]
+\begin{lstlisting}[caption={ISR \& Update}, label={lst:ISR_Update_impl}, style=customc]
 CY_ISR(updater_handler)
 {
     update();
@@ -75,13 +72,12 @@ void setPin(uint8_t pin, uint8_t value)
 Det er i denne listing \ref{lst:setPin_impl} der sættes værdierne af data strukturen, så de passer med det PWM-signal, der bliver lavet på pins. Funktionen skalerer først den givne \textsc{value} i forhold til den specificerede opløsning. Det ønskede \textsc{shiftRegister} bliver bestemt ud fra den givne \textsc{pin}. Herefter gennemgås datastrukturen \textsc{shiftRegData} og hvis \textsc{value} er større end \textsc{t}, så sættes den ønskede pin af registeret. Ellers nulstilles den ønskede pin.
 \\Nu har man altså den ønskede funktionalitet til at styre et PWM signal på en pin på 74HC595 IC'en, men der mangler stadig det modul, der skal fungere som interface, som specificeret i den oprindelige arkitektur.
 
-\subsubsection{CupLight\_IF modulet}
+\textbf{CupLight\_IF modulet}\\
 I dette afsnit beskrives implementeringen af det interface, der skal anvendes til at styre en LED. Kigges der i arkitekturen, så skal der implementeres følgende funktioner.
 \begin{enumerate}
     \item \textit{void controlLight(uint8\_t nr, color\_t color)}
     \item \textit{void controlAllLights(color\_t color)}
 \end{enumerate}
-
 Funktionen \textit{controlLight} tager som parameter et nummer og en farve. Det vil altså sige at denne funktion, skal kunne styre farven på en specifik kop holder. Denne funktion implementeres gennem kald til ShiftPWM modulet, for at styre det ønskede lys. Implementering af funktionen ses i listing \ref{lst:controlLight_impl}.
 
 \begin{lstlisting}[caption={Implementeringen af controlLight}, label={lst:controlLight_impl},
@@ -120,7 +116,7 @@ Attribut, type og funktionsbeskrivelser, der er implementeret i CupLight\_IF.\\
 \textbf{RESOLUTION} Define der angiver opløsningen af værdier af PWM signalet. Kan have værdier fra 1-255.\\[0.2cm]
 \textbf{uint8\_t time} Global variabel, der fungere som iterator henover datastrukturen \textsc{shiftRegData}.\\[0.2cm]
 \textbf{uint8\_t shiftRegData{[}{]}} Datastruktur der holder de værdier, der skiftes ind i registeret til \textsc{time}. Har størrelsen: $RESOLUTION\cdot SHIFT\_REGISTERS$\\
-\end{adjustwidth}\\
+\end{adjustwidth}
 {\large\textbf{Type Definition}}
 \begin{adjustwidth}{1cm}{0pt}
 \textbf{color\_t} En type der indeholder 3 uint8, der beskriver henholdsvis, den røde, grønne og blå værdi, som farven skal bestå af.\\[0.2cm]

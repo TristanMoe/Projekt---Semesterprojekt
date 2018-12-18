@@ -232,7 +232,7 @@ Opstillingen der vil benyttes kan ses på figur \ref{fig:lightPath}. I teknologi
     \centering
     \includegraphics[width=0.8\textwidth]{HardwareDesign/CupSensor/graphics/lightPath.png}
     \caption{Her ses hvordan opstillingen af sensoren skal være. Både fra siden og fra toppen. Der benyttes én IR LED, og fire fotodioder. Der er derudover tegnet Cup med øl og gennemsigtig plastikplade på skitsen. Der er også påtegnet hvordan det tænkes lyset vil bevæge sig}
-    \label{fig:lightPaht}
+    \label{fig:lightPath}
 \end{figure}
 
 \subsubsection{Fotodiode beskrivelse} \label{sec:photodiode_description}
@@ -444,7 +444,7 @@ På figur \ref{fig:CupSensorPSoCDesign} ses hardwaren komponenterne som der er p
 På figur \ref{fig:CupSensorComponentInTopDesign} ses custom komponent i brug i top design. Det eneste der udføres her er at forbinde de forskellige porte til fysiske porte på PSoC'en.   
 \begin{figure}[H]
     \centering
-    \includegraphics{}
+    \includegraphics[width=1\textwidth]{HardwareDesign/CupSensor/graphics/FinalDesign/ComponentInTopDesign.PNG}
     \caption{Den udviklede PSoC Custom komponent i brug i Top design}
     \label{fig:CupSensorComponentInTopDesign}
 \end{figure}
@@ -464,9 +464,27 @@ Der vil i modstanden blive afsat en effekt på $$I_{LED}^2 \cdot R_{LED} = \left
 De modstande der er tilrådighed kan kun afsætte $250\si{mW}$. Derfor vælges der at dele den modstanden op i to modstande på $16\si{\Omega}$.
 
 \subsubsection{Mixer i ADC'en}
-En ting der kan ses på diagrammet på figur \ref{CupSensorPSoCDesign} er, at der ikke er nogen mixer. Dette er fordi ADC'en har en indbygget funktion som kan få den til at have funktionaliteten af en mixer \autocite[3]{ADC-DelSig-datasheet}. Det er valgt da det formindsker antallet af nødvendige komponenter. ADC'ens mixer funktionalitet aktiveres ved at vælge "Enable modulator input" i konfigurationen af ADC'en. Når denne er valgt, har ADC'en inputtet 'mi'. Når dette input er højt, inverteres polariteten modulatoren i delta sigma ADC'en. På denne måde fungere ADC'en som en mixer, udover at en normal mixer vil invertere inputtet når LO er lav, derfor er der tilføjet en inverter mellem LED\_clock og 'mi' inputtet.
+En ting der kan ses på diagrammet på figur \ref{fig:CupSensorPSoCDesign} er, at der ikke er nogen mixer. Dette er fordi ADC'en har en indbygget funktion som kan få den til at have funktionaliteten af en mixer \autocite[3]{ADC-DelSig-datasheet}. Det er valgt da det formindsker antallet af nødvendige komponenter. ADC'ens mixer funktionalitet aktiveres ved at vælge "Enable modulator input" i konfigurationen af ADC'en. Når denne er valgt, har ADC'en inputtet 'mi'. Når dette input er højt, inverteres polariteten modulatoren i delta sigma ADC'en. På denne måde fungere ADC'en som en mixer, udover at en normal mixer vil invertere inputtet når LO er lav, derfor er der tilføjet en inverter mellem LED\_clock og 'mi' inputtet.
 
-Formålet med at bruge en mixer er at lave et båndpasfilter. For at dette er tilfældet skal der på udgangen af mixeren være et lavpasfilter. Dette er også inkluderet i ADC'en som et sinc4 filter \autocite[35]{ADC_DelSig_datasheet}. Filteret virker som et lavpasfilter som vil have vil have uendelig stor dæmpning ved samplefrekvensen og alle dens harmoniske overtoner. Samplefrekvensen indstilles til 2500 samples/s. I kombination med mixeren vil det virke som et båndpas filter. Da filteret er et sinc4 filter har det filterresponse som en sinc funktion.
+Formålet med at bruge en mixer er at lave et båndpasfilter. For at dette er tilfældet skal der på udgangen af mixeren være et lavpasfilter. Dette er også inkluderet i ADC'en som et sinc4 filter \autocite[35]{ADC-DelSig-datasheet}. Filteret virker som et lavpasfilter som vil have vil have uendelig stor dæmpning ved samplefrekvensen og alle dens harmoniske overtoner. Samplefrekvensen indstilles til 2500 samples/s. I kombination med mixeren vil det virke som et båndpas filter. Da filteret er et sinc4 filter har et frekvenskarakteristik som en sinc funktion. Derfor har et sinc4 filter overføringsfunktionen som ses nedenfor.
+$$H(f) = \left(sinc\left( \frac{f}{f_s}\pi\right)\right)$$
+hvor $f_s$ er sampleraten for ADC'en.
+Argumentet til sinc funktionen er $\frac{f}{f_s}\pi$ fordi der er uendelig stor dæmpning ved $f=f_s$.
+Herefter løses der for 3dB båndbredden.
+$$\left(sinc\left( \frac{f}{f_s}\pi\right)\right) = \frac{1}{\sqrt{2}}$$
+Løsningen er
+$$f = 569\si{Hz}$$
+
+Da der benyttes en mixer som sammen med filteret fungere som et båndpasfilter er den overordnet overføringsfunktion.
+$$H(f) = \left(sinc\left( \frac{f - f_{LO}}{f_s}\pi\right)\right)$$
+hvor $f_{LO}$ er lokaloscilatoren for mixeren.
+På figur \ref{fig:CupSensorFilterResponse}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{HardwareDesign/CupSensor/graphics/Filterresponse.PNG}
+    \caption{Frekvenskarakteristik for mixer og filter, som alt er i ADC'en}
+    \label{fig:CupSensorFilterResponse}
+\end{figure}
 
 \subsubsection{Fase forskydning}
 Som tidligere beskrevet (afsnit \ref{sec:CupSensorMixer}) vil der på udgangen af en mixer være et DC niveau når det samme clocksignal bruges til styre lyset og lokaloscillatoren (LO) for mixeren. Men hvis de ikke er i fase kan man risikere at DC niveauet er nul. For at dette ikke sker, er det vigtigt at signalet til mixeren og LO har samme fase, eller tæ på samme fase. Det undersøges nu derfor om dette er tilfældet.
